@@ -95,22 +95,22 @@ Only use a hover-activated drop down menu on devices that can hover.
 **Without Float** – : If two elements has margin 10px, then gap between them will be 10px, not 20px. Or whichever element has higher margin, gap will be that much.<br>
 ![alt](images/image39.jpg)<br><br>
 **With Float – :** If two elements has margin 10px, then gap between them will be 20px. In float margin never overlap, if two element has 10px and 20px then gap will 30px.<br> 
-**margin-top:10px, <br> margin-bottom:10px**
+**margin-top:10px, <br> margin-bottom:10px**<br>
 ![alt](images/image25.jpg)<br><br> 
-margin-top:10px, <br> margin-bottom:10px <br> and .orange{margin-bottom:30px;}
+margin-top:10px, <br> margin-bottom:10px <br> and .orange{margin-bottom:30px;}<br>
 ![alt](images/image17.jpg)<br><br> 
-margin-top:10px, <br> margin-bottom:10px <br> and .orange{margin-bottom:30px;}  <br> .green{margin-bottom:30px;}
+margin-top:10px, <br> margin-bottom:10px <br> and .orange{margin-bottom:30px;}  <br> .green{margin-bottom:30px;}<br>
 ![alt](images/image11.jpg)<br><br>
-margin-top:10px, <br>margin-bottom:10px <br>and .orange{margin-right:30px} 
+margin-top:10px, <br>margin-bottom:10px <br>and .orange{margin-right:30px} <br>
 ![alt](images/image38.jpg)<br><br>
-margin-top:10px, <br>margin-bottom:10px <br>and .orange{margin-bottom:30px; margin-right:30px} 
+margin-top:10px, <br>margin-bottom:10px <br>and .orange{margin-bottom:30px; margin-right:30px} <br>
 ![alt](images/image8.jpg)<br>
 
 - **Padding and Margin Never Overlap -** <br>
 if parent div has padding 10px and child div has margin 10px then inner gap between child and parent will be 20px; **this work same when child has float.** child has **margin-top:10px, margin-bottom:10px** and parent has **padding:10px** <br>
-**without child float**
+**without child float**<br>
 ![alt](images/image39.jpg)<br><br>
-**with child float**
+**with child float**<br>
 ![alt](images/image30.jpg)<br>
 
 - First and Last Child Margin apply to Parent - if parent don’t have padding, border and overflow:hidden then first and last child margin apply to its parent child.
@@ -132,7 +132,7 @@ if Orange is block and float left element, and Green n Blue are only block eleme
 ![alt](images/image37.jpg)<br>
 ![alt](images/image44.jpg)<br>
 ![alt](images/image42.jpg)<br><br>
-if Orange element float:right
+if Orange element float:right<br>
 ![alt](images/image3.jpg)<br><br>
 if Blue element given clear:left<br>
 ![alt](images/image40.jpg)<br><br>
@@ -179,3 +179,194 @@ margin value will effect from left and top of that element
 - Block Element are  **ul, Table,  div, dl, fieldset, form, h1, h2, h3, h4, h5, h6, hr, li, main, nav, address, blockquote, dd, noscript, ol, p, pre**
 - Bolck HTML5 Element are **article, aside, canvas, figcaption, figure, footer, header, hgroup, tfoot, output, section, video**
 - Inline Element **a, b, strong,  big, i, img, small, button, input, span, textarea, label, map, select,  acronym, cite, code, dfn, em, kbd, samp, time, var, bdo, br, object, q, script,  sub, sup**
+<br><br><br>
+
+
+### Text font size increase according to Viewport Width and Height, in percentage
+text increase according to Viewport Width
+```css
+.parent{
+  font-size: 10vw;
+}
+```
+
+Text increase according to Viewport Height
+```css
+.parent{
+  font-size: 10vh;
+};
+```
+<br><br>
+
+### Block Element’s inner content align center
+```css
+div {text-align:center;}
+```
+<br><br>
+
+### Vertical and Horizontal Alignment
+Horizontal Centering Block Level Elements
+```css
+div#container {margin:0 auto;}
+```
+<br><br>
+
+### Vertical and Horizontal Centering Block Level Elements, left, top, margin-left, margin-top
+```css
+div#container {
+    position: absolute; 
+    top: 50%; left:50%; 
+    width:800px; height: 500px; 
+    margin-left: -400px;  margin-top: -250px;  border:#ff0000 solid thin;
+}
+```
+<br><br>
+
+
+### Vertical  and Horizontal Centering position:absolute, left, top, margin-left, margin-top
+```css
+.n_content{ 
+    position:absolute; top:0; bottom:0;
+    left:0; right:0;
+    max-width:500px; height:200px; 
+    margin:auto; 
+    color:#fff;
+}
+```
+<br><br>
+
+### Vertical Centering Div Text with Line-Height
+The HTML:
+```html
+<div id="container">some text here</div>
+```
+The CSS:
+```css
+div#container {height: 35px; line-height: 35px}
+```
+<br><br>
+
+
+### Vertical Horizontal Center Div Text  with Padding, but increase button size according to text font size
+CSS:
+```css
+.parent{ 
+    display: inline-block; 
+    text-align:center; 
+    padding: 10px 20px;  
+    font-size: 50px;  
+    background-color: #ff0000;
+} 
+```
+HTML:
+```html
+<a class="parent">Shailendra</a>
+<a class="parent">more</a>
+```
+<br><br>
+
+
+### Vertical Horizontal Center Div Text with “table” and “table-cell”, button size does not Increase according to text font size
+CSS:
+```css
+.parent{
+  display: table; width:350px; height:120px;
+  margin: 2px; text-align:center; float: left;  
+  background-color: #ff0000;
+}
+span{  
+  display: table-cell;  
+  vertical-align: middle;  
+  font-size: 50px;
+}
+img{  
+  vertical-align: middle;
+}
+```
+HTML:
+```html
+<div class="parent">
+  <span>Shailendra</span>
+</div>
+<div class="parent">
+  <span>More</span>
+  <span><img src="http://i.stack.imgur.com/LKMP7.png" alt="" /></span>
+</div>
+```
+<br><br>
+
+
+
+### Align Text and element Vertical bottom
+```css
+vertical-align: bottom;
+```
+<br><br>
+
+
+### Viewport Meta Tag
+```html
+<meta name="viewport"
+    content="width=device-width, height=device-height, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no" />
+```
+<br><br>
+
+
+### Mouse click (or touch) events on canvas causes selection drag
+```css
+#canvas {
+	-webkit-tap-highlight-color: transparent;
+}
+```
+<br><br>
+
+### Avoid Ghost Image Selection
+```css
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	 -ms-user-select: none; 
+	-o-user-select: none; 
+	user-select: none;
+	outline: none; 
+	text-decoration:none; 
+	outline:none; 
+	outline-color:none;
+}
+```
+<br><br>
+
+
+
+### Using a CSS Reset for Cross-Browser Compatibility
+One of the issues in cross-browser web development is that different browsers use different default values for various CSS properties. By explicitly setting a property like margin to be 0 for certain html elements we can assure that the margin will be 0 on that element in all browsers. 
+Using a CSS reset ensure that all browsers are on the same page so to speak.
+```css
+*{
+	margin:0; padding:0;
+}
+```
+**//---- or ---------**
+```css
+*{ -webkit-box-sizing: border-box;   -moz-box-sizing: border-box;  box-sizing: border-box;}
+h1, h2, h3, h4, h5, h6, p, div, ul { margin:0; padding:0; font-weight:normal; line-height:100%;}
+a{ text-decoration:none; outline:none; }
+*:focus{outline:none;}
+ul{list-style:none;}
+img { border:0; vertical-align:middle;}
+body { margin:0; padding:0; font-family:'FuturaLtBTLight', Arial, Helvetica, sans-serif; color:#ffffff; width:100%;  }
+input[type="button"]{cursor:pointer;}
+.clear { clear:both; margin:0; padding:0; }
+.clearfix:after {content: " "; /* Older browser do not support empty content */ visibility: hidden; display: block; height: 0; clear: both;}
+
+.overFlow{ overflow-x:hidden;}
+svg, canvas{ pointer-events: none;}
+p{ font-size:14px; line-height:27px; color:#393939;}
+.f-left{float:left;}
+.f-right{float:right;}
+.Text-align-left{ text-align:left;}
+.Text-align-right{ text-align:right;}
+
+```
