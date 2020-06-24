@@ -197,13 +197,13 @@ Text increase according to Viewport Height
 };
 ```
 <br><br>
+# CSS Aligment
 
 ### Block Element’s inner content align center
 ```css
 div {text-align:center;}
 ```
 <br><br>
-
 ### Vertical and Horizontal Alignment
 Horizontal Centering Block Level Elements
 ```css
@@ -211,7 +211,8 @@ div#container {margin:0 auto;}
 ```
 <br><br>
 
-### Vertical and Horizontal Centering Block Level Elements, left, top, margin-left, margin-top
+### Vertical and Horizontal Centering Block Level Elements, 
+left, top, margin-left, margin-top
 ```css
 div#container {
     position: absolute; 
@@ -223,7 +224,8 @@ div#container {
 <br><br>
 
 
-### Vertical  and Horizontal Centering position:absolute, left, top, margin-left, margin-top
+### Vertical  and Horizontal Centering position:absolute
+left, top, margin-left, margin-top
 ```css
 .n_content{ 
     position:absolute; top:0; bottom:0;
@@ -248,7 +250,6 @@ div#container {height: 35px; line-height: 35px}
 
 
 ### Vertical Horizontal Center Div Text  with Padding, but increase button size according to text font size
-CSS:
 ```css
 .parent{ 
     display: inline-block; 
@@ -258,7 +259,6 @@ CSS:
     background-color: #ff0000;
 } 
 ```
-HTML:
 ```html
 <a class="parent">Shailendra</a>
 <a class="parent">more</a>
@@ -301,14 +301,97 @@ HTML:
 ```css
 vertical-align: bottom;
 ```
+----------
 <br><br>
 
+# CSS Width and Height
+### Increase Decrease width to Specific Limit
+In below CSS width will increase and decrease according to parent width **below 800px.** Above parent width 800 element will stick to 800px;
+```css
+.imgC{
+  display:block; margin:0 auto; height:auto;
+  width:800px; max-width:100%;
+}
+```
 
+In below CSS width will increase and decrease according to parent width **above 800px**. Above parent width 800 element will stick to 800px;
+```css
+.imgC{
+  display:block; margin:0 auto; height:auto;
+  width:800px; min-width:100%;
+}
+```
+<br><br>
+
+### 100% Height
+When you specify an element to have a height of 100%, the 100% refers to the parent element’s height. The parent element would then need to be 100% the height of its parent element and so on. The trick is to set the height of the outermost elements to be 100%
+```css
+html, body {
+  height: 100%
+}
+```
+We need to add one more thing. If your content exceeds 100% height then it will overflow its container. To correct this we’d need to set min-height on the content’s container
+```css
+#content {
+  min-height: 100%
+}
+```
+You can use one of the methods above for serving min-height to IE.
+
+----------
+<br><br>
+
+# CSS Viewport
 ### Viewport Meta Tag
 ```html
 <meta name="viewport"
     content="width=device-width, height=device-height, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no" />
 ```
+----------
+<br><br>
+
+# CSS Floats
+### Clearing and Containing Floats
+There are two basic methods to clearing CSS floats. The first is to use the clear property
+```html
+<div id="wrapper">
+  <div id="header"></div>
+  <div id="content"></div>
+  <div id="sidebar"></div>
+  <div id="footer"></div>
+</div>
+```
+Say in the above html you have your content and sidebar div floated to the left and you want to ensure the footer div sits below both. You would use the clear property
+```css
+#content {float: left}
+#sidebar {float: left}
+#footer {clear: both}
+```
+
+You could also use clear: left or clear: right depending on which way the content and sidebar are floated.
+
+If on the other hand your html is:
+```html
+<div id="header">
+	<img id="logo" src="" alt="">
+	<p id="tagline"></p>
+</div>
+```
+and both the logo and tagline are floated, your header div will collapse and show as having 0 height. You can either add an empty div 
+```html
+<div class="clear"></div>
+```
+ and then clear the empty div as above 
+ 
+ or 
+ 
+ you can use the overflow property on the header div to contain the floated elements
+```css
+div#header {overflow: hidden}
+```
+The above will keep the header div from collapsing even if everything inside has been floated.
+
+----------
 <br><br>
 
 
