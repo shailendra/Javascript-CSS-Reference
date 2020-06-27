@@ -508,6 +508,5 @@ function redrawDotNav(){
 } 
 redrawDotNav(); 
 $(window).bind("scroll", redrawDotNav);
-});
 
 ```
