@@ -453,3 +453,61 @@ p{ font-size:14px; line-height:27px; color:#393939;}
 .Text-align-right{ text-align:right;}
 
 ```
+----------
+----------
+<br><br>
+# JAVASCRIPT
+<br>
+----------
+<br><br>
+
+# Google Analytic
+### Send Section View using #!section_id to googletagmanager 
+
+```javascript
+var lastHasTag = "";          
+var sectionArrayNew = [];
+sectionArrayNew.push({id:"home"});
+sectionArrayNew.push({id:"quick_dissolve"});
+sectionArrayNew.push({id:"why_choose_madhur"});
+sectionArrayNew.push({id:"gaurantee_5s"});
+sectionArrayNew.push({id:"pristine_sweetness"});
+sectionArrayNew.push({id:"untouched_by_hand"});
+for (var k = 0; k < sectionArrayNew.length; k++) {
+    var obj = sectionArrayNew[k];
+    var id = obj.id;
+    var hash = "#"+id;
+    var hashForGATag = "#!"+id;
+    var targetSection = $(hash);
+    obj.anchor = targetSection;
+    obj.hash = hash;
+    obj.targetSection = targetSection;
+    obj.hashForGATag = hashForGATag;
+}
+function redrawDotNav(){  
+    var wTop = $(window).scrollTop()+$(window).height()/2;
+    var curSectObj = null;
+    for (var i = 0; i < sectionArrayNew.length; i++) {
+        var secObj = sectionArrayNew[i];
+        var targetSection = secObj.targetSection;                    
+        var top = targetSection.offset().top;
+        var height = targetSection.height();  
+        if(wTop>=top && wTop<=(top+height)){
+            curSectObj = secObj;
+        } 
+    } 
+    if(curSectObj)  {      
+        if(lastHasTag!=curSectObj.hashForGATag){
+            lastHasTag = curSectObj.hashForGATag;
+            clearTimeout(window.intervalIdForHas)
+            window.intervalIdForHas = setTimeout(function(){
+                gtag('config', 'UA-xxxxxxxxx-1', { 'page_path': location.pathname +curSectObj.hashForGATag });
+            }, 1500)
+        }
+    }
+} 
+redrawDotNav(); 
+$(window).bind("scroll", redrawDotNav);
+});
+
+```
