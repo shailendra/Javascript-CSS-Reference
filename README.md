@@ -461,6 +461,55 @@ p{ font-size:14px; line-height:27px; color:#393939;}
 ----------
 <br><br>
 
+# Location, Query, 
+
+### Get Query String Parameters
+```javascript
+// Assume "?post=1234&action=edit"
+
+var urlParams = new URLSearchParams(window.location.search);
+
+console.log(urlParams.has('post')); // true
+console.log(urlParams.get('action')); // "edit"
+console.log(urlParams.getAll('action')); // ["edit"]
+console.log(urlParams.toString()); // "?post=1234&action=edit"
+console.log(urlParams.append('active', '1')); // "?post=1234&action=edit&active=1"
+```
+URLSearchParams also provides methods like keys(), values(), and entries():
+
+```javascript
+var keys = urlParams.keys();
+for(key of keys) { 
+  console.log(key); 
+}
+// post
+// action
+
+var entries = urlParams.entries();
+for(pair of entries) { 
+  console.log(pair[0], pair[1]); 
+}
+```
+JavaScript Fallback of **URLSearchParams**
+```javascript
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+```
+With the function above, you can get individual parameter values:
+
+```javascript
+getUrlParameter('post'); // "1234"
+getUrlParameter('action'); // "edit"
+```
+
+
+----------
+<br><br>
+
 # Google Analytic
 ### Send Section View using #!section_id to googletagmanager 
 
