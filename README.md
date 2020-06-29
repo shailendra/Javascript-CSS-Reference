@@ -460,7 +460,7 @@ p{ font-size:14px; line-height:27px; color:#393939;}
 
 ### Mobile Detection Code
 Object Version
-```java
+```javascript
 this.isMobile = {};
 this.isMobile.Android = function() {return navigator.userAgent.match(/Android/i);};
 this.isMobile.BlackBerry = function() {return navigator.userAgent.match(/BlackBerry/i);};
@@ -470,6 +470,10 @@ this.isMobile.iPad = function() {return (navigator.userAgent.match(/iPad/i) ||
   ((navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) && window.screen.width==768));};
 this.isMobile.Opera = function() {return navigator.userAgent.match(/Opera Mini/i);};
 this.isMobile.Windows = function() {return navigator.userAgent.match(/IEMobile/i);};
+this.isMobile.Firefox = function() {return navigator.userAgent.match(/Firefox/gi);};
+this.isMobile.InternetExplorer = function() {return navigator.userAgent.match(/MSIE/gi);};
+this.isMobile.Opera = function() {return navigator.userAgent.match(/Opera/gi);};
+this.isMobile.Safari = function() {return navigator.userAgent.match(/Safari/gi);};
 this.isMobile.any = function() {return (This.isMobile.Android() || This.isMobile.BlackBerry() || This.isMobile.iOS() || This.isMobile.Opera() || This.isMobile.Windows());};
 ```
 Normal Version
