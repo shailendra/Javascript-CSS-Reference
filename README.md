@@ -457,6 +457,57 @@ p{ font-size:14px; line-height:27px; color:#393939;}
 ----------
 <br><br>
 # JAVASCRIPT
+
+### Mobile Detection Code
+Object Version
+```java
+this.isMobile = {};
+this.isMobile.Android = function() {return navigator.userAgent.match(/Android/i);};
+this.isMobile.BlackBerry = function() {return navigator.userAgent.match(/BlackBerry/i);};
+this.isMobile.iOS = function() {return (navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));};
+this.isMobile.iPad = function() {return (navigator.userAgent.match(/iPad/i) ||
+  ((navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) && window.screen.width==768));};
+this.isMobile.Opera = function() {return navigator.userAgent.match(/Opera Mini/i);};
+this.isMobile.Windows = function() {return navigator.userAgent.match(/IEMobile/i);};
+this.isMobile.any = function() {return (This.isMobile.Android() || This.isMobile.BlackBerry() || This.isMobile.iOS() || This.isMobile.Opera() || This.isMobile.Windows());};
+```
+Normal Version
+```javascript
+var isMobile = {};
+isMobile.Android = function() { return navigator.userAgent.match(/Android/i);};
+isMobile.BlackBerry = function() { return navigator.userAgent.match(/BlackBerry/i);};
+isMobile.iOS = function() { return (navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))};
+isMobile.iPad = function() { return (navigator.userAgent.match(/iPad/i) ||
+  ((navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) && window.screen.width==768))};
+isMobile.Opera = function() { return navigator.userAgent.match(/Opera Mini/i);};
+isMobile.Windows = function() {return navigator.userAgent.match(/IEMobile/i);};
+isMobile.Firefox = function() {return navigator.userAgent.match(/Firefox/gi);};
+isMobile.InternetExplorer = function() {return navigator.userAgent.match(/MSIE/gi);};
+isMobile.Opera = function() {return navigator.userAgent.match(/Opera/gi);};
+isMobile.Safari = function() {return navigator.userAgent.match(/Safari/gi);};
+isMobile.any = function() {
+  return ( isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+};
+```
+<br><br>
+
+### Shuffle Array, Set a random order
+```javascript
+function shuffleToArray(OldArray) {
+    var i = 0;
+    var TempArray = [];
+    while (i < OldArray.length) {
+        var ran = Math.floor(Math.random() * OldArray.length);
+        TempArray.push(OldArray[ran]);
+        OldArray.splice(ran, 1);
+    }
+    return TempArray;
+};
+var array = ["apple", "mango", "orange", "coconut"];
+array = shuffleToArray(array);
+```
 <br>
 ----------
 <br><br>
