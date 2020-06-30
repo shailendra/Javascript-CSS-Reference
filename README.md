@@ -86,8 +86,8 @@ Only use a hover-activated drop down menu on devices that can hover.
 - If two div nested in parent and child relation then child div cover parent div, to see parent div color, then give padding to parent div.
 
 - Block element take full width of parent, if we give width less than parent div, then next sibling element will not come beside previous element.
-- Inline Element always align next  to each other
-- Many elements has default margin and may change as per browser. To solve this use CSS Reset for cross-browser compatibility 
+- Inline Element always align next to each other
+- Many elements has default margin and may change as per browser. To solve this use CSS Reset for cross-browser compatibility.
 - Difference between display: block, inline, inline-block
 ![alt](images/image36.jpg)
 
