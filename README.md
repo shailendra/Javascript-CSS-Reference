@@ -70,7 +70,7 @@ Make radio buttons and check boxes larger if we have an inaccurate pointing devi
 ```
 <br>
 
-#### For accessibility reasons, even on devices that do support hovering, the UA may give a value of hover: noneto this media query, to opt into layouts that work well without hovering.
+#### For accessibility reasons, even on devices that do support hovering, the UA may give a value of hover: none to this media query, to opt into layouts that work well without hovering.
 Only use a hover-activated drop down menu on devices that can hover.
 ```css
 @media (hover) {
