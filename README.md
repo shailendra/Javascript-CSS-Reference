@@ -1,4 +1,4 @@
-# CSS - Reference master shailendra
+# CSS - Reference
 
 ## +@media Query
 ```css
