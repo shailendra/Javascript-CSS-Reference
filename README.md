@@ -15,7 +15,7 @@
 ```
 <br>
 
-#### To change the background and text color in different lighting conditions you’d write something like this
+#### To change the background and text color in different lighting conditions you would write something like this
 ```css
 @media (luminosity: normal) {
     body {
