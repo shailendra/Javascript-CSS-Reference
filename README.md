@@ -570,7 +570,7 @@ getUrlParameter('action'); // "edit"
 ### Live chat
 Youtube live chat iframe embed code
 ```html
-<iframe src="https://www.youtube.com/live_chat?v=EEIk7gwjgIM&embed_domain=stackoverflow.com" width="700" height="600" style="position:absolute; top:0; left:0; z-index:99;"></iframe>
+<iframe src="https://www.youtube.com/live_chat?v=EEIk7gwjgIM&embed_domain=www.example.com" width="700" height="600" style="position:absolute; top:0; left:0; z-index:99;"></iframe>
 ```
 <br><br>
 
