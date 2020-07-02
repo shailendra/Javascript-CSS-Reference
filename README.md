@@ -424,7 +424,8 @@ The above will keep the header div from collapsing even if everything inside has
 
 
 ### Using a CSS Reset for Cross-Browser Compatibility
-One of the issues in cross-browser web development is that different browsers use different default values for various CSS properties. By explicitly setting a property like margin to be 0 for certain html elements we can assure that the margin will be 0 on that element in all browsers. 
+One of the issues in cross-browser web development is that different browsers use different default values for various CSS properties. 
+By explicitly setting a property like margin to be 0 for certain html elements we can assure that the margin will be 0 on that element in all browsers. 
 Using a CSS reset ensure that all browsers are on the same page so to speak.
 ```css
 *{
