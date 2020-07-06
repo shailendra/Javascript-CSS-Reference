@@ -304,6 +304,57 @@ vertical-align: bottom;
 ----------
 <br><br>
 
+# Text and Font
+### Text-transform
+Through the CSS text-transform property you can make sure certain blocks of text are either uppercase, lowercase, or only the first letter of each word is uppercase
+```css
+p {text-transform: uppercase}
+p {text-transform: lowercase}
+p {text-transform: capitalize}
+```
+<br>
+
+### Remove Dotted Outline on Links
+Easy with the CSS outline property (underline, line, doted line)
+```css
+a {outline: none}
+//or 
+a {outline: 0}
+```
+The outline is useful for accessibility so think twice before turning it off completely. You may only want to set it for one of the specific link states mentioned above.
+
+----------
+<br><br>
+# Image
+
+### Removing the Border from Image Links
+By default any image that is wrapped in a link will have a border around the image (similar to the way text is underlined). Removing the border is simple
+```css
+a image {border: none}
+//or 
+a image {border: 0}
+```
+Since I never want to see the border around image links I usually set the above on every site I develop.
+
+----------
+<br><br>
+# Background 
+### Background Images as List Bullets
+Sometimes it’s nice to be able to use an image as a bullet instead of one of the supported list-style-types.
+```css
+ul {list-style: none}
+ul li {
+    background-image: url("path-to-your-image");
+    background-repeat: none;
+    background-position: 0 0.5em;
+}
+```
+
+
+
+----------
+<br><br>
+
 # CSS Width and Height
 ### Increase Decrease width to Specific Limit
 In below CSS width will increase and decrease according to parent width **below 800px.** Above parent width 800 element will stick to 800px;
@@ -453,7 +504,6 @@ p{ font-size:14px; line-height:27px; color:#393939;}
 .Text-align-right{ text-align:right;}
 
 ```
-----------
 ----------
 <br><br>
 # JAVASCRIPT
