@@ -182,6 +182,46 @@ margin value will effect from left and top of that element
 <br><br><br>
 
 
+
+# CSS Specificity
+When two or more CSS selectors are sending conflicting instructions to a single html element, a choice must be made as to which styles to apply. This is done through CSS specificity.
+Blow is given value for
+```javascript
+Style Attribute  = 1000
+ID = 100
+Class, pseudo-Class = 10
+Elements = 1
+```
+
+**For Remeber**
+```javascript
+- - - - - - - - - - - - - - - - - - - - - - - -
+Style Attribute          1    0    0    0
+- - - - - - - - - - - - - - - - - - - - - - - - 
+ID                            1    0    0
+- - - - - - - - - - - - - - - - - - - - - - - -  
+Class, pseudo-Class                1    0
+- - - - - - - - - - - - - - - - - - - - - - - - 
+Elements                                1
+- - - - - - - - - - - - - - - - - - - - - - - - 
+```
+![alt](images/specification.png)
+**Below is calculation**
+```css
+p   ➔   1
+div    ➔ 1
+#sidebar    ➔ 100
+div#sidebar   ➔ (div - 1) + (#sidebar - 100)  ➔   100 + 1  ➔ 101
+div#sidebar p   ➔ (div – 1) + (#sidebar  - 100) + (p – 1) ➔  1 + 100 + 1  ➔ 102
+div#sidebar p.bio   ➔  (div – 1) + (#sidebar  - 100) + (p – 1) + (.bio – 10) ➔  112
+```
+
+```css
+height:500px !important /*will ignore all css and set this important css*/
+```
+- - -  
+
+
 ### Text font size increase according to Viewport Width and Height, in percentage
 text increase according to Viewport Width
 ```css
@@ -475,7 +515,7 @@ The above will keep the header div from collapsing even if everything inside has
 
 
 ### Using a CSS Reset for Cross-Browser Compatibility
-One of the issues in cross-browser web development is that different browsers use different default values for various CSS properties. By explicitly setting a property like margin to be 0 for certain html elements we can assure that the margin will be 0 on that element in all browsers. 
+One of the issues in cross-browser web development is that different browsers use different default values for various CSS properties. By explicitly setting a property like margin to be 0 for certain html elements we can assure that the margin will be 0 on that element in all browsers.
 Using a CSS reset ensure that all browsers are on the same page so to speak.
 ```css
 *{
@@ -591,8 +631,8 @@ for(key of keys) {
 // action
 
 var entries = urlParams.entries();
-for(pair of entries) { 
-  console.log(pair[0], pair[1]); 
+for(pair of entries) {
+  console.log(pair[0], pair[1]);
 }
 ```
 JavaScript Fallback of **URLSearchParams**
@@ -609,6 +649,21 @@ With the function above, you can get individual parameter values:
 ```javascript
 getUrlParameter('post'); // "1234"
 getUrlParameter('action'); // "edit"
+```
+<br><br>
+
+### Scroll to Div as per Hash/Anchor - Query, Address, Url
+below code find `a` tag element by matching hash value from url and href value from `nav a`. Then it trigger `click` event and html scroll to specific section. 
+
+```javascript
+var hash = location.hash;
+if(hash!=""){
+    var nHash = hash.split("?")[0];
+    var btn = $('nav a[href="'+nHash+'"]');   
+    if(btn.trigger){
+        btn.trigger("click");
+    }    
+}
 ```
 
 
