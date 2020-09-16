@@ -221,22 +221,9 @@ height:500px !important /*will ignore all css and set this important css*/
 ```
 - - -  
 
-
-### Text font size increase according to Viewport Width and Height, in percentage
-text increase according to Viewport Width
-```css
-.parent{
-  font-size: 10vw;
-}
-```
-
-Text increase according to Viewport Height
-```css
-.parent{
-  font-size: 10vh;
-};
-```
 <br><br>
+
+
 # CSS Aligment
 
 ### Block Element’s inner content align center
@@ -363,6 +350,45 @@ a {outline: 0}
 ```
 The outline is useful for accessibility so think twice before turning it off completely. You may only want to set it for one of the specific link states mentioned above.
 
+<br><br>
+### Text font size increase according to Viewport Width and Height, in percentage
+text increase according to Viewport Width
+```css
+.parent{
+  font-size: 10vw;
+}
+```
+
+Text increase according to Viewport Height
+```css
+.parent{
+  font-size: 10vh;
+};
+```
+<br><br>
+
+### Prevent a Line Break
+Sometimes the text in a link or heading will break where you don’t want it to. A simple way to prevent this is:
+```css
+h1 { white-space:nowrap; }
+```
+
+<br><br>
+
+### Style the Element that has Focus in a Form
+A nice usability tip is to let people filling out a form know which input currently has focus. You can do this easily using the :focus pseudo-selector
+```css
+input:focus {
+  border: 2px solid green;
+}
+input:focus { 
+  background-color: yellow;
+}
+```
+This way your users will know exactly which field is ready for input
+
+
+
 ----------
 <br><br>
 # Image
@@ -438,6 +464,19 @@ You can use one of the methods above for serving min-height to IE.
 <meta name="viewport"
     content="width=device-width, height=device-height, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no" />
 ```
+
+<br><br>
+### Block search indexing with 'noindex', stop crawling website
+To prevent most search engine web crawlers from indexing a page on your site, place the following meta tag into the 
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="robots" content="noindex, nofollow">
+  </head>
+  <body></body>
+</html>
+```
 ----------
 <br><br>
 
@@ -484,6 +523,141 @@ The above will keep the header div from collapsing even if everything inside has
 
 ----------
 <br><br>
+
+# Flex-Flow
+https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+![alt](images/image41.png)<br><br>
+![alt](images/image4.png)<br><br>
+![alt](images/image7.png)<br><br>
+![alt](images/image31.png)<br><br>
+![alt](images/image28.png)<br><br>
+![alt](images/image13.png)<br><br>
+![alt](images/image26.png)<br><br>
+
+
+### Flex Occupy / Expand remain height
+```css
+.parent{
+  display:flex; flex-direction: column;
+  .topDiv{
+    height:50px;
+  }
+  .bottomDiv{
+    flex:1;
+  }
+}
+
+
+```
+
+
+----------
+<br><br>
+
+# Misc
+### Visibility or Display?
+On the surface both the CSS visibility and display properties seem to do the same thing, hide or show an element on the page. Beneath the surface they work differently.
+```css
+{visibility: hidden} – 
+/*The element holds the space, but isn’t seen*/
+
+{display: none} – 
+/*The element does not hold space. Other elements collapse to fill the space*/
+```
+Most of the time you likely want to use display: none, unless your goal is to leave an empty open space on your page.
+
+<br><br>
+
+### nth-child
+See also below link for more clarification : 
+http://www.w3schools.com/cssref/sel_nth-child.asp, 
+http://www.w3schools.com/jquery/sel_nthchild.asp
+The nth-child CSS pseudo-selectors allow you to target the 3rd or 7th or nth element in a list. Another use would be to style odd and even rows in a table differently. The alternative is to add a class specifically to the list-item you want to style differently, but that’s not very flexible. The nth-child syntax looks like this:
+```css
+ul li:nth-child(3) {
+    background: blue
+}
+```
+The above would select the 3rd item in the list and give it a blue background
+```css
+ul li:nth-child(3n+3) {
+    background: blue
+}
+```
+Similarly the code above would style every 3rd list item with a blue background
+Unfortunately no current version of IE supports it. However there is a way to simulate the 1st bit of code above for IE7 and IE8.
+```css
+ul > li:nth-child(3) is the same as ul > *:first-child + * + * 
+```
+The code above will also target the 3rd element in the list in a way that IE7 and 8 understand. Not quite as useful as being able to use (3n+3) to target every 3rd list-item, but better than nothing. Hopefully IE9 will support nth-child.
+Another and perhaps more practical solution currently is to use jQuery, which supports all CSS3 selectors.
+
+<br><br>
+
+### Conditional Comments
+Conditional comments are an ideal way to target IE browsers only, since IE is often the browser that won’t cooperate. The basic form of a conditional comments is:
+```css
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie-stylesheet.css" />
+< ![endif]-->
+```
+The above will load an IE specific stylesheet only when the browser viewing the page is Internet Explorer. You can further target specific versions of IE.
+```css
+<!--[if IE 6]> - targets IE6 only -->
+<!--[if gt IE 6]> - targets IE7 and above -->
+<!--[if lt IE 6]> - targets IE5.5 and below -->
+<!--[if gte IE 6]> - targets IE6 and above -->
+<!--[if lte IE 6]> - targets IE6 and below -->
+```
+You can specify any version of Internet Explorer and through a combination of conditional comments you can server different CSS styles to different versions of IE.
+
+<br><br>
+
+
+### HTML Hack for IE
+Another way to target IE specifically is to use the HTML * hack. Internet Explorer allows you to use something other than the html element as the root of your document. By placing an * in front of html in your CSS (*html) you can target IE only as other browsers will ignore the declaration.
+div#content {width: 580px}
+```css
+*` html body div#content {width: 600px}
+```
+IE will use 600px for the width of the content div, while other browsers use 580px. The above works for IE6 and below. When not in standards mode, but in quirks mode this will work on IE7 as well. You can also target IE7 (in quirks mode) specifically with
+```css
+*+html body div#content {width: 620px}
+```
+
+<br><br>
+
+### Target IE7 (and below) and IE6 (specifically) without Conditional Comments
+We all know how difficult IE can sometimes be when it comes to CSS. However instead of cursing IE under your breath or out loud you can easily write IE specific code that other browsers will ignore. My own preference is for conditional comments, but here’s a quick trick you can use in your main CSS file.
+```css
+.element {
+    background: red; /* modern browsers */
+    *background: green; /* IE 7 and below */
+    _background: blue; /* IE6 exclusively */
+}
+```
+With the exception of IE, all browsers will ignore the asterisk in front of the property. Everything other than IE6 will ignore the underscore. The order of the above properties is very important due to CSS precedence rules.
+
+<br><br>
+
+### Min-height fix for IE
+Sadly IE still doesn’t comply with min-height. However it does treat the height property as though it was min-height. Knowing that, we can sort of get min-height working in Internet Explorer.
+```css
+.element {
+    min-height: 500px
+    height: auto !important
+    height: 500px
+}
+```
+The first line above sets the min-height for non-IE browsers. The last line essentially sets min-height in IE as IE will treat height as we expect it to treat min-height. The middle line above is to ensure that non-IE browsers don’t use 500px as the height of the element. Using !important will override the height declaration below in all browsers, except IE.
+Another way to target IE only is to use _height. Only IE6 will treat _height as height. All other browsers will ignore it. You have to specify _height after any height declaration as IE will use whichever comes last.
+```css
+.element {
+    min-height: 500px
+    _height: 500px
+}
+```
 
 
 ### Mouse click (or touch) events on canvas causes selection drag
@@ -544,8 +718,48 @@ p{ font-size:14px; line-height:27px; color:#393939;}
 .Text-align-right{ text-align:right;}
 
 ```
+<br><br>
+
+### 3D Buttons with CSS Only
+```css
+div#button {
+  background: #888; 
+  border: 1px solid; 
+  border-color: #999 #777 #777 #999;
+}
+```
+
+<br><br>
+### CSS Tooltips
+
+You can create a lightweight CSS cross browser tooltip easily with a few lines of code.
+This is the  `<a class="tooltip" href="#">Tooltip Link<span>` This will be the text that shows up in the tooltip`</span></a>` You can place any text you want here.
+The CSS:
+```css
+a.tooltip {position: relative}
+a.tooltip span {display:none; padding:5px; width:200px;}
+a:hover {background:#fff;} /*background-color is a must for IE6*/
+a.tooltip:hover span{display:inline;  position:absolute;}
+```
+You can add more styles to the above to suit your design. The key is the span is set to display: none until you hover over the link. When you hover over the link the display is changed to show inline and given a position of absolute. position: relative is necessary on the link in order to ensure the tooltip is positioned in relation to the link and not another containing element.
+
+
+
+<br><br>
+### Video Tag and its Parameter
+below code help to auto play video in mobile them
+```html
+<video class="contact-video" poster="img/team-poster.jpg" data-object-fit="cover" muted  loop  webkit-playsinline  playsinline >
+<source src="img/Team_low.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+```
+
+
+
 ----------
 <br><br>
+
 # JAVASCRIPT
 
 ### Mobile Detection Code
@@ -729,3 +943,113 @@ redrawDotNav();
 $(window).bind("scroll", redrawDotNav);
 
 ```
+---
+# Ajax, Form, Post, Get
+
+### AES CryptoJS Encrypt & Decrypt
+Below is example of Ajax call with AES encrypted data.<br>
+
+***---------  JavaScript Code ---------*** 
+```javascript
+var backendPath = "https://xyz.com/backend/";
+var k1 = "xzxzxzxzx";
+var k2 = "xzxzxzx";
+var cryptoKey = CryptoJS.enc.Utf8.parse(k1+k2);
+var cryptoIV = CryptoJS.enc.Utf8.parse(k1+k2);
+var cryptoParam = {
+    keySize: 128 / 8,
+    iv: cryptoIV,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+}
+function cryptoEncrypt(prop){
+    var str_1 = prop.str.replace(/[{]/g, "curleyfront");
+    var str_2 = str_1.replace(/[}]/g, "curleyback");
+    var encryptedString = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(str_2),cryptoKey, cryptoParam).toString();
+    return encryptedString;
+}
+function  cryptoDecrypt(prop){
+    var decryptStr = CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(prop.str, cryptoKey, cryptoParam));
+    var str_1 = decryptStr.replace(/curleyfront/g, "{");
+    var str_2 = str_1.replace(/curleyback/g, "}");
+    return str_2;
+}
+function sendPostRequest(prop) {
+    var url = ""; 
+    if (prop.service){
+        url = backendPath + prop.service;
+    } else if (prop.url){
+        url = prop.url;
+    } 
+    var encryptedStr = cryptoEncrypt({str:prop.formData});
+    var newEncryptedObj = { d: encryptedStr };
+    var newJSONStr = JSON.stringify(newEncryptedObj);
+
+    function success(response){
+        //console.log("response --- ", " - ", response);
+        var encryptedStr = JSON.parse(response).d;
+        var actualJsonStr =  cryptoDecrypt({str:encryptedStr});
+        //console.log("actualJsonStr --- ", " - ", actualJsonStr);
+        var data = JSON.parse(actualJsonStr);
+        //console.log("data --- ", " - ", data);
+        if(prop.resolve){            
+            prop.resolve(data);
+        }
+    }
+    function error(response){
+        //console.log("errorResponse - ", response);        
+        if(prop.reject){            
+            prop.reject({ success: false, data: response });
+        }
+    };
+    function complete(data){
+    };
+    var ajaxOption = {
+        method: prop.method?prop.method:"GET", 
+        data: newJSONStr,
+        url:url,
+        crossDomain: true, 
+        contentType: prop.contentType?prop.contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+        dataType: prop.dataType?prop.dataType:"text",
+        success: success,
+        error:  error,
+        complete:complete
+    }
+    if(prop.contentType!=undefined){
+        ajaxOption.contentType = prop.contentType;
+    }
+    if(prop.datatype!=undefined){
+        ajaxOption.datatype = prop.datatype;
+    }
+    //console.log(ajaxOption);
+    $.ajax(ajaxOption);
+}
+//-----------------------------------------------------------------------
+//------ L O A D   J S O N   U S I N G   G E T   M E T H O D  -----------
+var ajaxOption = {
+    url: "assets/json/basicData.json",
+    formData:"{}",
+    dataType:"text",
+    resolve:function(jsonObj){}, 
+    reject:function(jsonObj){}
+}
+sendPostRequest(ajaxOption);
+//---------------------------------------------------------------------------
+//--- S E N D   &  L O A D   J S O N   U S I N G   P O S T   M E T H O D  ---
+var ajaxOption = {
+    formData:JSON.stringify(formData),
+    service: "basicdetails",
+    method:"POST",
+    contentType: "application/json; charset=utf-8",
+    dataType:"text",
+    resolve:function(jsonObj){}, 
+    reject:function(jsonObj){}
+}
+sendPostRequest(ajaxOption);
+```
+<br>
+
+**--------- PHP Code ---------**
+
+
+**--------- ASP.Net Code ---------**
