@@ -455,6 +455,37 @@ We need to add one more thing. If your content exceeds 100% height then it will 
 ```
 You can use one of the methods above for serving min-height to IE.
 
+<br><br>
+
+### Change Height in proportion to Width of DIV
+```html
+//---- H T M L -----------
+<div class="box" id="redBox">
+    <div class="padder"></div>
+</div>
+```
+```css
+//---- C S S ----------
+/*
+Box div height will change in proportion to Box width
+*/
+.box {
+    position:relative;
+    width:300px;
+    height:auto;
+    background:url(../images/spritesheet-img.png);      
+} 
+/* if width 250px and height 300px then padding-bottom will be as per below.
+padding-bottom = height*100/width
+padding-bottom = 300*100/250
+padding-bottom = 120           */
+.padder{
+  padding-bottom:120%;
+}
+```
+
+
+
 ----------
 <br><br>
 
@@ -816,6 +847,14 @@ function shuffleToArray(OldArray) {
 var array = ["apple", "mango", "orange", "coconut"];
 array = shuffleToArray(array);
 ```
+
+<br><br>
+
+### SpriteSheet Background Image Animation
+You can play SpriteSheet image animation using background-image css property in div. You can control animation by `Play`, `Pause`, `Restart`, `Reverse`, `Loop`, `Speed`, `gotoAndStop` and `gotoAndPlay`.
+
+check [sprite-sheet-background-image-animation](https://github.com/shailendra/sprite-sheet-background-image-animation) github library.
+
 <br>
 ----------
 <br><br>
@@ -943,19 +982,19 @@ redrawDotNav();
 $(window).bind("scroll", redrawDotNav);
 
 ```
+<br><br><br>
 ---
 # Ajax, Form, Post, Get
 
-### AES CryptoJS Encrypt & Decrypt
+### AES CryptoJS Encrypt & Decrypt With ASP.Net
 Below is example of Ajax call with AES encrypted data.<br>
 
 ***---------  JavaScript Code ---------*** 
 ```javascript
 var backendPath = "https://xyz.com/backend/";
-var k1 = "xzxzxzxzx";
-var k2 = "xzxzxzx";
-var cryptoKey = CryptoJS.enc.Utf8.parse(k1+k2);
-var cryptoIV = CryptoJS.enc.Utf8.parse(k1+k2);
+var k1 = "xzxzxzxzxxzxzxzx";
+var cryptoKey = CryptoJS.enc.Utf8.parse(k1);
+var cryptoIV = CryptoJS.enc.Utf8.parse(k1);
 var cryptoParam = {
     keySize: 128 / 8,
     iv: cryptoIV,
