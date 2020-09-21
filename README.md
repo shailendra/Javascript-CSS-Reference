@@ -855,8 +855,11 @@ You can play SpriteSheet image animation using background-image css property in 
 
 check [sprite-sheet-background-image-animation](https://github.com/shailendra/sprite-sheet-background-image-animation) github library.
 
-<br>
+
+
+
 ----------
+
 <br><br>
 
 # Location, Query, 
@@ -921,6 +924,7 @@ if(hash!=""){
 
 
 ----------
+
 <br><br>
 
 # Youtube
@@ -1092,3 +1096,36 @@ sendPostRequest(ajaxOption);
 
 
 **--------- ASP.Net Code ---------**
+
+
+---
+<br><br><br><br>
+
+# Useful library
+
+## [Confetti.js](https://www.cssscript.com/confetti-falling-animation/)
+Confetti Falling Animation In Pure JavaScript<br>
+Download and import the JavaScript ‘confetti.js’ into the html document.
+```html
+<script src="confetti.js"></script>
+```
+```javascript
+confetti.start()
+confetti.stop()
+confetti.toggle()
+confetti.pause()
+confetti.resume()
+confetti.togglePause()
+confetti.isPaused()
+confetti.remove()
+confetti.isRunning()
+```
+
+
+---
+<br><br><br><br>
+
+# Coding Reference Sites
+https://www.cssscript.com/
+
+
