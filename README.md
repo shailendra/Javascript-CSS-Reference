@@ -791,8 +791,189 @@ Your browser does not support the video tag.
 ----------
 <br><br>
 
-# JAVASCRIPT
+# JAVASCRIPT Bug & Solution
 
+### Disable Double Tap Zoom and Pinch Zoom
+```javascript
+//--- Add Click Event, It will stop zoom on Double Click
+$('body').on('click', function(){});
+
+//--- Below Code will disable Pinch Zoom
+document.addEventListener('touchmove', function (event) {
+  if (event.scale !== 1) { 
+    event.preventDefault(); 
+  }
+}, { passive: false });
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Disable Long Press
+Disabling the context menu on long taps
+```javascript
+window.oncontextmenu = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+};
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Disable Copy, Paste, Cut action in Input
+```javascript
+$('.tax_text_box').bind('cut copy paste', function (e) {
+        e.preventDefault();
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Detect keyboard/keypad show/hide event in jquery for mobile web application open/close
+```javascript
+var _originalSize = $(window).width() + $(window).height();
+$(window).resize(function(){
+    if(($(window).width() + $(window).height()) < _originalSize){                
+        // keyboard open
+    }else{                
+        // keyboard close  
+    }
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Force page scroll to top potision when page refresh in HTML, scrolltop, reset
+```javascript
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Update Refresh Slick Slider by code, without resize
+```javascript
+$('.color-list').slick('setPosition');
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### iOS / iPhone issue of 
+### Stop Viewport Drag,
+Bring Address Bar after rotate landscape to portrait mode.
+Also it cover height after rotate landscape to portrait mode.
+```javascript
+$('section, #wrapper, html, body').css({'height':'100%', position:"fixed"});
+function onOrientationChange() {
+    setTimeout(function(){
+     // below code trigger after 600ms which tell browser to scroll 0 and when it scroll to 0 broser bring address bar and solve bottom gap of screen on ios.
+      window.scrollTo(0,1);
+    }, 600);
+}
+window.addEventListener("orientationchange", onOrientationChange, false);
+```
+
+
+
+
+---
+<br><br><br>
+
+# jQuery and DOM
+### MouseLeave, MouseEnter,  leave, out of the screen page
+```javascript
+$("body").mouseleave(function() {
+  console.log("leave");
+});
+$("body").mouseenter(function() {            
+  This.overCurObj = this.beforeLeaveScreenObj;
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+### Get position bounding of HTML element
+This will help to update own carousal
+```javascript
+var drag_hld = $(".drag_hld");
+drag_hld[0].getBoundingClientRect();
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Call, trigger  window resize function
+This will help to update own carousal
+```javascript
+window.dispatchEvent(new Event('resize'));
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Download Image using Javascript
+```javascript
+$("#ico-download").attr("download", "KEI-GharKiJyoti.png");
+$("#ico-download").attr("target", "KEI-GharKiJyoti.png");
+$("#ico-download").attr("href", downloadImgUrl);
+```
+
+
+
+---
+<br><br><br>
+
+# Javascript Useful Code
 ### Mobile Detection Code
 Object Version
 ```javascript
@@ -830,7 +1011,13 @@ isMobile.any = function() {
   return ( isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
 };
 ```
-<br><br>
+
+
+
+<br><br><br>
+
+
+
 
 ### Shuffle Array, Set a random order
 ```javascript
@@ -848,13 +1035,313 @@ var array = ["apple", "mango", "orange", "coconut"];
 array = shuffleToArray(array);
 ```
 
-<br><br>
 
-### SpriteSheet Background Image Animation
-You can play SpriteSheet image animation using background-image css property in div. You can control animation by `Play`, `Pause`, `Restart`, `Reverse`, `Loop`, `Speed`, `gotoAndStop` and `gotoAndPlay`.
 
-check [sprite-sheet-background-image-animation](https://github.com/shailendra/sprite-sheet-background-image-animation) github library.
 
+<br><br><br>
+
+
+
+
+### Deep copy of Object,  Clone, Duplicate
+Using `JSON.parse(JSON.stringify(object));` you can Deep Copy/Duplicate objects.<br>
+In below code,  newObj.b has a copy and not a reference! . 
+```javascript
+let obj = { 
+  a: 1,
+  b: { 
+    c: 2,
+  },
+}
+let newObj = JSON.parse(JSON.stringify(obj));
+obj.b.c = 20;
+console.log(obj); // { a: 1, b: { c: 20 } }
+console.log(newObj); // { a: 1, b: { c: 2 } } (New Object Intact!)
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Convert Change Number to Indian Rupee Format, comma seperate, currancy 
+```javascript
+"12548652".replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
+or
+var number = 123456.789;
+number.toLocaleString('en-IN');
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### OOP - Object Oriented Programming javascript class  sample code
+```javascript
+window.objLib = window.objLib || {};
+(function () {
+    var Cactus = function () {
+        this.initialize();
+    };
+    var p = Cactus.prototype
+    var p = Cactus.prototype = new gameLib.BaseElement();
+
+    p.initialize = function () {
+        var This = this;
+    };
+    objLib.Cactus = Cactus;
+}());
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### 00:00:00  - Timer for Game, Countdown, Clock
+```javascript
+p.setTime = function(){
+  var timeLeft = this.time;		
+  var hours = Math.floor(timeLeft / (60 * 60));		
+  timeLeft -= hours * 60 * 60;		
+  var minutes = Math.floor(timeLeft / 60);		
+  timeLeft -= minutes * 60;		
+  var seconds = timeLeft;		
+  hours = ("0" + hours).slice(-2);
+  minutes = ("0" + minutes).slice(-2);
+  seconds = ("0" + seconds).slice(-2);		
+  this.timeObj = {hours:hours, minutes:minutes, seconds:seconds};
+  $(".timerDiv").html("Timer "+hours+":"+minutes+":"+seconds);
+  $(".timeResult").html(hours+":"+minutes+":"+seconds);
+}
+p.resetTimer = function(){
+  clearInterval(This.timerId);
+  This.time = 0;
+  This.setTime();
+}
+p.startTimer = function(){
+  clearInterval(This.timerId);
+  This.time = 0;
+  This.setTime();
+  This.timerId = setInterval(() => {
+    This.time++;
+    This.setTime();
+  }, 1000);
+}
+p.stopTimer = function(){
+  clearInterval(This.timerId);
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### 1 2 3 Countdown Animation using Tweenmax, GSAP
+```javascript
+p.onCountDown = function(prop){
+		var This = this;
+		if(prop.num==0){            
+            $(".countdown").html("BLOW!");
+        }else{            
+            $(".countdown").html(prop.num);
+        }
+        TweenMax.set(".countdown", {display:"block", opacity:0, scale:0});
+        TweenMax.to(".countdown", 0.6, {opacity:1, scale:0.5,  ease:Cubic.easeOut, onComplete:function(){
+            TweenMax.to(".countdown", 0.5, {opacity:0, scale:1,  ease:Cubic.easeOut, delay:0.1, onComplete:function(){ 
+                if(prop.num>0){                    
+                    This.onCountDown({num:prop.num-1});
+                }else{                    
+                    This.startGame();					
+                }      
+            }})
+        }}) 
+	}
+This.onCountDown({num:3});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### ScrollMagic - scroll Magic  - Smooth Scrolling
+```javascript
+// - - - - - - -  Timeline - - - - - - - - - - - - 
+var welcomeTl = new TimelineLite();
+welcomeTl.to({}, 0.2,{})
+.fromTo("#sectionWelcome .banner-caption", 0.5, { opacity:1, y:0}, { opacity:0, y:-20},"remCaption")
+.fromTo("#sectionWelcome .intro-text", 0.5,{ opacity:1, y:0 },{ opacity:0, y:-20 },"remCaption")	
+.pause();
+// - - - - - - -  Timeline for smooth progress - - - - - - - - - - - - 
+var perObj = {percent:0};
+var perTwenObj = {percent:0};
+var progressTween = TweenMax.to(perObj, 1, {percent:1, ease:Power0.easeNone, onUpdate:function(){
+    TweenMax.killTweensOf(perTwenObj)					
+    TweenMax.to(perTwenObj, 0.2, {percent:perObj.percent, ease:Sine.easeOut, onUpdate:function(){
+        TweenMax.killTweensOf(perTwenObj.percent);	
+        welcomeTl.progress(perTwenObj.percent)
+    }})
+}})
+// - - - - - - -  Scroll Magic code - - - - - - - - - - - - 
+var scrollMagicController = new ScrollMagic.Controller();
+var scene = new ScrollMagic.Scene({
+    triggerElement: '#sectionWelcome',
+    triggerHook: 0
+})
+.setPin("#sectionWelcome")
+.reverse(true)
+.setTween(progressTween)
+.addTo(scrollMagicController);
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### ScrollMagic - scroll Magic  - enter and leave
+Below code detect Screen/Div enter and leave completely from window
+```javascript
+var controllerScrollPanel = new ScrollMagic.Controller();
+$(".screen").each(function(index, elem) {  
+    //---------------------------------------
+    // for detect completely leave screen          
+    var scene = new ScrollMagic.Scene({
+        triggerElement: elem,
+        triggerHook: 0.5,
+        duration:$(elem).height()*2-10,
+        offset: -$(elem).height()/2+5,
+    })
+    .addTo(controllerScrollPanel)
+    .on("leave", function (e) {
+        var onLeave = $(elem).data().onLeave;
+        if(onLeave){
+            onLeave();
+        }
+    });
+    //---------------------------------------
+    //---------------------------------------
+    // for detect settle / enter screen to accurate    -5   0   5
+    var scene = new ScrollMagic.Scene({
+        triggerElement: elem,
+        triggerHook: 0,
+        duration:10,
+        offset: -5,
+    })
+    //.addIndicators()
+    .addTo(controllerScrollPanel)
+    .on("enter", function (e) {                    
+        for (var i = 0; i < $(".screen").length; i++) {
+            if(i != index){
+                $($(".screen")[i]).data().onLeave();
+            }                         
+        }
+        var onEnter = $(elem).data().onEnter;
+        if(onEnter){
+            onEnter();
+        }
+    });
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Capture MouseUp event of window scrollbar using jQuery, click scroll bar
+```javascript
+$(window).on('mousedown.ss',function(ev) { 
+    $.ssMouseDown=true;
+});
+$(window).on('mouseup.ss',function(ev) { 
+    $.ssMouseDown=false;
+});
+$(window).on('scroll.ss',function(ev) { 
+    if ($.ssMouseDown) {
+        $(window).off('mouseenter.ss');
+        $(window).one('mouseenter.ss',function(ev) { 
+            $.ssMouseDown=false;
+        });
+    }                   
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Magnific Popup
+
+```html
+<!-- HTML Code --->
+<a href="http://www.youtube.com/watch?v=h_qosK9M0GI" class="video_play">
+  <img src="assets/images/video-play.png" alt="">
+</a>
+```
+```javascript
+//--- Javascript Code ----
+$('.video_play').magnificPopup({
+    delegate: 'a',
+    type: 'iframe',    
+    mainClass: 'mfp-img-mobile',
+    closeOnBgClick: true,
+    iframe: {
+        markup: '<div class="mfp-iframe-scaler">' +
+        '<div class="mfp-close"></div>' +
+        '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
+        '</div>',
+        
+        patterns: {
+            youtube: {
+                index: 'youtube.com/',
+                
+                id: 'v=',
+                src: '//www.youtube.com/embed/%id%?autoplay=0&rel=0'
+            },
+            vimeo: {
+                index: 'vimeo.com/',
+                id: '/',
+                src: '//player.vimeo.com/video/%id%?autoplay=1'
+            },
+            gmaps: {
+                index: '//maps.google.',
+                src: '%id%&output=embed'
+            }
+        },
+    
+        srcAction: 'iframe_src',
+    }
+});
+```
 
 
 
@@ -906,7 +1393,13 @@ With the function above, you can get individual parameter values:
 getUrlParameter('post'); // "1234"
 getUrlParameter('action'); // "edit"
 ```
-<br><br>
+
+
+
+<br><br><br>
+
+
+
 
 ### Scroll to Div as per Hash/Anchor - Query, Address, Url
 below code find `a` tag element by matching hash value from url and href value from `nav a`. Then it trigger `click` event and html scroll to specific section. 
@@ -923,9 +1416,77 @@ if(hash!=""){
 ```
 
 
+
+<br><br><br>
+
+
+
+
+### Remove Query String From URL, address bar, history, 
+```javascript
+$(document).ready(function(){
+    if (window.location.href.indexOf('?') > -1) {
+        history.pushState('', document.title, window.location.pathname);
+    }
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Replace a query string without reloading the page, URL,  address bar, history, 
+```javascript
+if(window.history && history.replaceState){			   
+	var searchString = "?serviceid=25";      
+	var urlSplit =( window.location.href ).split( "?" );          
+	var obj = { Title: document.title, Url: urlSplit[0] + searchString };     
+	history.replaceState(obj, document.title, searchString)
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+### Get Absolute Path 
+```javascript
+p.getRelativePath = function(BackLevel){
+  if (BackLevel==undefined || BackLevel==null) {
+    BackLevel=0;
+  }
+  var TempVar = "\j";
+  var UrlString= unescape(window.location.href);
+  //
+  var TempUrlArray = UrlString.split("/");
+  for (var i = -1; i<BackLevel; i++) {
+    TempUrlArray.pop();
+  }
+  var RalativePath = TempUrlArray.join("/")+"/";
+  return RalativePath;
+};
+//----------------------------------------------
+var relativePath = this.getRelativePath(0);
+```
+
+
+
 ----------
 
-<br><br>
+
+
+
+<br><br><br>
+
+
+
 
 # Youtube
 
@@ -934,7 +1495,35 @@ Youtube live chat iframe embed code
 ```html
 <iframe src="https://www.youtube.com/live_chat?v=EEIk7gwjgIM&embed_domain=www.example.com" width="700" height="600" style="position:absolute; top:0; left:0; z-index:99;"></iframe>
 ```
-<br><br>
+
+
+
+<br><br><br>
+
+
+
+
+### Pause All YouTube iFrame video
+```html
+<!-- HTML Code -->
+<iframe class="yt_video" width="560" height="349" src="http://www.youtube.com/embed/v1yRp-K_JBo?rel=0&hd=1&enablejsapi=1&version=3&playerapiid=ytplayer" frameborder="0" allowfullscreen></iframe>
+```
+```javascript
+//--- Javascript Code ----
+var videoArr = $(".yt_video");
+for (var kk = 0; kk < videoArr.length; kk++){
+    var redToVideo = videoArr[kk];
+    if (redToVideo.contentWindow && redToVideo.contentWindow.postMessage){
+        redToVideo.contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+    }
+}
+```
+
+
+
+
+<br><br><br>
+
 
 
 # Google Analytic
@@ -1101,15 +1690,29 @@ sendPostRequest(ajaxOption);
 ---
 <br><br><br><br>
 
-# Useful library
+# Useful Libraries
 
-## [Confetti.js](https://www.cssscript.com/confetti-falling-animation/)
+
+## [SpriteSheet Background Image Animation](https://github.com/shailendra/sprite-sheet-background-image-animation)
+You can play SpriteSheet image animation using background-image css property in div. You can control animation by `Play`, `Pause`, `Restart`, `Reverse`, `Loop`, `Speed`, `gotoAndStop` and `gotoAndPlay`.
+
+
+
+
+<br><br><br>
+
+
+
+
+## [Confetti.js](https://github.com/mathusummut/confetti.js)
 Confetti Falling Animation In Pure JavaScript<br>
-Download and import the JavaScript ‘confetti.js’ into the html document.
+Download and import the JavaScript ‘confetti.js’ into the html document.<br>
+[Demo](https://www.cssscript.com/demo/confetti-falling-animation/)
 ```html
 <script src="confetti.js"></script>
 ```
 ```javascript
+//--- Javascript Code -------------
 confetti.start()
 confetti.stop()
 confetti.toggle()
@@ -1120,6 +1723,44 @@ confetti.isPaused()
 confetti.remove()
 confetti.isRunning()
 ```
+
+
+
+<br><br><br>
+
+
+
+
+## [HOWLER.js](https://howlerjs.com/)
+Audio library for the modern web.<br>
+howler.js makes working with audio in JavaScript easy and reliable across all platforms.<br>
+[Documentation](https://github.com/goldfire/howler.js#documentation), [Demo](https://howlerjs.com/)
+```javascript
+//--- Sample Code -------------------------
+var cheering = new Howl({
+    src: [soundPath +"previous_cheering.mp3", ],
+});
+var ambience = new Howl({
+    src: [soundPath + "mela-ambience.mp3", ],
+    loop: true,
+    volume: 0.3,
+});
+cheering.play();
+cheering.pause();
+ambience.fade(0.3, 0, 1500);  // from, to, millisecond
+
+```
+
+
+
+<br><br><br>
+
+
+
+
+## [Google-Text-To-Speak-Hack](https://github.com/shailendra/Google-Text-To-Speak-Hack)
+`SpeechSynthesis. Web Speech API`<br>
+I have created hack to speak `Gmail` and `Hangout` text.
 
 
 ---
