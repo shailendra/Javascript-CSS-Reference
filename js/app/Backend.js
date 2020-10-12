@@ -1,23 +1,56 @@
 window.objLib = window.objLib || {};
 (function () {
-    var Backend = function () {
-        this.initialize();
+    var Backend = function (prop) {
+        this.initialize(prop);
     };
     var p = Backend.prototype
 
-    p.initialize = function () {
+    p.initialize = function (prop) {
         var This = this;
+        this.SERVER_ASP = "ASP.Net";
+        this.SERVER_PHP = "PHP";
         this.backendPath = this.getRelativePath(0);
-        this.secreteKey = "xzxzxzxzxxzxzxzx";
-        //
-        //
-        this.cryptoKey = this.secreteKey;
+        this.serverType = this.SERVER_PHP;
+        if(prop.server!=undefined && prop.server == this.SERVER_ASP){
+            this.serverType = this.SERVER_ASP;
+        }
+        //----------------------------------------------
+        //----------------------------------------------
+        //----------------------------------------------
+        //----------------------------------------------
+		this.secreteKey = "xzxzxzxzxxzxzxzx";
+		this.cryptoKey = this.secreteKey;
+        //----------------------------------------
+        //----------------------------------------
+        //----------------------------------------
+        //----------------------------------------
         this.cryptoParam = {
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         }
-        this.submitBtn = $("#form_screen .submit");
-        this.submitBtn.bind("click", function(){This.onSubmitClick();})
+        //---------------------------------------
+        if(this.serverType==this.SERVER_ASP){
+            //---- setting crypto parameter for ASP.Net ------------
+            var kk = this.cryptoKey;
+            this.cryptoKey = CryptoJS.enc.Utf8.parse(kk);
+            this.cryptoIV = CryptoJS.enc.Utf8.parse(kk);
+            this.cryptoParam = {
+                keySize: 128 / 8,
+                iv: this.cryptoIV,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            }
+        }else if(this.serverType==this.SERVER_PHP){
+            //---- setting crypto parameter for PHP ------------
+            this.cryptoParam = {
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            }
+        }
+        //--------------------------------------------------------------
+        //--------------------------------------------------------------
+		/*this.submitBtn = $("#form_screen .submit");
+		this.submitBtn.bind("click", function () { This.onSubmitClick(); })*/
     };
     p.onSubmitClick = function(){
         var This = this;
@@ -95,7 +128,7 @@ window.objLib = window.objLib || {};
         }
         var ajaxOption = {
             formData:JSON.stringify(formData),
-            url: "submit-form-ajax-strong-hitter.php",
+            relativeURL: "submit-form-ajax-strong-hitter.php",
             method:"POST",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType:"text",
@@ -124,10 +157,10 @@ window.objLib = window.objLib || {};
     p.sendPostRequest = function (prop) {
         var This = this;
         var url = ""; 
-        if (prop.service){
-            url = this.backendPath + prop.service;
-        } else if (prop.url){
-            url = this.backendPath + prop.url;
+        if (prop.relativeURL){
+            url = this.backendPath + prop.relativeURL;
+        } else if (prop.absoluteURL){
+            url = prop.absoluteURL;
         } 
         var encryptedStr = this.cryptoEncrypt({str:prop.formData});
         var newEncryptedObj = { d: encryptedStr };
@@ -135,20 +168,24 @@ window.objLib = window.objLib || {};
 
         function success(response){
             //console.log("response --- ", " - ", response);
-            
+            if(This.serverType==This.SERVER_ASP){
+                var encryptedStr = JSON.parse(response).d;
+                var actualJsonStr =  This.cryptoDecrypt({str:encryptedStr});
+                //console.log("actualJsonStr --- ", " - ", actualJsonStr);
+                var data = JSON.parse(actualJsonStr);
+            }else{
+                //-- for PHP not try encryption
+                //-- need RnD Find Solution with backend Team                
+                var data = JSON.parse(response);
+                //-------------------------------------------
+            }
 
-            /*var encryptedStr = JSON.parse(response);
-            var actualJsonStr =  cryptoDecrypt({str:encryptedStr});
-            console.log("actualJsonStr --- ", " - ", actualJsonStr);
-            var data = JSON.parse(actualJsonStr);*/
-
-            var data = JSON.parse(response);
             if(prop.resolve){            
                 prop.resolve(data);
             }
         }
         function error(response){
-            //console.log("errorResponse - ", response.responseText);        
+            console.log("errorResponse - ", response.responseText);        
             if(prop.reject){            
                 prop.reject({ success: false, data: response });
             }
@@ -157,7 +194,7 @@ window.objLib = window.objLib || {};
         };
         var ajaxOption = {
             method: prop.method?prop.method:"GET", 
-            data: JSON.parse(newJSONStr),
+            data:  this.serverType==this.SERVER_PHP?JSON.parse(newJSONStr):newJSONStr,
             url:url,
             crossDomain: true, 
             contentType: prop.contentType?prop.contentType:"application/x-www-form-urlencoded; charset=UTF-8",
@@ -179,16 +216,29 @@ window.objLib = window.objLib || {};
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     p.cryptoEncrypt = function(prop){
+        if(this.serverType==this.SERVER_ASP){
+            // for ASP.Net Encryption ---------------
+            var str_1 = prop.str.replace(/[{]/g, "curleyfront");
+            var str_2 = str_1.replace(/[}]/g, "curleyback");
+            var encryptedString = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(str_2),this.cryptoKey, this.cryptoParam).toString();
+            return encryptedString;
+        }
+        //--- for PHP Encryption -------------------
         var str_1 = prop.str;
         var encryptedString = CryptoJS.AES.encrypt(str_1, this.cryptoKey, this.cryptoParam).toString();
-        return encryptedString;
+        return encryptedString;        
     }
     p.cryptoDecrypt = function(prop){
+        if(this.serverType==this.SERVER_ASP){
+            // for ASP.Net DeEncryption ---------------
+            var decryptStr = CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(prop.str, this.cryptoKey, this.cryptoParam));
+            var str_1 = decryptStr.replace(/curleyfront/g, "{");
+            var str_2 = str_1.replace(/curleyback/g, "}");
+            return str_2;
+        }
+        //--- for PHP DeEncryption -------------------
         var decryptStr = CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(prop.str, this.cryptoKey, this.cryptoParam));
-        //$encrypted_string = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $padded_string, MCRYPT_MODE_CBC, $iv);
         var str_1 = decryptStr;
-        //str_1 = str_1.replace(/curleyfront/g, "{");
-        //str_1 = str_1.replace(/curleyback/g, "}");
         return str_1;
     }
     //-------------------------------------------------------------------------

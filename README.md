@@ -789,7 +789,7 @@ Your browser does not support the video tag.
 
 
 ----------
-<br><br>
+<br><br><br><br><br><br>
 
 # JAVASCRIPT Bug & Solution
 
@@ -859,6 +859,79 @@ $(window).resize(function(){
 
 
 
+<br><br><br>
+
+
+
+
+### Firefox Cache issue bugs
+Firefox 1.5 uses in-memory caching for entire Web pages, including their JavaScript states, for a single browser session.
+when you use back next button page does not call Jquery load and ready function.
+to overcome this issue. use unload function on page
+```javascript
+$(window).bind("unload", function () {
+});
+```
+more info click on below link
+https://developer.mozilla.org/en-US/Firefox/Releases/1.5/Using_Firefox_1.5_caching
+
+
+
+
+<br><br><br>
+
+
+
+
+### Cancel Kill All requestAnimationFrame and Other Running Code when Page unload
+There are instances in which Firefox doesn’t cache pages. Below are some common programmatic reasons that a page is not cached: the page uses an unload or beforeunload handler;
+```javascript
+function cancelAllAnimationFrames(){
+   var id = window.requestAnimationFrame(function(){});
+   while(id--){
+     window.cancelAnimationFrame(id);
+   }
+}
+$(window).bind("unload", function () {
+  if (window.TweenMax) {
+      TweenMax.killAll();
+  }
+  cancelAllAnimationFrames();
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Stop Draging, Ghost Image
+```javascript
+zoomDiv.bind('selectstart dragstart', function(evt) { 
+    evt.preventDefault(); return false;
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Stop Draging viewport, Stop Scrolling Page 
+```javascript
+$("#wrapper").bind("mousemove touchmove", function(e){
+    e.preventDefault();
+})
+```
+
+
+
 
 <br><br><br>
 
@@ -911,8 +984,23 @@ window.addEventListener("orientationchange", onOrientationChange, false);
 
 
 
----
 <br><br><br>
+
+
+
+
+### Firefox Hisory API + iFrame load -  issue bugs
+When you use History API and load page in iframe according to url, it work in chrome but in FireFox it show blank page or page not load in iframe. In FireFox iframe not load because iframe load according to History API and when url change through history api,  Firefox assume that page load when url change by history api  and never allow to load same url in iframe. so we are adding '/' at last of url and if exist then remove it
+```javascript
+eg.  ' /work/heromotocorp '  add slash  ' /work/heromotocorp/  '
+eg.  ' /work/heromotocorp/ '  remove slash  ' /work/heromotocorp '
+```
+
+
+
+
+---
+<br><br><br><br><br><br>
 
 # jQuery and DOM
 ### MouseLeave, MouseEnter,  leave, out of the screen page
@@ -927,8 +1015,128 @@ $("body").mouseenter(function() {
 
 
 
+<br><br><br>
+
+
+
+### data()
+Store data and access from HTML Element
+```javascript
+$("body").data( "foo", 52 );
+$("body").data( "bar",  { myType: "test", count: 40 } );
+$("body").data( { baz: [ 1, 2, 3 ] } );
+$("body").data( "foo" );    // 52
+$("body").data(); //{ foo:52,  bar:{ myType:"test",count:40},  baz:[ 1, 2, 3 ] }
+
+<div data-role="page" data-last-value="43" data-hidden="true" data-options='{"name":"John"}'></div>
+$( "div" ).data( "role" ) === "page";
+$( "div" ).data( "lastValue" ) === 43;
+$( "div" ).data( "hidden" ) === true;
+$( "div" ).data( "options" ).name === "John"; 
+```
+
+
 
 <br><br><br>
+
+
+
+
+### Find Filter Search Attribute
+
+```javascript
+//---  Data Attribute
+var resultdiv =  bcwOverlay.find('[data-id="sec-1"]'); 
+
+//--- class display:’block’
+console.log($('.ourWork_blurb[style*="block"]').length); 
+
+//--- Radio Button Select
+var $radios = $('input[name="radio-group"]');
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+###  Focus In
+```javascript
+//--- Below show text input on focus -------
+userNameTx.unbind("focusin");
+userNameTx.bind("focusin", onfocusinUserNameTx);
+function onfocusinUserNameTx() {
+	if(userNameTx.val() == "NAME:"){
+		userNameTx.val("");
+	}            
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Select Dropdown Combobox  javascript
+Access value on Dropdown Select
+```html
+<!-- HTML  -->
+<div class="filterHolder"> 
+    <select>
+        <option data-display="Select">Nothing</option>
+        <option value="1">Some option</option>
+        <option value="2">Another option</option>
+        <option value="3" disabled>A disabled option</option>
+        <option value="4">Potato</option>
+    </select>
+</div>
+```
+ 
+```javascript
+//---  Javascript ----
+var dropSelectedVal;
+$(".filterHolder").on('change', 'select', function(e) {
+    console.log(e.target);
+    console.log($(e.target).val());
+    dropSelectedVal = $(e.target).val();
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Select Radio button change  javascript
+//----- -HTML --- 
+```html
+<!--  HTML  -->
+<input type="radio" id="Radio12" name="radio-group">
+<input type="radio" id="Radio14" name="radio-group" checked>
+```
+```javascript
+//---  Javascript ----
+var $radios = $('input[name="radio-group"]');
+$radios.change(function(e) {
+  console.log(e.target);
+  console.log(this);
+});
+```
+
+
+
+
+<br><br><br>
+
 
 
 
@@ -961,6 +1169,25 @@ window.dispatchEvent(new Event('resize'));
 
 
 
+### On Enter Key Press
+```javascript
+headerSearchText.unbind("keydown");
+headerSearchText.bind("keydown",  (e)=>{
+  console.log(e.keyCode);
+  if (e.keyCode == 13) {
+      console.log("Enter key pressed")
+  }
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
+
 ### Download Image using Javascript
 ```javascript
 $("#ico-download").attr("download", "KEI-GharKiJyoti.png");
@@ -970,10 +1197,54 @@ $("#ico-download").attr("href", downloadImgUrl);
 
 
 
----
+
 <br><br><br>
 
-# Javascript Useful Code
+
+
+
+### Capture MouseUp event of window scrollbar using jQuery, click scroll bar
+```javascript
+$(window).on('mousedown.ss',function(ev) { 
+    $.ssMouseDown=true;
+});
+$(window).on('mouseup.ss',function(ev) { 
+    $.ssMouseDown=false;
+});
+$(window).on('scroll.ss',function(ev) { 
+    if ($.ssMouseDown) {
+        $(window).off('mouseenter.ss');
+        $(window).one('mouseenter.ss',function(ev) { 
+            $.ssMouseDown=false;
+        });
+    }                   
+});
+```
+
+ 
+
+
+<br><br><br>
+
+
+
+ 
+### Create Dynamic Runtime CSS Sheet, Pure javascript
+```javascript
+this.googleHackCSSSheet = document.createElement('style')
+this.googleHackCSSSheet.innerHTML = "#map div{background-color: rgba(0, 0, 0, 0)!important;}";
+this.googleHackCSSSheet.innerHTML += "#map span{display:none!important;}";
+document.body.appendChild(this.googleHackCSSSheet);
+// remove dynamically added CSS Sheet
+document.body.removeChild(this.googleHackCSSSheet);
+```
+
+
+
+---
+<br><br><br><br><br><br>
+
+# Javascript Utility Code
 ### Mobile Detection Code
 Object Version
 ```javascript
@@ -1107,6 +1378,277 @@ window.objLib = window.objLib || {};
 
 
 
+
+### Access iFrame content, 
+iframe must be call from same domain
+```javascript
+function onReady(){
+    $("#testimonialsIframe").load(function () {
+         var iframe = $("#testimonialsIframe").contents();
+         console.log(iframe);
+        $(iframe).scroll(function () {            
+            console.log(“scroll”);;
+        });
+    });
+}
+
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Load external CSS using Javascript ,   Also for development 
+Below is code to load css external css using javascript.<br>
+**Note.-:** also you can load css in iframe for development only. paste below code in iframe window console. CSS file must be on localhost or 127.0.0.1 server to avoid security error. 
+Steps. 
+1. Select any iframe element and right click and select inspect.
+2. select console tab.
+3. paste below code and press enter key.
+
+```javascript
+var link = document.createElement( "link" );
+link.href = "http://127.0.0.1:5500//assets/css/temp.css";
+link.type = "text/css";
+link.rel = "stylesheet";
+link.media = "screen,print";    
+document.getElementsByTagName( "head" )[0].appendChild( link );
+//-- for development only
+var newId = setInterval(function(){        
+    link.href = "http://127.0.0.1:5500//assets/css/temp.css";
+}, 5000)
+
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Access Parent HTML content from iFrame, 
+```html
+<!--     In Parent HTML       -->
+
+<script type="text/javascript">
+	var intervalid = setInterval(function(){
+		if(document.getElementsByTagName('IFRAME').length){
+      document.getElementsByTagName('IFRAME')[0]. contentWindow.closeFormPopUp = function(){
+          $("#easy_popup_close").trigger('click')
+        };
+      //-- clearInterval(intervalid)
+    }}, 1000);
+</script>
+```
+```javascript
+//-- In iFrame call below function
+closeFormPopUp()
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Replace String all found
+```javascript
+function stringByReplacingOccurrencesOfString  (originalStr, findStr, replaceStr){
+    var newStr  = String(originalStr);
+    var range = 0;
+    range = newStr.indexOf(findStr, range);
+    while(range>=0){
+        newStr = (newStr.substr(0, range)+replaceStr)+newStr.substr(range+findStr.length, newStr.newStr);
+        range = newStr.indexOf(findStr, (range+replaceStr.length));
+    }		
+    return newStr;
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Replace String using Range
+```javascript
+function replaceRange(s, start, end, substitute) {
+	return s.substring(0, start) + substitute + s.substring(end);
+}
+var str = "Shailendra";
+str  = replaceRange(str , 0, 4, "xxxx");
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+### Email Validation
+```javascript
+p.validateEmail = function (email){
+    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+    if (reg.test(email)){
+        return false; 
+    }else{
+            return true;
+    }
+}
+if(this.validMobileNumber(mobile)){
+    showError({msg:"Invalid Mobile Number", targetInput:mobileInput});
+    return;
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+
+## Color Code
+```javascript
+//----- Convert Color RGB To Hex -----------
+function convertRGBToHex(obj){
+    var hexStr = "#" +
+                ("0" + parseInt(obj.r,10).toString(16)).slice(-2) +
+                ("0" + parseInt(obj.g,10).toString(16)).slice(-2) +
+                ("0" + parseInt(obj.b,10).toString(16)).slice(-2);
+    return hexStr;
+}
+ 
+ 
+//---- Convert Color Hex to RGB ------------
+function convertHexToRGB(hex){
+    var hexArray = hex.split("#");
+    hex = hexArray[hexArray.length-1];
+    hexArray = hex.split("0x");
+    hex = hexArray[hexArray.length-1];
+    var obj = new Object()
+    obj.r = parseInt(hex.slice(0, 2), 16);
+    obj.g = parseInt(hex.slice(2, 4), 16);
+    obj.b = parseInt(hex.slice(4, 6), 16);
+    return obj;
+}
+ 
+ 
+//-- Mix RGB Color -------------------------
+function rgbMix(color1, color2, percent) {
+    if(percent==0){
+        percent = 0.01;
+    }
+    percent = percent*8;
+        var tempD = 100/percent;
+        var tempC = 1+(percent/100);  
+    var newColObj = new Object();
+    newColObj.r = Math.round((color1.r + color2.r/tempD)/tempC);
+    newColObj.g = Math.round((color1.g + color2.g/tempD)/tempC);
+    newColObj.b = Math.round((color1.b + color2.b/tempD)/tempC);
+    return newColObj;  
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+
+### Custom Event Listener
+ 
+```javascript
+//-- Add Event Listener --------------------------
+canvas.removeEventListener('build', sss);
+canvas.addEventListener('build', sss, false);
+function sss(e){
+	alert("got"); 
+}
+ 
+// Dispatch Event -------------------------------
+var event = new Event('build');
+//-- or old style -------------
+var event = document.createEvent('Event');
+event.initEvent('playAccToGlobalSoundMute', true, true);
+//-----------------------------
+canvas.dispatchEvent(event);
+```
+ 
+ 
+
+
+
+<br><br><br>
+
+
+
+
+ 
+### Get Mouse x y left top in div
+```javascript
+//--- http://www.kirupa.com/html5/getting_mouse_click_position.htm
+onProductMouseMove = function(e){
+        var parentPosition = getPosition(e.currentTarget);
+        var xPosition = e.clientX - parentPosition.x;
+        var yPosition = e.clientY - parentPosition.y;
+        console.log(xPosition, yPosition);
+}
+function getPosition(element) {
+        var xPosition = 0;
+        var yPosition = 0;
+        while (element) {
+            xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+            yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+            element = element.offsetParent;
+        }
+        return { x: xPosition, y: yPosition };
+}
+or
+getPosition($(".logo img")[0])
+```
+ 
+ 
+
+
+<br><br><br>
+
+
+
+ 
+### Check Internet Connection is on or off , online, live offline
+```javascript
+window.addEventListener('offline', function(e) { console.log('offline'); });
+window.addEventListener('online', function(e) { console.log('online'); });
+```
+
+
+
+
+
+
+
+<br><br><br><br><br><br>
+
+
+
+# Javascript Useful Code
 
 ### 00:00:00  - Timer for Game, Countdown, Clock
 ```javascript
@@ -1273,32 +1815,6 @@ $(".screen").each(function(index, elem) {
 
 
 
-### Capture MouseUp event of window scrollbar using jQuery, click scroll bar
-```javascript
-$(window).on('mousedown.ss',function(ev) { 
-    $.ssMouseDown=true;
-});
-$(window).on('mouseup.ss',function(ev) { 
-    $.ssMouseDown=false;
-});
-$(window).on('scroll.ss',function(ev) { 
-    if ($.ssMouseDown) {
-        $(window).off('mouseenter.ss');
-        $(window).one('mouseenter.ss',function(ev) { 
-            $.ssMouseDown=false;
-        });
-    }                   
-});
-```
-
-
-
-
-<br><br><br>
-
-
-
-
 ### Magnific Popup
 
 ```html
@@ -1342,6 +1858,173 @@ $('.video_play').magnificPopup({
     }
 });
 ```
+
+
+
+<br><br><br>
+
+
+
+
+### Parallax, Single screen page control multiple section, mouse wheel, arrow key, 
+you must include  `jquery.mousewheel.min.js`  in page
+```javascript
+var isTlPlaying = true;
+$('#mainContainer').on('mousewheel', function (event) {
+    if (event.deltaY > 0) {
+        moveToSectionId(currentId - 1);
+    } else {
+        moveToSectionId(currentId + 1 );
+    }
+});
+$("body").keydown(function (e) {
+    if (e.keyCode == 37) {
+        moveToSectionId(currentId - 1);
+    } else if (e.keyCode == 39) {
+        moveToSectionId(currentId + 1);
+    }
+});
+var currentId = 0;
+moveToSectionId = function (index) {
+    if (isTlPlaying || index < 0 || index > 2) {
+        return true;
+    }
+    var sectionName = "section" + (index + 1);
+    var lastSectionName = "section" + (currentId + 1);
+    var speed = Math.abs(currentId - index);
+    if (index > currentId) {
+        tl.timeScale(speed);
+        tl.tweenFromTo(lastSectionName, sectionName);
+        currentId = index;
+        isTlPlaying = true;
+    } else if (index < currentId) {
+        tl.timeScale(speed * 1.5);
+        tl.tweenFromTo(lastSectionName, sectionName);
+        currentId = index;
+        isTlPlaying = true;
+    }
+    return false;
+
+}
+$(".testRideBtn").bind("click", function(){
+        moveToSectionId(2);
+})
+$(".featureBtn").bind("click", function () {
+        moveToSectionId(1);
+})
+
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Drag Html Element
+```javascript
+(function($) {
+    $.fn.drags = function(opt) {
+        opt = $.extend({ handle: "", cursor: "move" }, opt);
+        var $el;
+        if (opt.handle === "") {
+            $el = this;
+        } else {
+            $el = this.find(opt.handle);
+        }
+        var parent = $el.parents();
+        var z_idx;
+        var drg_h;
+        var drg_w;
+        var pos_y;
+        var pos_x;
+
+        function mouseMove(e) {
+            var left = e.pageX + pos_x - drg_w;
+            var top = e.pageY + pos_y - drg_h;
+            $el.offset({
+                top: top,
+                left: left
+            });
+            if (opt.onMouseMove) {
+                opt.onMouseMove({ e: e, top: top, left: left });
+            }
+        }
+
+        function mouseUp(e) {
+            var top = e.pageY + pos_y - drg_h;
+            var left = e.pageX + pos_x - drg_w;
+            parent.unbind("mouseup", mouseUp);
+            parent.unbind("mousemove", mouseMove);
+            if (opt.onMouseUp) {
+                opt.onMouseUp({ e: e, top: top, left: left });
+            }
+        }
+
+        function mouseDown(e) {
+            drg_h = $el.outerHeight();
+            drg_w = $el.outerWidth();
+            pos_y = $el.offset().top + drg_h - e.pageY;
+            pos_x = $el.offset().left + drg_w - e.pageX;
+            var top = e.pageY + pos_y - drg_h;
+            var left = e.pageX + pos_x - drg_w;
+            parent.unbind("mousemove", mouseMove);
+            parent.bind("mousemove", mouseMove);
+            parent.unbind("mouseup", mouseUp);
+            parent.bind("mouseup", mouseUp);
+            if (opt.onMouseDown) {
+                opt.onMouseDown({ e: e, top: top, left: left });
+            }
+            e.preventDefault(); // disable selection
+        }
+        $el.css('cursor', opt.cursor);
+        $el.unbind("mousedown", mouseDown);
+        $el.bind("mousedown", mouseDown);
+        return $el;
+    };
+})($);
+
+$('.holder').drags();
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Drag Drop Image and Read image file
+```javascript
+function setupDragDrop() {
+    var holder = document.getElementById('holder');
+    holder.ondragover = function() {
+        this.className = 'hover';
+        return false;
+    };
+    holder.ondragend = function() {
+        this.className = '';
+        return false;
+    };
+    holder.ondrop = function(e) {
+        e.preventDefault();
+        var file = e.dataTransfer.files[0],
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            holder.style.background = 'url(' + event.target.result + ') no-repeat center';
+            var image = document.createElement('img');
+            image.src = event.target.result;
+            var texture = new THREE.Texture(image);
+            texture.needsUpdate = true;
+            scene.getObjectByName('cube').material.map = texture;
+        };
+        reader.readAsDataURL(file);
+        return false;
+    }
+}
+```
+
 
 
 
@@ -1488,6 +2171,133 @@ var relativePath = this.getRelativePath(0);
 
 
 
+# Google Map
+
+### Created Google Map Class to control map
+```javascript
+
+window.objLib = window.objLib || {};
+(function() {
+	//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	var GoogleMap = function(prop) {
+		this.initialize(prop);
+	}
+
+	var p = GoogleMap.prototype; 
+	//---  V A R I A B L E S  -------------------------------------------------
+	p.map;
+    p.center;
+	//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	p.initialize = function(prop) {	
+		this.center = { lat: 18.939495246428973, lng: 72.83135228710091 };
+		this.zoomValIndiaLevel = 5;		
+	}    
+	p.setUp = function(prop){
+		var This = this;
+		clearInterval(this.checkInterval);
+		this.checkInterval = setInterval(function(){
+			if(window.google){				
+				clearInterval(This.checkInterval);
+				This.setupAfterGoogleJSLoaded(prop);
+			}
+		}, 50);
+	}
+	p.setupAfterGoogleJSLoaded = function(prop){
+		var This = this;
+		this.map = new google.maps.Map(document.getElementById('map'), {
+			zoom: this.zoomValIndiaLevel,
+			center: this.center,
+			mapTypeId: 'satellite',
+			fullscreenControl:false,
+			mapTypeControl:false,
+			streetViewControl:false,
+			zoomControl: false,
+			minZoom:4,
+			zoomControlOptions: {
+				position: google.maps.ControlPosition.LEFT_BOTTOM
+			},
+			//disableDefaultUI: true
+		});
+		this.initZoomControl(this.map);	
+
+        
+		
+		//--------------------------------------------------------		
+		//---- For Testing Purpose ------------------------------
+		this.hidingDevelopmentMode({start:true});
+		//--------------------------------------------------------		
+		//--------------------------------------------------------
+	}
+    
+	p.hidingDevelopmentMode = function(prop){
+		//--- This is Hack for hide "For Development Mode Only" Message
+		//--- Make Sure, don't call this function and user proper Google API Key when you upload on live 
+		var This = this;
+		if(prop.start){
+			if(location.hostname=="127.0.0.1" || location.hostname=="localhost"){
+				this.isDevelopmentModeHiding = true;
+			}else{
+				return;
+			}
+		}else{
+			this.isDevelopmentModeHiding = false;	
+			if(this.googleHackCSSSheet){				
+				document.body.removeChild(this.googleHackCSSSheet);
+			}
+			return;
+		}
+		var callback = function(){
+			if(This.isDevelopmentModeHiding){				
+				window.animationFrame(callback);
+				var table = document.querySelector('#map table');
+				if(table){
+					table.parentElement.style.display = "none"
+				}
+			}
+		}
+		//-- creating dynamic CSS Sheet to hide --------------------------
+		this.googleHackCSSSheet = document.createElement('style')
+		this.googleHackCSSSheet.innerHTML = "#map div{background-color: rgba(0, 0, 0, 0)!important;}";
+		this.googleHackCSSSheet.innerHTML += "#map span{display:none!important;}";
+		document.body.appendChild(this.googleHackCSSSheet);
+		//---------------------------------------------------------------
+		window.animationFrame(callback);
+	}
+
+    p.initZoomControl = function (map) {
+        //--- Add Zoom In Out Click Event on Custom Button
+        document.querySelector('.gm-zoom-in').onclick = function() {
+            map.setZoom(map.getZoom() + 1);
+        };
+        document.querySelector('.gm-zoom-out').onclick = function() {
+            map.setZoom(map.getZoom() - 1);
+        };
+    }
+    //-----------------------------------------------------
+    //-----------------------------------------------------
+    objLib.GoogleMap = GoogleMap;
+}());
+//
+//
+//-- Initialising GoogleMap Instance ------------------------
+var googleMap = new objLib.GoogleMap({});
+googleMap.setUp({});
+
+```
+
+
+----------
+
+
+
+
+<br><br><br>
+
+
+
+
 # Youtube
 
 ### Live chat
@@ -1575,6 +2385,89 @@ redrawDotNav();
 $(window).bind("scroll", redrawDotNav);
 
 ```
+
+
+
+<br><br><br>
+
+
+### Custome Google Analytic Event - gtag()
+
+```html
+<!-- Embed gtag.js in html with GA id -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxxxxxxxx-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-xxxxxxxxx-1');
+</script>
+
+```
+
+```javascript
+/*
+//-- Javascript API Reference links
+https://developers.google.com/gtagjs/reference/api#event
+https://developers.google.com/analytics/devguides/collection/gtagjs/events
+https://support.google.com/analytics/answer/1033068#Anatomy
+gtag('event', <action>, {
+    'event_category': <category>,
+    'event_label': <label>,
+    'value': <value>
+});
+*/
+p.sendGoogleTagEvent = function(event){
+    console.log(event);
+    if(window.gtag){
+        gtag('event', event.action, {
+            //'event_category': 'Strong Hitter Game',
+            'event_category': event.category,
+            'event_label': event.label
+        });
+    }
+}
+
+//--- Below is example of parameters
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Play", label: 
+    "Gone With the Wind"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Start", 
+    label: "Start Fresh Game"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Re-Start", 
+    label: "Re-Start Over from 1"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Re-Start", 
+    label: "Re-Start Over from 2"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Over Completed", 
+    label: "Over Completed 1"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Over Completed", 
+    label: "Over Completed 2"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Over Completed", 
+    label: "Over Completed 3"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Over Completed", 
+    label: "Over Completed 4"});
+this.sendGoogleTagEvent({
+    category: "Strong Hitter Game", 
+    action: "Form Visible", 
+    label: "Form Visible After Game Over"});
+```
+
 <br><br><br>
 ---
 # Ajax, Form, Post, Get
@@ -1687,8 +2580,99 @@ sendPostRequest(ajaxOption);
 **--------- ASP.Net Code ---------**
 
 
----
+
+
+
+<br><br><br><br><br>
+
+
+
+
+
+
+# PHP
+
+### Session In PHP Using Javascript 
+
+```php
+//---- session.php  File ----------------
+<script>
+    var This = this;
+    function setSeestionVariable(prop, val){
+        This[prop] = val;
+    }
+</script>
+<?php
+    session_start();   
+    $expiretime = 900;
+    if(isset($_SESSION['last_active'])){
+        if ( time()>=$_SESSION['last_active']+$expiretime){
+            session_destroy();
+            session_start(); 
+        }
+    }
+    /*function addToSession($obj){       
+       foreach ($obj as $key => $value) {
+           $_SESSION[$key]=$value;
+        }
+        $_SESSION['last_active'] = time();
+    }*/
+    foreach ($_SESSION as $key => $value) {
+        ${"session_".$key} = $value;
+        //echo "<br/> ".$key." = ". $value;
+        echo "<script> setSeestionVariable('".$key."', '".$value."'); </script>";
+    }           
+?>
+```
+ 
+```php
+//---- send-to-session.php  File----------------
+<?php    
+    session_start();
+    foreach ($_POST as $key => $value) {
+       $_SESSION[$key]=$value;
+    }
+    $_SESSION['last_active'] = time();
+    echo "done, ".$key.", ".$value;
+?>
+```
+```html
+ 
+<!--  HTML --->
+<script>    
+   var globleThis = this;
+    function sendToSession(obj, call){
+		$.post("send-to-session.php", obj, function(data) {
+            if(call){
+                call(data);
+            }
+		});
+	}      
+</script>
+```
+ 
+```javascript
+//---  below code should call on on document ready 
+//--- access variable and its value from Session 
+if(globleThis.nailShape){
+}else{
+	globleThis.nailShape =  "short";
+}
+//--- send variable and its value to Session 
+function callBack(data){
+}
+sendToSession({nailShape:"short" userSession:"shailendra"}, callBack);    
+```
+
+
+
+
+
 <br><br><br><br>
+
+
+
+
 
 # Useful Libraries
 
@@ -1751,6 +2735,65 @@ ambience.fade(0.3, 0, 1500);  // from, to, millisecond
 
 ```
 
+
+
+<br><br><br>
+
+
+
+
+## [EasyAutocomplete - plugin for jQuery](https://github.com/pawelczak/EasyAutocomplete)
+EasyAutocomplete is a highly configurable jquery autocomplete plugin<br>
+[Documentation](http://easyautocomplete.com/guide) | 
+[Download](http://easyautocomplete.com/download) | 
+[Website](http://easyautocomplete.com/) | 
+[Example](http://easyautocomplete.com/examples)
+```html
+<!--    H T M L    -->
+<link rel="stylesheet" href="css/easy-autocomplete.min.css">
+<script src="js/jquery.easy-autocomplete.min.js"></script>
+
+<input id="countries"/>
+```
+```javascript
+//---  J A V A S C R I P T -------------
+var localityArray = [
+    {"LocalityName": "Afghanistan", "LocalityId": 150},
+    {"LocalityName": "Aland Islands", "LocalityId": 152},
+    {"LocalityName": "Albania", "LocalityId": 153},
+    {"LocalityName": "Algeria", "LocalityId": 154},
+    {"LocalityName": "American Samoa", "LocalityId": 153}
+]
+var options = {
+    //-------------------------------
+    data: localityArray,
+    // or 
+    url: "localityList.json",
+    //------------------------------------
+    getValue: "LocalityName",
+    list: {
+        match: {
+            enabled: true,
+            method: function (element, phrase) {  
+                if (element.indexOf(phrase)===0) {
+                return true;
+                } else {
+                return false;
+                }
+            }
+        },
+        onChooseEvent: (e)=> {
+            var val = $("#localityInput").val();
+            var data = $("#localityInput").getSelectedItemData();
+            selectedLocalityObj = data;
+        },        
+        maxNumberOfElements: 5
+    },
+    theme: "square"
+};
+$("#localityInput").easyAutocomplete(options);
+
+```
 
 
 <br><br><br>
