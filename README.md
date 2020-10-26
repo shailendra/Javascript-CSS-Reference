@@ -893,10 +893,10 @@ function cancelAllAnimationFrames(){
    }
 }
 $(window).bind("unload", function () {
+  cancelAllAnimationFrames();
   if (window.TweenMax) {
       TweenMax.killAll();
   }
-  cancelAllAnimationFrames();
 });
 ```
 
@@ -1016,6 +1016,23 @@ $("body").mouseenter(function() {
 
 
 <br><br><br>
+
+
+
+### ScrollTop and Animate
+```javascript
+//--- Scroll Top ----------------------
+$("body, html").scrollTop(100);
+
+//--- Scroll Top using Animate --------
+$("body, html").stop().animate({scrollTop:pos.top}, 500, 'swing', function() { 
+});
+```
+
+
+
+<br><br><br>
+
 
 
 
@@ -1180,6 +1197,21 @@ headerSearchText.bind("keydown",  (e)=>{
 });
 ```
 
+
+
+
+<br><br><br>
+
+
+
+
+### Disable window scrolling with arrow keys
+```javascript
+$(document).on("keydown", function(event) {
+   event.preventDefault();
+   return;
+});
+```
 
 
 
@@ -1510,6 +1542,88 @@ if(this.validMobileNumber(mobile)){
     showError({msg:"Invalid Mobile Number", targetInput:mobileInput});
     return;
 }
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+
+## Validation - Check if a string has White, Blank, Empty Space
+```javascript
+var text = “”;
+if( /\S/.test(text ) == false ){
+     console.log(“please add text”);
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+
+## Validation - Check if a string has only A-Z alphabets
+```javascript
+var text = 'dasd d sdfa 2';
+if ( !/^[a-z A-Z]*$/g.test(text) ) {
+   alert("Invalid characters");
+}
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+
+## Validation - Restrict - Only Alphabate -  Input filed  Using Pattern, Regular Expression
+ for more pattern check this link - http://html5pattern.com/
+```javascript
+$('#infoName').unbind("keypress");
+$('#infoName').bind("keypress", (e) => {
+      $('#infoName').removeClass("errorRed");
+      return /[a-z A-Z]/g.test(e.key);
+ });
+$('#infoName').bind("input chnage", (e) => {
+  var input = $('#infoName');
+  input.val(input.val().replace(/[^a-zA-Z ]/g, ''));
+});
+
+```
+
+
+
+
+<br><br><br>
+
+
+
+
+
+## Validation - Restrict - Only Numbers - Input filed  Using Pattern, Regular Expression
+ for more pattern check this link - http://html5pattern.com/
+```javascript
+$('#mobile').unbind("keypress");
+$('#mobile').bind("keypress", (e) => {
+      $('#mobile').removeClass("errorRed");
+      return /[0-9]/g.test(e.key);
+ });
+$('#mobile').bind("input change", (e) => {
+      var input = $('#mobile');
+      input.val(input.val().replace(/[^0-9]/g, ''));
+      input.val(input.val().replace(/(\..*)\./g, '$1'));
+ });
 ```
 
 
@@ -2038,36 +2152,59 @@ function setupDragDrop() {
 ```javascript
 // Assume "?post=1234&action=edit"
 
-var urlParams = new URLSearchParams(window.location.search);
+//--- M E T H O D  - 1
+//--- work with AES encrypted parameter
+p.getUrlParameterObj = function(){
+    var search = location.search;
+    var urlParams = {};
+    if(search!=""&& search!=undefined){
+        var tempArray = search.split("?")[1].split("&");
+        for (var i = 0; i < tempArray.length; i++) {
+        var tempStr = tempArray[i];
+        var value = tempStr.slice(tempStr.indexOf("=")+1);   
+        var key = tempStr.slice(0, tempStr.indexOf("=")); 
+        urlParams[key] = value;  
+        }
+    }
+    return urlParams;
+}
+var urlParams = this.getUrlParameterObj();
+//-- {post:1234, action:edit}
 
+
+//--- M E T H O D  - 2
+//--- this ES6 code and work on latest browser
+//--- But when AES enctrypted parameter pass its fail
+var urlParams = new URLSearchParams(window.location.search);
 console.log(urlParams.has('post')); // true
 console.log(urlParams.get('action')); // "edit"
 console.log(urlParams.getAll('action')); // ["edit"]
 console.log(urlParams.toString()); // "?post=1234&action=edit"
 console.log(urlParams.append('active', '1')); // "?post=1234&action=edit&active=1"
-```
-URLSearchParams also provides methods like keys(), values(), and entries():
 
-```javascript
+
+//--- URLSearchParams also provides methods like keys(), values(), and entries():
 var keys = urlParams.keys();
 for(key of keys) { 
   console.log(key); 
 }
 // post
 // action
-
 var entries = urlParams.entries();
 for(pair of entries) {
   console.log(pair[0], pair[1]);
 }
-```
-JavaScript Fallback of **URLSearchParams**
-```javascript
+
+
+//--- M E T H O D  - 3
+//--- JavaScript Fallback of URLSearchParams
+//--- this ES6 code and work on latest browser
+//--- But when AES enctrypted parameter pass its fail
 function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+	var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+	var results = regex.exec(location.search);
+	return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 ```
 With the function above, you can get individual parameter values:
@@ -2220,10 +2357,17 @@ window.objLib = window.objLib || {};
 			},
 			//disableDefaultUI: true
 		});
-		this.initZoomControl(this.map);	
+		this.initZoomControl(this.map);
 
-        
-		
+
+        /*
+        //-- Changes the center of the map to the given LatLng.
+        this.map.panTo(marker.getPosition());
+
+
+        */
+
+
 		//--------------------------------------------------------		
 		//---- For Testing Purpose ------------------------------
 		this.hidingDevelopmentMode({start:true});
@@ -2275,8 +2419,72 @@ window.objLib = window.objLib || {};
             map.setZoom(map.getZoom() - 1);
         };
     }
-    //-----------------------------------------------------
-    //-----------------------------------------------------
+
+    p.latLng2Point = function (latLng, map) {
+      //--- Convert LatLng to HTML Point ---
+		var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+		var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+		var scale = Math.pow(2, map.getZoom());
+		var worldPoint = map.getProjection().fromLatLngToPoint(latLng);
+		return new google.maps.Point((worldPoint.x - bottomLeft.x) * scale, (worldPoint.y - topRight.y) * scale);
+   }
+   
+   p.point2LatLng = function (point, map) {
+      var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+      var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+      var scale = Math.pow(2, map.getZoom());
+      var worldPoint = new google.maps.Point(point.x / scale + bottomLeft.x, point.y / scale + topRight.y);
+      return map.getProjection().fromPointToLatLng(worldPoint);
+   }
+
+   p.fitToLatLng = function(prop){
+      //-- Zoom and set Center map as per Makers Position
+      // this.fitToLatLng({markers:MarkerArray, padding:{left:280, top:110, right:300, bottom:50}});
+      var bounds = new google.maps.LatLngBounds();
+      for (var i = 0; i < prop.markers.length; i++) {
+         bounds.extend(prop.markers[i].getPosition());
+      }
+      if(prop.padding==undefined){
+         prop.padding = {left:0, right:0, top:0, bottom:0}
+      }
+      this.map.fitBounds(bounds, prop.padding);
+   }
+   
+   p.addMapOverlay = function(){	
+		var This = this;
+		this.overlayBounds = {
+			north: this.center.lat+ 0.2,
+			south: this.center.lat - 0.2,
+			east: this.center.lng + 0.2,
+			west: this.center.lng - 0.2,
+		};
+		this.mapOverlaySmall = new google.maps.GroundOverlay(
+				This.utils.relativePath+'assets/images/app-image/map-overlay-big.png',
+				this.overlayBounds,
+				{opacity:0}
+			);
+		this.mapOverlaySmall.setMap(this.map);
+		//------------------------------------------------
+		this.addMouseEventOnGround({
+			overlay:this.mapOverlaySmall
+		});
+   }
+
+   p.addMouseEventOnGround = function(prop){
+      var lastOverIndex = null;
+		var This = this;
+		var overlay = prop.overlay;
+		overlay.addListener('mousemove', function (event) {
+			onMouseMove(event);
+		})
+		overlay.addListener('click', function (event) {
+			onMouseMove(event);
+		})
+		overlay.addListener('mouseout', function (event) {
+		})	
+	}
+   //-----------------------------------------------------
+   //-----------------------------------------------------
     objLib.GoogleMap = GoogleMap;
 }());
 //
@@ -2775,7 +2983,7 @@ var options = {
         match: {
             enabled: true,
             method: function (element, phrase) {  
-                if (element.indexOf(phrase)===0) {
+                if (element.indexOf(phrase)>=0) {
                 return true;
                 } else {
                 return false;
@@ -2792,6 +3000,50 @@ var options = {
     theme: "square"
 };
 $("#localityInput").easyAutocomplete(options);
+
+```
+
+
+
+<br><br><br>
+
+
+
+
+## [Owl Carousel 2](https://owlcarousel2.github.io/OwlCarousel2/)
+Touch enabled jQuery plugin that lets you create a beautiful responsive carousel slider<br>
+[Website](https://owlcarousel2.github.io/OwlCarousel2/) | 
+[Documentation](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) | 
+[Demo](https://owlcarousel2.github.io/OwlCarousel2/demos/demos.html)
+
+```javascript
+//  Basic Code
+$('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:5
+        }
+    }
+})
+
+//--- Destory ----------
+//--- https://owlcarousel2.github.io/OwlCarousel2/docs/api-events.html
+$('.owl-carousel').trigger('destroy.owl.carousel'); 
+
+//--- scroll, jump to slide ------------------
+//--- Parameter: [position, speed]
+$('.owl-carousel').trigger('to.owl.carousel', [2, 400]);
+
+
 
 ```
 
