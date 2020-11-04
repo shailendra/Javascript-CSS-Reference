@@ -3005,7 +3005,27 @@ $("#localityInput").easyAutocomplete(options);
 
 
 
+
 <br><br><br>
+
+
+
+
+
+## [model-viewer](https://modelviewer.dev/)
+Easily display interactive 3D models on the web & in AR
+
+[Website](https://modelviewer.dev/) | 
+[Documentation](https://modelviewer.dev/docs/index.html) | 
+[Github](https://github.com/google/model-viewer) 
+[Example](https://modelviewer.dev/examples/loading/index.html)
+
+
+
+
+
+<br><br><br>
+
 
 
 
