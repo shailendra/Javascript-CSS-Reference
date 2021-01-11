@@ -1,5 +1,5 @@
 #### Topic
-- [@media Querr](#media-query)
+- [@media Query](#media-query)
 - [CSS Rule](#css-rule)
 - [Javascript Bug & Solution](#javascript-bug--solution)
 - [jQuery and DOM](#jquery-and-dom)
