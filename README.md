@@ -11,6 +11,7 @@
 - [Google Analytic](#google-analytic)
 - [Ajax, Form, Post, Get](#ajax-form-post-get)
 - [PHP](#php)
+- [Command - Linux, Windows](#command---linux-windows)
 - [Useful Libraries](#useful-libraries)
 - [Coding Reference Sites](#coding-reference-sites)
 
@@ -2923,22 +2924,6 @@ sendToSession({nailShape:"short" userSession:"shailendra"}, callBack);
 
 
 
-
-<br><br><br><br>
-
-
-
-
-
-# Useful Libraries
-
-
-## [SpriteSheet Background Image Animation](https://github.com/shailendra/sprite-sheet-background-image-animation)
-You can play SpriteSheet image animation using background-image css property in div. You can cont
-
-
-
-
 <br><br><br><br>
 
 
@@ -3008,6 +2993,22 @@ pm2 restart projectname
 pm2 delete projectname
 
 ```
+
+
+
+
+<br><br><br><br>
+
+
+
+
+
+# Useful Libraries
+
+
+## [SpriteSheet Background Image Animation](https://github.com/shailendra/sprite-sheet-background-image-animation)
+You can play SpriteSheet image animation using background-image css property in div. You can cont
+
 
 
 
