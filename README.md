@@ -2934,7 +2934,80 @@ sendToSession({nailShape:"short" userSession:"shailendra"}, callBack);
 
 
 ## [SpriteSheet Background Image Animation](https://github.com/shailendra/sprite-sheet-background-image-animation)
-You can play SpriteSheet image animation using background-image css property in div. You can control animation by `Play`, `Pause`, `Restart`, `Reverse`, `Loop`, `Speed`, `gotoAndStop` and `gotoAndPlay`.
+You can play SpriteSheet image animation using background-image css property in div. You can cont
+
+
+
+
+<br><br><br><br>
+
+
+
+
+
+# Command - Linux, Windows
+
+
+### Node.js
+#### Update Node to 10.x v
+```powershell
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
+# Using Ubuntu
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Using Debian, as root
+curl -sL https://deb.nodesource.com/setup_10.x | bash -
+apt-get install -y nodejs
+```
+
+#### Change Root User
+```powershell
+sudo -s
+```
+### Nginx
+#### Edit nginx.conf file
+```powershell
+sudo nano /etc/nginx/nginx.conf
+```
+#### Restart Nginx Server
+```powershell
+sudo service nginx restart
+```
+### Terminal SSH
+#### Connect From Windows Terminal
+```powershell
+ssh username@12.205.77.21 -p 5000
+```
+
+
+### Next.js
+#### Build Project
+Change directory to Project Directory
+```powershell
+npm run build
+```
+
+#### Start Project from PM2
+Change directory to Project Directory. "projectname" is  mension in package.json
+```powershell
+pm2 start npm --name "projectname" -- start
+
+# watch will observer changes in file and restart pm2 again
+pm2 start npm --name "projectname" -- start --watch
+```
+
+#### Stop, Delete and Restart Project from PM
+Change directory to Project Directory
+```powershell
+pm2 stop projectname
+pm2 restart projectname
+pm2 delete projectname
+
+```
 
 
 
