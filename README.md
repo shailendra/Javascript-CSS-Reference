@@ -3247,6 +3247,9 @@ Below are the list of React JS Component List<br>
 - [react-js-pagination](https://github.com/vayser/react-js-pagination)
 - [react-slick](https://github.com/akiran/react-slick)
 - [react-transition-group](https://github.com/reactjs/react-transition-group/tree/v1-stable)
+- [next-secure-headers](https://github.com/jagaapple/next-secure-headers) - userful to prevent clickjacking, refuse to embed site in iFrame
+
+
 
 
 
