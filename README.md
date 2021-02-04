@@ -1367,6 +1367,42 @@ array = shuffleToArray(array);
 
 
 
+### Close Degree
+Rotate circle clockwise or anti-clockwise according to close to point/close degree.
+```javascript
+function getCloseDegree(prop) {
+	var currentDegree = prop.currentDegree;
+	var targetDegree = prop.targetDegree;
+	var tempDegree = ((currentDegree % 360) + 360) % 360
+	var degDif = ((targetDegree - tempDegree) + 360) % 360;
+	if (degDif > 180) {
+		return -((360 - degDif) % 360);
+	} else {
+		return ((degDif) % 360);
+	}
+}
+var currentDegree = 600;
+var targetDegree = 45;
+currentDegree += getCloseDegree({
+  currentDegree: currentDegree,
+  targetDegree: targetDegree
+})
+TweenMax.to(".circle", { 
+  rotation: currentDegree, 
+  ease: Cubic.easeInOut, 
+  duration: 1.5 
+  }
+);
+```
+
+
+
+
+<br><br><br>
+
+
+
+
 ### Deep copy of Object,  Clone, Duplicate
 Using `JSON.parse(JSON.stringify(object));` you can Deep Copy/Duplicate objects.<br>
 In below code,  newObj.b has a copy and not a reference! . 
@@ -1656,6 +1692,29 @@ $('#mobile').bind("input change", (e) => {
 
 
 
+## Validation - Restrict - Except < > \ /
+ for more pattern check this link - http://html5pattern.com/
+```javascript
+$('#msgInput').unbind("keypress");
+$('#msgInput').bind("keypress", (e) => {
+      $('#msgInput').removeClass("errorRed");
+      return /[^/\\<>]/g.test(e.key);
+ });
+$('#msgInput').bind("input chnage", (e) => {
+  var input = $('#msgInput');
+  input.val(input.val().replace(/[/[/\\<>]/g, ''));
+});
+
+```
+
+
+
+<br><br><br>
+
+
+
+
+
 ## Color Code
 ```javascript
 //----- Convert Color RGB To Hex -----------
@@ -1784,6 +1843,117 @@ window.addEventListener('online', function(e) { console.log('online'); });
 
 
 # Javascript Useful Code
+
+### Circular Clock or Dial Rotate According to Button's Degree Position.
+```javascript
+var isMouseMove = false;
+var dial = $('.dialer-quality');
+dial.find("*").bind('selectstart dragstart', function (evt) {
+  evt.preventDefault(); return false;
+});
+function getCloseDegree(prop) {
+  var currentDegree = prop.currentDegree;
+  var targetDegree = prop.targetDegree;
+  var tempDegree = ((currentDegree % 360) + 360) % 360
+  var degDif = ((targetDegree - tempDegree) + 360) % 360;
+  if (degDif > 180) {
+    return -((360 - degDif) % 360);
+  } else {
+    return ((degDif) % 360);
+  }
+}
+var currentDegree = 0;
+var degreeArray = [0, 309, 255, 158, 58];
+colorOption = dial.find("ul li a");
+colorOption.each(function (index, rel) {
+  var targetDegree = degreeArray[index];
+  var ele = $(this);
+  var herf = ele.attr("href");
+  ele.bind("click", function (e) {
+    e.preventDefault();
+    if (isMouseMove) {
+      return;
+    }
+    currentDegree += getCloseDegree({
+      currentDegree: currentDegree,
+      targetDegree: targetDegree
+    })
+    TweenMax.to(dial, { 
+      rotation: currentDegree, 
+      ease: Cubic.easeInOut,
+      duration: 0.9 
+    });
+  })
+})
+//-------------------------------------------------------
+var radius;
+var center_x;
+var center_y;
+function onResize() {
+  radius = dial.outerWidth() / 2;
+  center_x = dial.offset().left + radius;
+  center_y = dial.offset().top + radius;
+}
+$(window).bind("resize", onResize)
+onResize();
+function get_degrees(mouse_x, mouse_y) {
+  var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+  var degrees = Math.round((radians * (180 / Math.PI) * -1) + 100);
+  return degrees;
+}
+function triggerCloseDegreeBtn() {
+  var tempLongDegree = 360;
+  var eleToTrigger;
+  colorOption.each(function (index, rel) {
+    var targetDegree = degreeArray[index];
+    var ele = $(this);
+    var closeDegree = Math.abs(getCloseDegree({
+      currentDegree: currentDegree,
+      targetDegree: targetDegree
+    }))
+    if(closeDegree<=tempLongDegree){
+      tempLongDegree = closeDegree;
+      eleToTrigger = ele;
+    }
+  })
+  eleToTrigger.trigger("click")
+}
+dial.on('mousedown', function (event) {
+  var downDialDegree = currentDegree;
+  var downMouseDegree = get_degrees(event.pageX, event.pageY);
+  var moveCount = 0;
+  function onMouseMove(event) {
+    moveCount++;
+    if(moveCount>2){				
+      isMouseMove = true;
+    }
+    var degrees = get_degrees(event.pageX, event.pageY) - downMouseDegree;
+    currentDegree = downDialDegree + degrees;
+    TweenMax.set(dial, { rotation: currentDegree });
+  }
+  function onMouseUp() {
+    $(document).unbind('mousemove', onMouseMove);
+    $(document).unbind('mouseup', onMouseUp);
+    if (isMouseMove) {
+      setTimeout(function () {
+        isMouseMove = false;
+        triggerCloseDegreeBtn();
+      }, 100)
+    }
+
+  }
+  $(document).bind('mousemove', onMouseMove);
+  $(document).bind('mouseup', onMouseUp);
+});
+```
+
+
+
+
+<br><br><br>
+
+
+
 
 ### 00:00:00  - Timer for Game, Countdown, Clock
 ```javascript
@@ -3182,6 +3352,36 @@ Easily display interactive 3D models on the web & in AR
 
 
 
+## [Handlebars](https://handlebarsjs.com/)
+Handlebars is a simple templating language.
+
+It uses a template and an input object to generate HTML or other text formats. Handlebars templates look like regular text with embedded Handlebars expressions.
+
+[Website](https://handlebarsjs.com/) | 
+[Documentation](https://handlebarsjs.com/installation/) | 
+[Github](https://github.com/handlebars-lang/handlebars.js) | 
+
+```html
+<!-- HTML -->
+<p>{{firstname}} {{lastname}}</p>
+```
+```javascript
+// javascript
+{
+  firstname: "Yehuda",
+  lastname: "Katz",
+}
+```
+
+
+
+
+
+<br><br><br>
+
+
+
+
 
 ## [Owl Carousel 2](https://owlcarousel2.github.io/OwlCarousel2/)
 Touch enabled jQuery plugin that lets you create a beautiful responsive carousel slider<br>
@@ -3231,7 +3431,7 @@ $('.owl-carousel').trigger('to.owl.carousel', [2, 400]);
 I have created hack to speak `Gmail` and `Hangout` text.
 
 
----
+
 
 
 <br><br><br>
@@ -3240,7 +3440,7 @@ I have created hack to speak `Gmail` and `Hangout` text.
 
 ## [next-secure-headers](https://github.com/jagaapple/next-secure-headers)
 #### Sets secure response headers for Next.js.
-userful to prevent clickjacking, refuse to embed site in iFrame
+userful to prevent clickjacking attach, execute external script, refuse to embed site in iFrame, 
 ```javascript
 // Sample Cdoe
 const { createSecureHeaders } = require("next-secure-headers");
@@ -3248,6 +3448,7 @@ module.exports = {
    ...
    ...
    //https://github.com/jagaapple/next-secure-headers
+   poweredByHeader: false,
    async headers() {
       return [{
          source: "/(.*)", headers: createSecureHeaders({
@@ -3292,5 +3493,7 @@ Below are the list of React JS Component List<br>
 https://www.cssscript.com/
 <br>
 https://bestofjs.org/
+<br>
+https://www.javascripting.com/
 
 
