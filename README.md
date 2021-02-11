@@ -1849,101 +1849,132 @@ window.addEventListener('online', function(e) { console.log('online'); });
 var isMouseMove = false;
 var dial = $('.dialer-quality');
 dial.find("*").bind('selectstart dragstart', function (evt) {
-  evt.preventDefault(); return false;
+    evt.preventDefault(); return false;
 });
+
+var radius;
+var center_x;
+var center_y;
+var mobileDegreePlus = 0;
+function onResize() {
+    if($(window).outerWidth()<1024){
+        mobileDegreePlus = 90;
+    }else{
+        mobileDegreePlus = 0;
+    }
+    radius = dial.outerWidth() / 2;
+    center_x = dial.offset().left + radius;
+    center_y = dial.offset().top + radius;
+    TweenMax.set(dial, { rotation: currentDegree+mobileDegreePlus });
+}
+$(window).bind("resize", onResize)
+onResize();
 function getCloseDegree(prop) {
-  var currentDegree = prop.currentDegree;
-  var targetDegree = prop.targetDegree;
-  var tempDegree = ((currentDegree % 360) + 360) % 360
-  var degDif = ((targetDegree - tempDegree) + 360) % 360;
-  if (degDif > 180) {
-    return -((360 - degDif) % 360);
-  } else {
-    return ((degDif) % 360);
-  }
+    var currentDegree = prop.currentDegree;
+    var targetDegree = prop.targetDegree;
+    var tempDegree = ((currentDegree % 360) + 360) % 360
+    var degDif = ((targetDegree - tempDegree) + 360) % 360;
+    if (degDif > 180) {
+        return -((360 - degDif) % 360);
+    } else {
+        return ((degDif) % 360);
+    }
 }
 var currentDegree = 0;
 var degreeArray = [0, 309, 255, 158, 58];
 colorOption = dial.find("ul li a");
 colorOption.each(function (index, rel) {
-  var targetDegree = degreeArray[index];
-  var ele = $(this);
-  var herf = ele.attr("href");
-  ele.bind("click", function (e) {
-    e.preventDefault();
-    if (isMouseMove) {
-      return;
-    }
-    currentDegree += getCloseDegree({
-      currentDegree: currentDegree,
-      targetDegree: targetDegree
-    })
-    TweenMax.to(dial, { 
-      rotation: currentDegree, 
-      ease: Cubic.easeInOut,
-      duration: 0.9 
-    });
-  })
-})
-//-------------------------------------------------------
-var radius;
-var center_x;
-var center_y;
-function onResize() {
-  radius = dial.outerWidth() / 2;
-  center_x = dial.offset().left + radius;
-  center_y = dial.offset().top + radius;
-}
-$(window).bind("resize", onResize)
-onResize();
-function get_degrees(mouse_x, mouse_y) {
-  var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
-  var degrees = Math.round((radians * (180 / Math.PI) * -1) + 100);
-  return degrees;
-}
-function triggerCloseDegreeBtn() {
-  var tempLongDegree = 360;
-  var eleToTrigger;
-  colorOption.each(function (index, rel) {
     var targetDegree = degreeArray[index];
     var ele = $(this);
-    var closeDegree = Math.abs(getCloseDegree({
-      currentDegree: currentDegree,
-      targetDegree: targetDegree
-    }))
-    if(closeDegree<=tempLongDegree){
-      tempLongDegree = closeDegree;
-      eleToTrigger = ele;
-    }
-  })
-  eleToTrigger.trigger("click")
-}
-dial.on('mousedown', function (event) {
-  var downDialDegree = currentDegree;
-  var downMouseDegree = get_degrees(event.pageX, event.pageY);
-  var moveCount = 0;
-  function onMouseMove(event) {
-    moveCount++;
-    if(moveCount>2){				
-      isMouseMove = true;
-    }
-    var degrees = get_degrees(event.pageX, event.pageY) - downMouseDegree;
-    currentDegree = downDialDegree + degrees;
-    TweenMax.set(dial, { rotation: currentDegree });
-  }
-  function onMouseUp() {
-    $(document).unbind('mousemove', onMouseMove);
-    $(document).unbind('mouseup', onMouseUp);
-    if (isMouseMove) {
-      setTimeout(function () {
-        isMouseMove = false;
-        triggerCloseDegreeBtn();
-      }, 100)
-    }
+    var herf = ele.attr("href");
+    ele.bind("click touchend", function (e) {
+        if(e && e.preventDefault){				
+            e.preventDefault();
+        }
+        if (isMouseMove) {
+            return;
+        }
+        currentDegree += getCloseDegree({
+            currentDegree: currentDegree,
+            targetDegree: targetDegree
+        })
+        TweenMax.to(dial, { rotation: currentDegree+mobileDegreePlus, ease: Cubic.easeInOut, duration: 0.9 });
+        //-----------------------------
+        $(".quality-content").stop().fadeOut(600, function () {
+            $(".quality-content").addClass("hide");
+            $(herf).removeClass("hide");
+            $(herf).stop().fadeIn(600);
+        });
+        //----------------------------
+    })
+})
 
-  }
-  $(document).bind('mousemove', onMouseMove);
-  $(document).bind('mouseup', onMouseUp);
+$(colorOption[0]).trigger("click")
+$(colorOption[0]).trigger("touchend")
+//-------------------------------------------------------
+function get_degrees(mouse_x, mouse_y) {
+    var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+    var degrees = Math.round((radians * (180 / Math.PI) * -1) + 100);
+    return degrees;
+}
+function triggerCloseDegreeBtn() {
+    var tempLongDegree = 360;
+    var eleToTrigger;
+    colorOption.each(function (index, rel) {
+        var targetDegree = degreeArray[index];
+        var ele = $(this);
+        var closeDegree = Math.abs(getCloseDegree({
+            currentDegree: currentDegree,
+            targetDegree: targetDegree
+        }))
+        if(closeDegree<=tempLongDegree){
+            tempLongDegree = closeDegree;
+            eleToTrigger = ele;
+        }
+    })
+    eleToTrigger.trigger("click")
+    eleToTrigger.trigger("touchend")
+}
+dial.on('mousedown touchstart', function (event) {
+    var downDialDegree = currentDegree;
+    
+    var pageX = event.pageX;
+    var pageY = event.pageY;
+    if(pageX==undefined){
+        pageX = event.touches[0].pageX;
+        pageY = event.touches[0].pageY;
+    }
+    var downMouseDegree = get_degrees(pageX, pageY);
+    var moveCount = 0;
+    event.preventDefault();
+    function onMouseMove(event) {
+        moveCount++;
+        if(moveCount>2){				
+            isMouseMove = true;
+        }
+        var pageX = event.pageX;
+        var pageY = event.pageY;
+        if(pageX==undefined){
+            pageX = event.touches[0].pageX;
+            pageY = event.touches[0].pageY;
+        }
+        var degrees = (get_degrees(pageX, pageY) - downMouseDegree);
+        currentDegree = downDialDegree + degrees;
+        TweenMax.set(dial, { rotation: currentDegree+mobileDegreePlus });
+    }
+    function onMouseUp() {
+        $(document).unbind('mousemove touchmove', onMouseMove);
+        $(document).unbind('mouseup touchend', onMouseUp);
+        if (isMouseMove) {
+            setTimeout(function () {
+                isMouseMove = false;
+                triggerCloseDegreeBtn();
+            }, 100)
+        }
+
+    }
+    $(document).bind('mousemove touchmove', onMouseMove);
+    $(document).bind('mouseup touchend', onMouseUp);
 });
 ```
 
@@ -2162,6 +2193,62 @@ $('.video_play').magnificPopup({
         srcAction: 'iframe_src',
     }
 });
+```
+
+
+
+<br><br><br>
+
+
+
+
+### Single Section/Div Scroll on Mouse Wheel when html and body height is auto.
+you must include  `jquery.mousewheel.min.js`  in page
+```javascript
+var isScrolling = false;
+function getNextSection(prop){        
+    var array = $(".screenForParallex");
+    var bodyScrollTop = $("body, html").scrollTop();
+    for (var index = 0; index < array.length; index++) {
+      var elem = array[index];
+      var dif = $(elem).offset().top-bodyScrollTop;
+      if (prop.delta > 0) {
+          if(dif>=0){
+            return $(array[index-1]);
+          }
+      }else{
+          if(dif>=5){
+            return $(array[index]);
+          }
+      }
+    }
+    return null;
+}
+$('.screenForParallex').on('mousewheel', function (event) {
+    if ($(window).outerWidth() <= 1023) {
+      return;
+    }
+    var nextEle = getNextSection({delta:event.deltaY});
+    if(nextEle!=null){            
+      event.preventDefault()
+    }
+    if (isScrolling == false) {
+      if(nextEle == null || nextEle.length<=0){
+          return;
+      }
+      isScrolling = true;
+      $("body, html").stop().animate({
+          scrollTop: nextEle.offset().top 
+      },
+          1000,
+          /* 'swing', */
+          function () {
+            isScrolling = false;
+          }
+      );
+    }
+});
+
 ```
 
 
@@ -2498,18 +2585,17 @@ if(window.history && history.replaceState){
 ### Get Absolute Path 
 ```javascript
 p.getRelativePath = function(BackLevel){
-  if (BackLevel==undefined || BackLevel==null) {
-    BackLevel=0;
+  if (backLevel == undefined || backLevel == null) {
+      backLevel = 0;
   }
-  var TempVar = "\j";
-  var UrlString= unescape(window.location.href);
+  var urlString =  window.location.origin+ window.location.pathname;
   //
-  var TempUrlArray = UrlString.split("/");
-  for (var i = 0; i < BackLevel; i++) {
-      TempUrlArray.pop();
-   }
-  var RalativePath = TempUrlArray.join("/")+"/";
-  return RalativePath;
+  var tempUrlArray = urlString.split("/");
+  for (var i = -1; i < backLevel; i++) {
+      tempUrlArray.pop();
+  }
+  var relativePath = tempUrlArray.join("/") + "/";
+  return relativePath;
 };
 //----------------------------------------------
 var relativePath = this.getRelativePath(0);
@@ -3346,7 +3432,6 @@ Easily display interactive 3D models on the web & in AR
 
 
 
-
 <br><br><br>
 
 
@@ -3372,6 +3457,24 @@ It uses a template and an input object to generate HTML or other text formats. H
   lastname: "Katz",
 }
 ```
+
+
+
+
+
+<br><br><br>
+
+
+
+
+## [GoQR](http://goqr.me/)
+QR code generator
+
+[Website](http://goqr.me/) | 
+[QR Code API](http://goqr.me/api/)
+
+
+Call the URL https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.bcwebwise.com to get a QR code with the content 
 
 
 
@@ -3432,40 +3535,6 @@ I have created hack to speak `Gmail` and `Hangout` text.
 
 
 
-
-
-<br><br><br>
-
-
-
-## [next-secure-headers](https://github.com/jagaapple/next-secure-headers)
-#### Sets secure response headers for Next.js.
-userful to prevent clickjacking attach, execute external script, refuse to embed site in iFrame, 
-```javascript
-// Sample Cdoe
-const { createSecureHeaders } = require("next-secure-headers");
-module.exports = {   
-   ...
-   ...
-   //https://github.com/jagaapple/next-secure-headers
-   poweredByHeader: false,
-   async headers() {
-      return [{
-         source: "/(.*)", headers: createSecureHeaders({
-            contentSecurityPolicy: {
-               directives: {
-                  scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google-analytics.com", "https://www.googletagmanager.com"]
-               },
-            },
-            xssProtection:"block-rendering"
-         })
-      }];
-   },   
-   ...
-   ...
-};
-
-```
 
 
 <br><br><br>
