@@ -832,6 +832,31 @@ document.addEventListener('touchmove', function (event) {
 <br><br><br>
 
 
+### load file from S3 bucket and Set CORS, Allow Cross Domain.
+[https://s3browser.com/s3-bucket-cors-configuration.aspx](https://s3browser.com/s3-bucket-cors-configuration.aspx)
+
+```html
+Steps
+1. Open S3 Browser
+
+2. Click Buckets -> CORS Configuration...
+
+3. CORS Configuration Editor will open, then add below code
+<CORSConfiguration>
+ <CORSRule>
+   <AllowedOrigin>*</AllowedOrigin>
+   <AllowedMethod>GET</AllowedMethod>
+ </CORSRule>
+</CORSConfiguration>
+
+4. click the Apply button
+
+```
+
+
+<br><br><br>
+
+
 
 
 ### Disable Long Press
@@ -2584,7 +2609,7 @@ if(window.history && history.replaceState){
 
 ### Get Absolute Path 
 ```javascript
-p.getRelativePath = function(BackLevel){
+p.getRelativePath = function(backLevel){
   if (backLevel == undefined || backLevel == null) {
       backLevel = 0;
   }
@@ -3564,5 +3589,7 @@ https://www.cssscript.com/
 https://bestofjs.org/
 <br>
 https://www.javascripting.com/
+<br>
+http://youmightnotneedjquery.com/
 
 
