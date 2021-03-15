@@ -14,6 +14,8 @@
 - [Command - Linux, Windows](#command---linux-windows)
 - [Useful Libraries](#useful-libraries)
 - [Coding Reference Sites](#coding-reference-sites)
+- [Coding Blogs](#Coding-Blogs)
+
 
 <br><br><br>
 
@@ -1362,6 +1364,20 @@ isMobile.any = function() {
 ```
 
 
+
+
+### Chrome Dev Browser - Call From Different Server
+call different server file give security Error, so run below line from command prompt, then you will able to call file from localhost to another server, 'access-control-allow-origin' header request.
+https://alfilatov.com/posts/run-chrome-without-cors/
+```javascript
+/*  On Window  */
+cd C:\Program Files (x86)\Google\Chrome\Application
+
+chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
+
+/*   On Mac  */
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
+```
 
 <br><br><br>
 
@@ -3321,6 +3337,47 @@ confetti.isRunning()
 
 
 
+<br><br><br>
+
+
+
+
+## [JS-Cookie](https://github.com/js-cookie/js-cookie)
+A simple, lightweight JavaScript API for handling cookies.<br>
+
+```javascript
+window.objLib = window.objLib || {};
+(function () {
+    var CookieJS = function () {
+        this.initialize();
+    };
+    var p = CookieJS.prototype
+    p.initialize = function () {
+    };
+    p.getCookie = function() {
+        var encryptedStr = Cookies.get('_l');
+        if(encryptedStr==undefined){            
+            return {};
+        }
+        var decryptedStr = this.backend.cryptoDecrypt({str:encryptedStr});
+        if(decryptedStr=="" || decryptedStr==undefined || decryptedStr==null){
+            return {};
+        }
+        var obj = JSON.parse(decryptedStr);
+        return obj;
+    }
+    p.setCookie = function(prop){
+        this.cookiePath = "/";
+        this.cookieDomain = window.location.hostname;
+        var encryptedStr = this.backend.cryptoEncrypt({str:JSON.stringify(prop.obj)});
+        //Cookies.set('_l', encryptedStr, { expires: 360, path: this.cookiePath, domain:this.cookieDomain});
+        Cookies.set('_l', encryptedStr, {path: this.cookiePath, domain:this.cookieDomain});
+    }
+    objLib.CookieJS = CookieJS;
+}());
+
+```
+
 
 <br><br><br>
 
@@ -3453,7 +3510,9 @@ Easily display interactive 3D models on the web & in AR
 [Documentation](https://modelviewer.dev/docs/index.html) | 
 [Github](https://github.com/google/model-viewer) | 
 [Example](https://modelviewer.dev/examples/loading/index.html)
-
+<br><br>
+Test GLB 3d Model in Model-Viewer<br>
+[https://model-viewer-tester.glitch.me/](https://model-viewer-tester.glitch.me/)
 
 
 
@@ -3559,10 +3618,86 @@ $('.owl-carousel').trigger('to.owl.carousel', [2, 400]);
 I have created hack to speak `Gmail` and `Hangout` text.
 
 
+<br><br><br>
+
+
+
+
+## [Tilt.js](https://gijsroge.github.io/tilt.js/)
+Tilt.js create a 3D  Parallax/Tilt effect easily with literally just 1 line of code.
+
+[Website](https://gijsroge.github.io/tilt.js/) | 
+[Github](https://github.com/gijsroge/tilt.js) | 
+[redstapler](https://redstapler.co/tilt-js-parallax-tutorial/)
 
 
 
 <br><br><br>
+
+
+
+## [Cubic-Bezier CSS Generator](https://cubic-bezier.com/)
+Generate CSS ease Bezier Curve online. 
+```css
+/* Geneerate below code */
+cubic-bezier(.17,.67,.82,.55)
+/* And can using as below */
+animation: y-axis 1s infinite cubic-bezier(.73,0,.33,1);
+```
+
+
+<br><br><br>
+
+
+
+## [Tesseract.js](https://tesseract.projectnaptha.com/)
+This library supports more than 100 languages, automatic text orientation and script detection, a simple interface for reading paragraph, word, and character bounding boxes. Tesseract.js can run either in a browser and on a server with NodeJS.
+
+[Website](https://tesseract.projectnaptha.com/) | 
+[Github](https://github.com/naptha/tesseract.js) 
+
+
+<br><br><br>
+
+
+
+## [NippleJS](https://github.com/yoannmoinet/nipplejs)
+A vanilla virtual game joystick for touch capable interfaces.
+
+[Github](https://github.com/yoannmoinet/nipplejs) |  [Demo](https://yoannmoi.net/nipplejs/#demo) 
+
+
+
+<br><br><br>
+
+
+
+## [Intro.js](https://introjs.com/)
+Intro.js is a lightweight library for creating step-by-step customer onboarding.
+
+[Website](https://introjs.com/) |[Github](https://github.com/usablica/intro.js) |  [Documentation](https://introjs.com/docs) 
+
+
+
+<br><br><br>
+
+
+
+## [PopperJS - ToolTip](https://popper.js.org/)
+Tooltip & Popover positioning engine.
+
+[Website](https://popper.js.org/) | 
+[Github](https://github.com/popperjs/popper-core)
+
+
+
+
+
+
+<br><br><br>
+
+
+
 
 
 
@@ -3591,5 +3726,15 @@ https://bestofjs.org/
 https://www.javascripting.com/
 <br>
 http://youmightnotneedjquery.com/
+<br>
 
 
+
+
+
+<br><br><br><br>
+
+
+# Coding Blogs
+
+[Understanding Z-Index in CSS](https://ishadeed.com/article/understanding-z-index/)
