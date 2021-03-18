@@ -14,6 +14,7 @@
 - [Command - Linux, Windows](#command---linux-windows)
 - [Useful Libraries](#useful-libraries)
 - [Coding Reference Sites](#coding-reference-sites)
+- [Useful Links](#Useful-Links)
 - [Coding Blogs](#Coding-Blogs)
 
 
@@ -3719,17 +3720,20 @@ Below are the list of React JS Component List<br>
 <br><br><br><br>
 
 # Coding Reference Sites
-https://www.cssscript.com/
-<br>
-https://bestofjs.org/
-<br>
-https://www.javascripting.com/
-<br>
-http://youmightnotneedjquery.com/
-<br>
+- https://www.cssscript.com/
+- https://bestofjs.org/
+- https://www.javascripting.com/
+- http://youmightnotneedjquery.com/
 
 
 
+<br><br><br><br>
+
+# Useful Links
+- MIME Type, Media Type file extension list 
+https://www.iana.org/assignments/media-types/media-types.txt
+- Game Reference
+https://github.com/leereilly/games
 
 
 <br><br><br><br>
@@ -3737,4 +3741,4 @@ http://youmightnotneedjquery.com/
 
 # Coding Blogs
 
-[Understanding Z-Index in CSS](https://ishadeed.com/article/understanding-z-index/)
+- [Understanding Z-Index in CSS](https://ishadeed.com/article/understanding-z-index/)
