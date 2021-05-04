@@ -2,7 +2,7 @@
 - [@media Query](#media-query)
 - [CSS Rule](#css-rule)
 - [Javascript Bug & Solution](#javascript-bug--solution)
-- [jQuery and DOM](#jquery-and-dom)
+- [jQuery DOM HTML and Meta Tags](#jQuery-DOM-HTML-and-Meta-Tags)
 - [Javascript Utility Code](#javascript-utility-code)
 - [Javascript Useful Code](#javascript-useful-code)
 - [Location, Query](#location-query)
@@ -1051,7 +1051,141 @@ eg.  ' /work/heromotocorp/ '  remove slash  ' /work/heromotocorp '
 ---
 <br><br><br><br><br><br>
 
-# jQuery and DOM
+# jQuery DOM HTML and Meta Tags
+
+## [Content Security Policy](https://developers.google.com/web/fundamentals/security/csp)
+Below are links to validate Header
+- [https://csp-evaluator.withgoogle.com/](https://link)
+- [https://securityheaders.com/](https://link)
+
+The issue exploited by XSS attacks is the browser's inability to distinguish between script that's part of your application and script that's been maliciously injected by a third-party. 
+Instead of blindly trusting everything that a server delivers, CSP defines the Content-Security-Policy HTTP header, which allows you to create an allowlist of sources of trusted content, and instructs the browser to only execute or render resources from those sources. Even if an attacker can find a hole through which to inject script, the script won't match the allowlist, and therefore won't be executed.
+
+Since we trust apis.google.com to deliver valid code, and we trust ourselves to do the same, let's define a policy that only allows script to execute when it comes from one of those two sources:
+```html
+<meta http-equiv="Content-Security-Policy" 
+content="script-src 'self' https://apis.google.com;">
+```
+With this policy defined, the browser simply throws an error instead of loading script from any other source. When a clever attacker manages to inject code into your site, they'll run headlong into an error message rather than the success they were expecting.
+
+![cps error](images/csp-error.png)
+
+
+Below CSP is used in Google Map Web Application
+```html
+<meta http-equiv="Content-Security-Policy" content="
+default-src 'self'; 
+img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com *.ggpht; 
+script-src 'self' 'nonce-Xiojd98akdijudhyk5i29Uijwdu'; 
+style-src 'self' https://fonts.googleapis.com https://maps.googleapis.com/ https://maps.googleapis.com/maps-api-v3/api/js/44/11a/; 
+font-src 'self' https://fonts.gstatic.com https://fonts.gstatic.com; 
+object-src 'none'; 
+base-uri 'none';">
+```
+
+**The source list also accepts four keywords:**
+- **'none'**, as you might expect, matches nothing.
+- **'self'** matches the current origin, but not its subdomains.
+- **'unsafe-inline'** allows inline JavaScript and CSS. (We'll touch on this in more detail in a bit.)
+- **'unsafe-eval'** allows text-to-JavaScript mechanisms like eval.
+
+These keywords require single-quotes. For example, script-src 'self' (with quotes).<br><br>
+
+
+**Let's quickly walk through the resource directives**
+- **default-src** <br>
+This applies to any directive that ends with -src. If default-src is set to <span style="color:blue; font-weight:bold;">'self' https://example.com</span> and you fail to specify a font-src directive, then you can load fonts from https://example.com, and nowhere else.
+
+- **img-src** <br>defines the origins from which images can be loaded.
+
+- **script-src**
+```html
+<meta 
+http-equiv="Content-Security-Policy" 
+content="script-src 'self' https://example.com 'nonce-Xiojd98akdijudhyk5i29Uijwdu';"
+>
+```
+1. **'self'** script will load from current origin, but not its subdomains<br>
+2. **https://example.com** - allow to load script only from https://example.com
+3. if we need to load script from maps.googleapis.com which is not specified in script-src then using 'nonce' you can load and execute script. check below example
+```html
+<script src="https://maps.googleapis.com/maps/api/js?key=xyz"  nonce="Xiojd98akdijudhyk5i29Uijwdu" defer>
+```
+4. In script-src 'unsafe-inline' not specified then inline script will not execute. To execute inline script, give your script tag a nonce attribute. Its value must match with script-src, check below example
+```html
+<script nonce="Xiojd98akdijudhyk5i29Uijwdu">
+  // Some inline code I can't remove yet, but need to asap.
+</script>
+```
+5. In script-src 'unsafe-inline' not specified then inline script which is added in href attribute also not execute
+```html
+Throw Error
+<a href="javascript:void(0)">Fast Food</a>
+
+Solution
+<a href="#">Fast Food</a>
+<a href="javascript:void(0)" nonce="Xiojd98akdijudhyk5i29Uijwdu">Fast Food</a>
+```
+Remember that nonces must be regenerated for every page request and they must be unguessable.
+
+
+
+- **style-src**
+```html
+<meta 
+http-equiv="Content-Security-Policy" 
+content="style-src 'self' https://example.com 'nonce-Xiojd98akdijudhyk5i29Uijwdu';"
+>
+```
+1. **'self'** css will load from current origin, but not its subdomains<br>
+2. **https://example.com** - allow to load css only from https://example.com
+3. if we need to load css from maps.googleapis.com which is not specified in style-src then using 'nonce' you can load css. check below example
+```html
+<link rel="stylesheet"  href="https://maps.googleapis.com/maps/style.css"  nonce="Xiojd98akdijudhyk5i29Uijwdu">
+```
+4. In style-src 'unsafe-inline' not specified then inline script will not execute. To apply inline style, give your html element tag a nonce attribute. Its value must match with style-src, check below example
+```html
+<div nonce="Xiojd98akdijudhyk5i29Uijwdu" style="position:absolute;"></div>
+```
+5. In style-src 'unsafe-inline' not specified then also give error when trying to add html element with style attribute using javascript. check below example ans solution.
+```javascript
+// Throw Error
+item.find(".res-thumb").append("<img class='newResThumb' style='position:absolute; top:0;' src=''/>");
+
+// Solution
+item.find(".res-thumb").append("<img class='newResThumb' src=''/>");
+item.find(".res-thumb .newResThumb").css({position:'absolute', top:0})
+```
+Remember that nonces must be regenerated for every page request and they must be unguessable.
+
+
+- **font-src**
+```html
+<meta 
+http-equiv="Content-Security-Policy" 
+content="font-src 'self' https://fonts.gstatic.com"
+>
+```
+1. **'self'** font will load from current origin, but not its subdomains<br>
+2. **https://fonts.gstatic.com** - allow to load from only from https://fonts.gstatic.com
+<br>
+
+- **object-src** <br>allows control over Flash and other plugins.
+plugin-types limits the kinds of plugins a page may invoke.
+
+- **base-uri** <br>restricts the URLs that can appear in a page's **&lt;base&gt;** element.
+
+[click for more directives](https://developers.google.com/web/fundamentals/security/csp#policy_applies_to_a_wide_variety_of_resources)
+
+
+
+
+
+
+<br><br><br>
+
+
+
 ### MouseLeave, MouseEnter,  leave, out of the screen page
 ```javascript
 $("body").mouseleave(function() {
@@ -3692,6 +3826,17 @@ Tooltip & Popover positioning engine.
 
 
 
+<br><br><br>
+
+
+
+## [Cytoscape.js](https://js.cytoscape.org/)
+Graph theory (network) library for visualisation and analysis. Graph, Chart
+
+[Website](https://js.cytoscape.org/)
+
+
+
 
 
 
@@ -3730,10 +3875,9 @@ Below are the list of React JS Component List<br>
 <br><br><br><br>
 
 # Useful Links
-- MIME Type, Media Type file extension list 
-https://www.iana.org/assignments/media-types/media-types.txt
-- Game Reference
-https://github.com/leereilly/games
+- MIME Type, Media Type file extension list <br>https://www.iana.org/assignments/media-types/media-types.txt
+- Game Reference <br>https://github.com/leereilly/games
+- Add Local Business SEO information in page for Google Search or Maps <br>https://developers.google.com/search/docs/data-types/local-business
 
 
 <br><br><br><br>
