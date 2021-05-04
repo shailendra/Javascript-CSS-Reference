@@ -817,7 +817,7 @@ Your browser does not support the video tag.
 
 # JAVASCRIPT Bug & Solution
 
-### Disable Double Tap Zoom and Pinch Zoom
+## Disable Double Tap Zoom and Pinch Zoom
 ```javascript
 //--- Add Click Event, It will stop zoom on Double Click
 $('body').on('click', function(){});
@@ -835,7 +835,7 @@ document.addEventListener('touchmove', function (event) {
 <br><br><br>
 
 
-### load file from S3 bucket and Set CORS, Allow Cross Domain.
+## load file from S3 bucket and Set CORS, Allow Cross Domain.
 [https://s3browser.com/s3-bucket-cors-configuration.aspx](https://s3browser.com/s3-bucket-cors-configuration.aspx)
 
 ```html
@@ -862,7 +862,7 @@ Steps
 
 
 
-### Disable Long Press
+## Disable Long Press
 Disabling the context menu on long taps
 ```javascript
 window.oncontextmenu = function(event) {
@@ -879,7 +879,7 @@ window.oncontextmenu = function(event) {
 
 
 
-### Disable Copy, Paste, Cut action in Input
+## Disable Copy, Paste, Cut action in Input
 ```javascript
 $('.tax_text_box').bind('cut copy paste', function (e) {
         e.preventDefault();
@@ -894,7 +894,7 @@ $('.tax_text_box').bind('cut copy paste', function (e) {
 
 
 
-### Detect keyboard/keypad show/hide event in jquery for mobile web application open/close
+## Detect keyboard/keypad show/hide event in jquery for mobile web application open/close
 ```javascript
 var _originalSize = $(window).width() + $(window).height();
 $(window).resize(function(){
@@ -913,7 +913,7 @@ $(window).resize(function(){
 
 
 
-### Firefox Cache issue bugs
+## Firefox Cache issue bugs
 Firefox 1.5 uses in-memory caching for entire Web pages, including their JavaScript states, for a single browser session.
 when you use back next button page does not call Jquery load and ready function.
 to overcome this issue. use unload function on page
@@ -932,7 +932,7 @@ https://developer.mozilla.org/en-US/Firefox/Releases/1.5/Using_Firefox_1.5_cachi
 
 
 
-### Cancel Kill All requestAnimationFrame and Other Running Code when Page unload
+## Cancel Kill All requestAnimationFrame and Other Running Code when Page unload
 There are instances in which Firefox doesn’t cache pages. Below are some common programmatic reasons that a page is not cached: the page uses an unload or beforeunload handler;
 ```javascript
 function cancelAllAnimationFrames(){
@@ -957,7 +957,7 @@ $(window).bind("unload", function () {
 
 
 
-### Stop Draging, Ghost Image
+## Stop Draging, Ghost Image
 ```javascript
 zoomDiv.bind('selectstart dragstart', function(evt) { 
     evt.preventDefault(); return false;
@@ -972,7 +972,7 @@ zoomDiv.bind('selectstart dragstart', function(evt) {
 
 
 
-### Stop Draging viewport, Stop Scrolling Page 
+## Stop Draging viewport, Stop Scrolling Page 
 ```javascript
 $("#wrapper").bind("mousemove touchmove", function(e){
     e.preventDefault();
@@ -987,7 +987,7 @@ $("#wrapper").bind("mousemove touchmove", function(e){
 
 
 
-### Force page scroll to top potision when page refresh in HTML, scrolltop, reset
+## Force page scroll to top potision when page refresh in HTML, scrolltop, reset
 ```javascript
 window.onbeforeunload = function () {
     window.scrollTo(0, 0);
@@ -1002,7 +1002,7 @@ window.onbeforeunload = function () {
 
 
 
-### Update Refresh Slick Slider by code, without resize
+## Update Refresh Slick Slider by code, without resize
 ```javascript
 $('.color-list').slick('setPosition');
 ```
@@ -1015,8 +1015,7 @@ $('.color-list').slick('setPosition');
 
 
 
-### iOS / iPhone issue of 
-### Stop Viewport Drag,
+## iOS / iPhone issue of,  Stop Viewport Drag,
 Bring Address Bar after rotate landscape to portrait mode.
 Also it cover height after rotate landscape to portrait mode.
 ```javascript
@@ -1038,7 +1037,7 @@ window.addEventListener("orientationchange", onOrientationChange, false);
 
 
 
-### Firefox Hisory API + iFrame load -  issue bugs
+## Firefox Hisory API + iFrame load -  issue bugs
 When you use History API and load page in iframe according to url, it work in chrome but in FireFox it show blank page or page not load in iframe. In FireFox iframe not load because iframe load according to History API and when url change through history api,  Firefox assume that page load when url change by history api  and never allow to load same url in iframe. so we are adding '/' at last of url and if exist then remove it
 ```javascript
 eg.  ' /work/heromotocorp '  add slash  ' /work/heromotocorp/  '
@@ -1186,7 +1185,7 @@ plugin-types limits the kinds of plugins a page may invoke.
 
 
 
-### MouseLeave, MouseEnter,  leave, out of the screen page
+## MouseLeave, MouseEnter,  leave, out of the screen page
 ```javascript
 $("body").mouseleave(function() {
   console.log("leave");
@@ -1202,7 +1201,7 @@ $("body").mouseenter(function() {
 
 
 
-### ScrollTop and Animate
+## ScrollTop and Animate
 ```javascript
 //--- Scroll Top ----------------------
 $("body, html").scrollTop(100);
@@ -1219,7 +1218,7 @@ $("body, html").stop().animate({scrollTop:pos.top}, 500, 'swing', function() {
 
 
 
-### data()
+## data()
 Store data and access from HTML Element
 ```javascript
 $("body").data( "foo", 52 );
@@ -1242,7 +1241,7 @@ $( "div" ).data( "options" ).name === "John";
 
 
 
-### Find Filter Search Attribute
+## Find Filter Search Attribute
 
 ```javascript
 //---  Data Attribute
@@ -1263,7 +1262,7 @@ var $radios = $('input[name="radio-group"]');
 
 
 
-###  Focus In
+##  Focus In
 ```javascript
 //--- Below show text input on focus -------
 userNameTx.unbind("focusin");
@@ -1283,7 +1282,7 @@ function onfocusinUserNameTx() {
 
 
 
-### Select Dropdown Combobox  javascript
+## Select Dropdown Combobox  javascript
 Access value on Dropdown Select
 ```html
 <!-- HTML  -->
@@ -1316,7 +1315,7 @@ $(".filterHolder").on('change', 'select', function(e) {
 
 
 
-### Select Radio button change  javascript
+## Select Radio button change  javascript
 //----- -HTML --- 
 ```html
 <!--  HTML  -->
@@ -1340,7 +1339,7 @@ $radios.change(function(e) {
 
 
 
-### Get position bounding of HTML element
+## Get position bounding of HTML element
 This will help to update own carousal
 ```javascript
 var drag_hld = $(".drag_hld");
@@ -1355,7 +1354,7 @@ drag_hld[0].getBoundingClientRect();
 
 
 
-### Call, trigger  window resize function
+## Call, trigger  window resize function
 This will help to update own carousal
 ```javascript
 window.dispatchEvent(new Event('resize'));
@@ -1369,7 +1368,7 @@ window.dispatchEvent(new Event('resize'));
 
 
 
-### On Enter Key Press
+## On Enter Key Press
 ```javascript
 headerSearchText.unbind("keydown");
 headerSearchText.bind("keydown",  (e)=>{
@@ -1388,7 +1387,7 @@ headerSearchText.bind("keydown",  (e)=>{
 
 
 
-### Disable window scrolling with arrow keys
+## Disable window scrolling with arrow keys
 ```javascript
 $(document).on("keydown", function(event) {
    event.preventDefault();
@@ -1403,7 +1402,7 @@ $(document).on("keydown", function(event) {
 
 
 
-### Download Image using Javascript
+## Download Image using Javascript
 ```javascript
 $("#ico-download").attr("download", "KEI-GharKiJyoti.png");
 $("#ico-download").attr("target", "KEI-GharKiJyoti.png");
@@ -1418,7 +1417,7 @@ $("#ico-download").attr("href", downloadImgUrl);
 
 
 
-### Capture MouseUp event of window scrollbar using jQuery, click scroll bar
+## Capture MouseUp event of window scrollbar using jQuery, click scroll bar
 ```javascript
 $(window).on('mousedown.ss',function(ev) { 
     $.ssMouseDown=true;
@@ -1444,7 +1443,7 @@ $(window).on('scroll.ss',function(ev) {
 
 
  
-### Create Dynamic Runtime CSS Sheet, Pure javascript
+## Create Dynamic Runtime CSS Sheet, Pure javascript
 ```javascript
 this.googleHackCSSSheet = document.createElement('style')
 this.googleHackCSSSheet.innerHTML = "#map div{background-color: rgba(0, 0, 0, 0)!important;}";
@@ -1460,7 +1459,7 @@ document.body.removeChild(this.googleHackCSSSheet);
 <br><br><br><br><br><br>
 
 # Javascript Utility Code
-### Mobile Detection Code
+## Mobile Detection Code
 Object Version
 ```javascript
 this.isMobile = {};
@@ -1501,7 +1500,7 @@ isMobile.any = function() {
 
 
 
-### Chrome Dev Browser - Call From Different Server
+## Chrome Dev Browser - Call From Different Server
 call different server file give security Error, so run below line from command prompt, then you will able to call file from localhost to another server, 'access-control-allow-origin' header request.
 https://alfilatov.com/posts/run-chrome-without-cors/
 ```javascript
@@ -1519,7 +1518,7 @@ open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args
 
 
 
-### Shuffle Array, Set a random order
+## Shuffle Array, Set a random order
 ```javascript
 function shuffleToArray(OldArray) {
     var i = 0;
@@ -1543,7 +1542,7 @@ array = shuffleToArray(array);
 
 
 
-### Close Degree
+## Close Degree
 Rotate circle clockwise or anti-clockwise according to close to point/close degree.
 ```javascript
 function getCloseDegree(prop) {
@@ -1579,7 +1578,7 @@ TweenMax.to(".circle", {
 
 
 
-### Deep copy of Object,  Clone, Duplicate
+## Deep copy of Object,  Clone, Duplicate
 Using `JSON.parse(JSON.stringify(object));` you can Deep Copy/Duplicate objects.<br>
 In below code,  newObj.b has a copy and not a reference! . 
 ```javascript
@@ -1603,7 +1602,7 @@ console.log(newObj); // { a: 1, b: { c: 2 } } (New Object Intact!)
 
 
 
-### Convert Change Number to Indian Rupee Format, comma seperate, currancy 
+## Convert Change Number to Indian Rupee Format, comma seperate, currancy 
 ```javascript
 "12548652".replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")
 or
@@ -1619,7 +1618,7 @@ number.toLocaleString('en-IN');
 
 
 
-### OOP - Object Oriented Programming javascript class  sample code
+## OOP - Object Oriented Programming javascript class  sample code
 ```javascript
 window.objLib = window.objLib || {};
 (function () {
@@ -1644,7 +1643,7 @@ window.objLib = window.objLib || {};
 
 
 
-### Access iFrame content, 
+## Access iFrame content, 
 iframe must be call from same domain
 ```javascript
 function onReady(){
@@ -1666,7 +1665,7 @@ function onReady(){
 
 
 
-### Load external CSS using Javascript ,   Also for development 
+## Load external CSS using Javascript ,   Also for development 
 Below is code to load css external css using javascript.<br>
 **Note.-:** also you can load css in iframe for development only. paste below code in iframe window console. CSS file must be on localhost or 127.0.0.1 server to avoid security error. 
 Steps. 
@@ -1695,7 +1694,7 @@ var newId = setInterval(function(){
 
 
 
-### Access Parent HTML content from iFrame, 
+## Access Parent HTML content from iFrame, 
 ```html
 <!--     In Parent HTML       -->
 
@@ -1722,7 +1721,7 @@ closeFormPopUp()
 
 
 
-### Replace String all found
+## Replace String all found
 ```javascript
 function stringByReplacingOccurrencesOfString  (originalStr, findStr, replaceStr){
     var newStr  = String(originalStr);
@@ -1744,7 +1743,7 @@ function stringByReplacingOccurrencesOfString  (originalStr, findStr, replaceStr
 
 
 
-### Replace String using Range
+## Replace String using Range
 ```javascript
 function replaceRange(s, start, end, substitute) {
 	return s.substring(0, start) + substitute + s.substring(end);
@@ -1761,7 +1760,7 @@ str  = replaceRange(str , 0, 4, "xxxx");
 
 
 
-### Email Validation
+## Email Validation
 ```javascript
 p.validateEmail = function (email){
     var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
@@ -1942,7 +1941,7 @@ function rgbMix(color1, color2, percent) {
 
 
 
-### Custom Event Listener
+## Custom Event Listener
  
 ```javascript
 //-- Add Event Listener --------------------------
@@ -1971,7 +1970,7 @@ canvas.dispatchEvent(event);
 
 
  
-### Get Mouse x y left top in div
+## Get Mouse x y left top in div
 ```javascript
 //--- http://www.kirupa.com/html5/getting_mouse_click_position.htm
 onProductMouseMove = function(e){
@@ -2002,7 +2001,7 @@ getPosition($(".logo img")[0])
 
 
  
-### Check Internet Connection is on or off , online, live offline
+## Check Internet Connection is on or off , online, live offline
 ```javascript
 window.addEventListener('offline', function(e) { console.log('offline'); });
 window.addEventListener('online', function(e) { console.log('online'); });
@@ -2020,7 +2019,7 @@ window.addEventListener('online', function(e) { console.log('online'); });
 
 # Javascript Useful Code
 
-### Circular Clock or Dial Rotate According to Button's Degree Position.
+## Circular Clock or Dial Rotate According to Button's Degree Position.
 ```javascript
 var isMouseMove = false;
 var dial = $('.dialer-quality');
@@ -2162,7 +2161,7 @@ dial.on('mousedown touchstart', function (event) {
 
 
 
-### 00:00:00  - Timer for Game, Countdown, Clock
+## 00:00:00  - Timer for Game, Countdown, Clock
 ```javascript
 p.setTime = function(){
   var timeLeft = this.time;		
@@ -2205,7 +2204,7 @@ p.stopTimer = function(){
 
 
 
-### 1 2 3 Countdown Animation using Tweenmax, GSAP
+## 1 2 3 Countdown Animation using Tweenmax, GSAP
 ```javascript
 p.onCountDown = function(prop){
 		var This = this;
@@ -2236,7 +2235,7 @@ This.onCountDown({num:3});
 
 
 
-### ScrollMagic - scroll Magic  - Smooth Scrolling
+## ScrollMagic - scroll Magic  - Smooth Scrolling
 ```javascript
 // - - - - - - -  Timeline - - - - - - - - - - - - 
 var welcomeTl = new TimelineLite();
@@ -2274,7 +2273,7 @@ var scene = new ScrollMagic.Scene({
 
 
 
-### ScrollMagic - scroll Magic  - enter and leave
+## ScrollMagic - scroll Magic  - enter and leave
 Below code detect Screen/Div enter and leave completely from window
 ```javascript
 var controllerScrollPanel = new ScrollMagic.Controller();
@@ -2327,7 +2326,7 @@ $(".screen").each(function(index, elem) {
 
 
 
-### Magnific Popup
+## Magnific Popup
 
 ```html
 <!-- HTML Code --->
@@ -2378,7 +2377,7 @@ $('.video_play').magnificPopup({
 
 
 
-### Single Section/Div Scroll on Mouse Wheel when html and body height is auto.
+## Single Section/Div Scroll on Mouse Wheel when html and body height is auto.
 you must include  `jquery.mousewheel.min.js`  in page
 ```javascript
 var isScrolling = false;
@@ -2434,7 +2433,7 @@ $('.screenForParallex').on('mousewheel', function (event) {
 
 
 
-### Parallax, Single screen page control multiple section, mouse wheel, arrow key, 
+## Parallax, Single screen page control multiple section, mouse wheel, arrow key, 
 you must include  `jquery.mousewheel.min.js`  in page
 ```javascript
 var isTlPlaying = true;
@@ -2490,7 +2489,7 @@ $(".featureBtn").bind("click", function () {
 
 
 
-### Drag Html Element
+## Drag Html Element
 ```javascript
 (function($) {
     $.fn.drags = function(opt) {
@@ -2563,7 +2562,7 @@ $('.holder').drags();
 
 
 
-### Drag Drop Image and Read image file
+## Drag Drop Image and Read image file
 ```javascript
 function setupDragDrop() {
     var holder = document.getElementById('holder');
@@ -2600,7 +2599,7 @@ function setupDragDrop() {
 
 
 
-### Custom Caret Text Cursor
+## Custom Caret Text Cursor
 change replace input and textarea caret text cursor with image
 ```javascript
 var tip = $('#markerHolder');
@@ -2630,7 +2629,7 @@ storyTextBox.bind('keyup', function (e) {
 
 # Location, Query, 
 
-### Get Query String Parameters
+## Get Query String Parameters
 ```javascript
 // Assume "?post=1234&action=edit"
 
@@ -2703,7 +2702,7 @@ getUrlParameter('action'); // "edit"
 
 
 
-### Scroll to Div as per Hash/Anchor - Query, Address, Url
+## Scroll to Div as per Hash/Anchor - Query, Address, Url
 below code find `a` tag element by matching hash value from url and href value from `nav a`. Then it trigger `click` event and html scroll to specific section. 
 
 ```javascript
@@ -2724,7 +2723,7 @@ if(hash!=""){
 
 
 
-### Remove Query String From URL, address bar, history, 
+## Remove Query String From URL, address bar, history, 
 ```javascript
 $(document).ready(function(){
     if (window.location.href.indexOf('?') > -1) {
@@ -2741,7 +2740,7 @@ $(document).ready(function(){
 
 
 
-### Replace a query string without reloading the page, URL,  address bar, history, 
+## Replace a query string without reloading the page, URL,  address bar, history, 
 ```javascript
 if(window.history && history.replaceState){			   
 	var searchString = "?serviceid=25";      
@@ -2758,7 +2757,7 @@ if(window.history && history.replaceState){
 
 
 
-### Get Absolute Path 
+## Get Absolute Path 
 ```javascript
 p.getRelativePath = function(backLevel){
   if (backLevel == undefined || backLevel == null) {
@@ -2791,7 +2790,7 @@ var relativePath = this.getRelativePath(0);
 
 # Google Map
 
-### Created Google Map Class to control map
+## Created Google Map Class to control map
 ```javascript
 
 window.objLib = window.objLib || {};
@@ -2989,7 +2988,7 @@ googleMap.setUp({});
 
 # Youtube
 
-### Live chat
+## Live chat
 Youtube live chat iframe embed code
 ```html
 <iframe src="https://www.youtube.com/live_chat?v=EEIk7gwjgIM&embed_domain=www.example.com" width="700" height="600" style="position:absolute; top:0; left:0; z-index:99;"></iframe>
@@ -3002,7 +3001,7 @@ Youtube live chat iframe embed code
 
 
 
-### Pause All YouTube iFrame video
+## Pause All YouTube iFrame video
 ```html
 <!-- HTML Code -->
 <iframe class="yt_video" width="560" height="349" src="http://www.youtube.com/embed/v1yRp-K_JBo?rel=0&hd=1&enablejsapi=1&version=3&playerapiid=ytplayer" frameborder="0" allowfullscreen></iframe>
@@ -3026,7 +3025,7 @@ for (var kk = 0; kk < videoArr.length; kk++){
 
 
 # Google Analytic
-### Send Section View using #!section_id to googletagmanager 
+## Send Section View using #!section_id to googletagmanager 
 
 ```javascript
 var lastHasTag = "";          
@@ -3080,7 +3079,7 @@ $(window).bind("scroll", redrawDotNav);
 <br><br><br>
 
 
-### Custome Google Analytic Event - gtag()
+## Custome Google Analytic Event - gtag()
 
 ```html
 <!-- Embed gtag.js in html with GA id -->
@@ -3161,7 +3160,7 @@ this.sendGoogleTagEvent({
 ---
 # Ajax, Form, Post, Get
 
-### AES CryptoJS Encrypt & Decrypt With ASP.Net
+## AES CryptoJS Encrypt & Decrypt With ASP.Net
 Below is example of Ajax call with AES encrypted data.<br>
 
 ***---------  JavaScript Code ---------*** 
@@ -3281,7 +3280,7 @@ sendPostRequest(ajaxOption);
 
 # PHP
 
-### Session In PHP Using Javascript 
+## Session In PHP Using Javascript 
 
 ```php
 //---- session.php  File ----------------
@@ -3365,8 +3364,8 @@ sendToSession({nailShape:"short" userSession:"shailendra"}, callBack);
 # Command - Linux, Windows
 
 
-### Node.js
-#### Update Node to 10.x v
+## Node.js
+### Update Node to 10.x v
 ```powershell
 sudo npm cache clean -f
 sudo npm install -g n
@@ -3381,11 +3380,11 @@ curl -sL https://deb.nodesource.com/setup_10.x | bash -
 apt-get install -y nodejs
 ```
 
-#### Change Root User
+## Change Root User
 ```powershell
 sudo -s
 ```
-### Nginx
+## Nginx
 #### Edit nginx.conf file
 ```powershell
 sudo nano /etc/nginx/nginx.conf
@@ -3394,14 +3393,14 @@ sudo nano /etc/nginx/nginx.conf
 ```powershell
 sudo service nginx restart
 ```
-### Terminal SSH
+## Terminal SSH
 #### Connect From Windows Terminal
 ```powershell
 ssh username@12.205.77.21 -p 5000
 ```
 
 
-### Next.js
+## Next.js
 #### Build Project
 Change directory to Project Directory
 ```powershell
