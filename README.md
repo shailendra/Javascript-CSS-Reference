@@ -1123,7 +1123,6 @@ Throw Error
 
 Solution
 <a href="#">Fast Food</a>
-<a href="javascript:void(0)" nonce="Xiojd98akdijudhyk5i29Uijwdu">Fast Food</a>
 ```
 Remember that nonces must be regenerated for every page request and they must be unguessable.
 
@@ -1142,11 +1141,7 @@ content="style-src 'self' https://example.com 'nonce-Xiojd98akdijudhyk5i29Uijwdu
 ```html
 <link rel="stylesheet"  href="https://maps.googleapis.com/maps/style.css"  nonce="Xiojd98akdijudhyk5i29Uijwdu">
 ```
-4. In style-src 'unsafe-inline' not specified then inline script will not execute. To apply inline style, give your html element tag a nonce attribute. Its value must match with style-src, check below example
-```html
-<div nonce="Xiojd98akdijudhyk5i29Uijwdu" style="position:absolute;"></div>
-```
-5. In style-src 'unsafe-inline' not specified then also give error when trying to add html element with style attribute using javascript. check below example ans solution.
+4. In style-src 'unsafe-inline' not specified then also give error when trying to add html element with style attribute using javascript. check below example ans solution.
 ```javascript
 // Throw Error
 item.find(".res-thumb").append("<img class='newResThumb' style='position:absolute; top:0;' src=''/>");
