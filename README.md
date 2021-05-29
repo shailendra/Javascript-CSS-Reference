@@ -1,6 +1,9 @@
 #### Topic
 - [@media Query](#media-query)
 - [CSS Rule](#css-rule)
+
+
+- [ES5 & ES6](#ES5--ES6)
 - [Javascript Bug & Solution](#javascript-bug--solution)
 - [jQuery DOM HTML and Meta Tags](#jQuery-DOM-HTML-and-Meta-Tags)
 - [Javascript Utility Code](#javascript-utility-code)
@@ -815,6 +818,367 @@ Your browser does not support the video tag.
 ----------
 <br><br><br><br><br><br>
 
+# ES5 & ES6
+
+## [Recursion - Return Sub of Array](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/replace-loops-using-recursion)
+```javascript
+/*
+A recursive function that returns 
+the sum of the first n elements of an array arr
+*/
+function sum(arr, n) {
+  if(n <= 0) {
+    return 0;
+  } else {
+    return sum(arr, n - 1) + arr[n - 1];
+  }
+}
+sum([1], 0)           // return 0
+sum([2, 3, 4], 1)     // return 2
+sum([2, 3, 4, 5], 3)  // return 9
+```
+
+
+
+<br><br><br>
+
+
+
+
+## [Recursion - to Create a Countdown](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/use-recursion-to-create-a-range-of-numbers)
+```javascript
+function countup(n) {
+  if (n < 1) {
+    return [];
+  } else {
+    const countArray = countup(n - 1);
+    countArray.push(n);
+    return countArray;
+  }
+}
+console.log(countup(5));
+// The value [1, 2, 3, 4, 5] will be displayed in the console.
+```
+
+
+
+<br><br><br>
+
+
+## [Recursion - to Create a Range of Numbers](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/use-recursion-to-create-a-countdown)
+```javascript
+
+/*
+rangeOfNumbers(1, 5) should return [1, 2, 3, 4, 5]
+rangeOfNumbers(6, 9) should return [6, 7, 8, 9]
+rangeOfNumbers(4, 4) should return [4]
+*/
+// Solution 1
+function rangeOfNumbers(startNum, endNum) {
+  if (endNum - startNum === 0) {
+    return [startNum];
+  } else {
+    var numbers = rangeOfNumbers(startNum, endNum - 1);
+    numbers.push(endNum);
+    return numbers;
+  }
+}
+
+// Solution 2
+function rangeOfNumbers(startNum, endNum) {
+  return startNum === endNum
+    ? [startNum]
+    : rangeOfNumbers(startNum, endNum - 1).concat(endNum);
+}
+
+// Solution 3
+function rangeOfNumbers(startNum, endNum) {
+  return startNum === endNum
+    ? [startNum]
+    : [...rangeOfNumbers(startNum, endNum - 1), endNum ];
+}
+// The value [1, 2, 3, 4, 5] will be displayed in the console.
+```
+
+
+
+<br><br><br>
+
+
+## [Prevent Object Mutation](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/es6/prevent-object-mutation)
+JavaScript provides a function Object.freeze to prevent data mutation.
+Once the object is frozen, you can no longer add, update, or delete properties from it. Any attempt at changing the object will be rejected without an error.
+```javascript
+let obj = {
+  name:"FreeCodeCamp",
+  review:"Awesome"
+};
+
+Object.freeze(obj);
+
+obj.review = "bad";
+obj.newProp = "Test";
+console.log(obj); 
+/*
+The obj.review and obj.newProp assignments will result 
+in errors, and the console will display the value 
+{ name: "FreeCodeCamp", review: "Awesome" }.
+*/
+```
+
+<br><br><br>
+
+
+## Arrow Function
+```javascript
+const myFunc = () => {
+  const myVar = "value";
+  return myVar;
+}
+
+// without parameter
+const myFunc = () => "value";
+
+// If an arrow function has a single parameter,
+const doubler = (item) => item * 2;
+const doubler = item => item * 2;
+
+// pass more than one parameter 
+const multiplier = (item, multi) => item * multi;
+
+// default parameters for functions
+const greeting = (name = "Anonymous") => "Hello " + name;
+console.log(greeting("John"));
+console.log(greeting());
+
+// Use the Rest Parameter with Function Parameters
+function howMany(...args) {
+  return "You have passed " + args.length + " arguments.";
+}
+console.log(howMany(0, 1, 2));
+console.log(howMany("string", null, [1, 2, 3], { }));
+
+```
+
+
+
+<br><br><br>
+
+
+## Concise Declarative Functions with ES6
+```javascript
+//--  ES5 --------
+const person = {
+  name: "Taylor",
+  sayHello: function() {
+    return `Hello! My name is ${this.name}.`;
+  }
+};
+//--  ES6 --------
+// With ES6, you can remove the function keyword and 
+// colon altogether when defining functions in objects
+const person = {
+  name: "Taylor",
+  sayHello() {
+    return `Hello! My name is ${this.name}.`;
+  }
+};
+
+```
+
+
+
+<br><br><br>
+
+
+## Class
+```javascript
+//---  js/spaceShuttle.js  ---
+class SpaceShuttle {
+  constructor(targetPlanet) {
+    this.targetPlanet = targetPlanet;
+  }
+}
+// export variable or function to use in another file
+export{SpaceShuttle} 
+
+const zeus = new SpaceShuttle('Jupiter');
+
+
+//---  ./js/math_functions.js  ---
+const add = (x, y) => {
+  return x + y;
+}
+const subtract = (x, y) => {
+  return x - y;
+}
+//  You can export multiple things by repeating export 
+export{add}
+export{subtract}
+// or by placing them all in the export statement
+export {add, subtract };
+
+
+// Getters and Setters
+//---  js/book.js  ---
+// you can only have one value be a 'default export' in 
+// each module or file. Additionally, you cannot use 
+// export default with var, let, or const
+export default class Book {
+  constructor(author) {
+    this._author = author;
+  }
+  // getter
+  get writer() {
+    return this._author;
+  }
+  // setter
+  set writer(updatedAuthor) {
+    this._author = updatedAuthor;
+  }
+}
+
+const novel = new Book('anonymous');
+console.log(novel.writer);
+novel.writer = 'newAuthor';
+console.log(novel.writer);
+```
+```html
+<!-- 
+A script that uses type="module" can now use 
+the import and export features of ES6
+Note: all code execute inside of /js/spaceShuttle.js
+Example: Console.log written outside of class
+ -->
+<script type="module" src="./js/spaceShuttle.js"></script>
+
+<!-- or import in html using script tag and 
+initialize inside script tag it -->
+<script  type="module" >
+   import {SpaceShuttle} from './js/spaceShuttle.js';
+   const zeus = new SpaceShuttle('Jupiter');
+</script>
+```
+```javascript
+// import
+import add from "./math_functions.js";
+
+/* 
+Use * to Import Everything from a File.
+The above import statement will create an object called 
+myMathModule. This is just a variable name, you can name it
+anything. The object will contain all of the exports from 
+math_functions.js
+*/
+import * as myMathModule from "./js/math_functions.js";
+myMathModule.add(2,3);
+myMathModule.subtract(5,3);
+```
+
+
+<br><br><br>
+
+
+## Array and Spread Operator
+```javascript
+const arr = [6, 89, 3, 45];
+const maximus = Math.max(...arr);
+
+```
+
+
+
+
+<br><br><br>
+
+
+## Destruction
+```javascript
+// Extract Values from Objects
+const user = { name: 'John Doe', age: 34 };
+const { name, age } = user;
+
+// Extract and give new variable names in the assignment
+const user = { name: 'John Doe', age: 34 };
+const { name: userName, age: userAge } = user;
+
+// Assign Variables from Nested Objects Passed
+const user = {
+  johnDoe: { 
+    age: 34,
+    email: 'johnDoe@freeCodeCamp.com'
+  }
+};
+const { johnDoe: { age, email }} = user;
+const { johnDoe: { age: userAge, email: userEmail }} = user;
+
+
+// Destructuring an array lets us do exactly that:
+const [a, b] = [1, 2, 3, 4, 5, 6];
+console.log(a, b); // The console will display the values of a and b as 1, 2.
+
+// Destructuring by using commas to reach the desired index
+const [a, b,,, c] = [1, 2, 3, 4, 5, 6];
+console.log(a, b, c);
+// The console will display the values 
+// of a, b, and c as 1, 2, 5.
+
+// Destructuring Assignment with 
+// the Rest Parameter to Reassign Array
+const [a, b, ...arr] = [1, 2, 3, 4, 5, 7];
+console.log(a, b);
+console.log(arr);
+// The console would display the values 1, 2 and [3, 4, 5, 7].
+
+
+// Destructuring Assignment to Pass an Object as a Function's Parameters
+const update = ({name, age, nationality, location}) => {
+    console.log(name, age, nationality, location)
+}
+update({name:"shailendra", age:43, location:"Mumbai"})
+
+```
+
+
+
+<br><br><br>
+
+
+
+## Create Strings using Template Literals
+Template literals allow you to create multi-line strings and to use string interpolation features to create strings.
+```javascript
+const person = {
+  name: "Zodiac Hasbro",
+  age: 56
+};
+
+const greeting = `Hello, my name is ${person.name}!
+I am ${person.age} years old.`;
+
+console.log(greeting);
+
+```
+
+
+
+<br><br><br>
+
+
+
+## Promise
+sssss
+```javascript
+const myPromise = new Promise((resolve, reject) => {
+
+});
+
+```
+
+
+----------
+<br><br><br><br><br><br>
+
 # JAVASCRIPT Bug & Solution
 
 ## Disable Double Tap Zoom and Pinch Zoom
@@ -1236,7 +1600,7 @@ $( "div" ).data( "options" ).name === "John";
 
 
 
-## Find Filter Search Attribute
+## Find Filter Search Selector Attribute
 
 ```javascript
 //---  Data Attribute
@@ -1247,6 +1611,15 @@ console.log($('.ourWork_blurb[style*="block"]').length);
 
 //--- Radio Button Select
 var $radios = $('input[name="radio-group"]');
+
+//--- Select disabled input, radio button
+$('.customerModel input[disabled]')
+
+//--- Select enabled input, radio button
+$('.customerModel input:not([disabled])')
+
+//--- Select enabled and checked radio button
+$('.customerModel input:not([disabled]):checked')
 ```
 
 
@@ -1630,6 +2003,23 @@ window.objLib = window.objLib || {};
 }());
 ```
 
+```javascript
+//----------------------------
+// Singleton Object
+//----------------------------
+window.objLib = window.objLib || {};
+(function() {
+	var Utils = function() {	
+		this.initialize();
+	}
+	var p = Utils.prototype;
+	p.canvas;
+	p.initialize = function() {
+		var This = this;
+	}
+	objLib.Utils = new Utils();
+}());
+```
 
 
 
@@ -2806,6 +3196,13 @@ window.objLib = window.objLib || {};
 		this.center = { lat: 18.939495246428973, lng: 72.83135228710091 };
 		this.zoomValIndiaLevel = 5;		
 	}    
+    p.setup = function(prop){
+      $.getScript( "https://maps.googleapis.com/maps/api/js?key=xyz", function() {
+         if(prop.callback){
+            prop.callback();
+         }
+		});
+    }
 	p.setUp = function(prop){
 		var This = this;
 		clearInterval(this.checkInterval);
@@ -3863,6 +4260,8 @@ Below are the list of React JS Component List<br>
 - https://bestofjs.org/
 - https://www.javascripting.com/
 - http://youmightnotneedjquery.com/
+- https://codelabs.developers.google.com/
+- https://www.freecodecamp.org/
 
 
 
