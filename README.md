@@ -1157,7 +1157,6 @@ const greeting = `Hello, my name is ${person.name}!
 I am ${person.age} years old.`;
 
 console.log(greeting);
-
 ```
 
 
@@ -1166,13 +1165,407 @@ console.log(greeting);
 
 
 
-## Promise
-sssss
+## Promises and Asynchronous Programming
+A promise is a placeholder for the result of an asynchronous operation. Instead of subscribing to an event or passing a callback to a function, the function can return a promise
 ```javascript
-const myPromise = new Promise((resolve, reject) => {
+//----------------------
 
+let promise = new Promise(function(resolve, reject) {
+	console.log("Promise");
+    let isFileReceived = true;
+    if(isFileReceived){        
+	    resolve("received file");
+    }else{        
+	    reject("fail to receive file");
+    }
 });
 
+promise.then(function(msg) {
+	console.log("Resolved - ", msg);
+    // "Resolved - received file"
+}, function(msg) {
+	console.log("Reject - ", msg);
+    // "Reject - fail to receive file"
+});
+//  The previous example is equivalent to:
+promise.then(function(msg) {
+	console.log("Resolved - ", msg);
+    // "Resolved - received file"
+}).catch(function(msg) {
+	console.log("Reject - ", msg);
+    // "Reject - fail to receive file"
+});
+
+
+//----------------------
+
+
+// Executor Errors
+// If an error is thrown inside an executor, 
+// then the promise’s rejection handler is called. For example: 
+
+let promise = new Promise(function(resolve, reject) {
+	throw new Error("Explosion!");
+});
+promise.catch(function(error) {
+	console.log(error.message); 	// "Explosion!"
+});
+//--- The previous example is equivalent to:
+let promise = new Promise(function(resolve, reject) {
+	try {
+    	throw new Error("Explosion!");
+	} catch (ex) {
+    	reject(ex);
+	}
+});
+promise.catch(function(error) {
+	console.log(error.message); 	// "Explosion!"
+});
+
+
+//----------------------
+
+
+// Chaining Promises
+// Each call to then() or catch() actually creates and 
+// returns another promise. This second promise is resolved
+// only once the first has been fulfilled or rejected.
+
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+
+p1.then(function(value) {
+	console.log(value);      	// calling sequence - 1
+}).then(function() {
+	console.log("Finished-1");   // calling sequence - 3
+}).then(function() {
+	console.log("Finished-2");   // calling sequence - 5
+});
+
+p1.then(function(value) {
+	console.log(value+" Other");  // calling sequence - 2
+}).then(function() {
+	console.log("Finished-1 Other");   // calling sequence - 4
+})
+/*---The code outputs:
+42
+42 Other
+Finished-1
+Finished-1 Other
+Finished-2
+*/
+
+
+//----------------------
+
+
+// Catching Errors
+// Promise chaining allows you to catch errors that may
+// occur in a fulfillment or rejection handler from a 
+// previous promise. For example:
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+
+p1.then(function(value) {
+	throw new Error("Boom!");
+}).catch(function(error) {
+	console.log(error.message); 	// "Boom!"
+});
+ 
+// The same is true if a rejection handler throws an error:
+let p1 = new Promise(function(resolve, reject) {
+	throw new Error("Explosion!");
+});
+
+p1.catch(function(error) {
+	console.log(error.message);   // "Explosion!"
+	throw new Error("Boom!");	 // if this line commented then below catch will not call
+}).catch(function(error) {
+	console.log(error.message);   // "Boom!"
+});
+
+
+//----------------------
+
+
+// Returning Values in Promise Chains
+// Another important aspect of promise chains is the ability to pass
+// data from one promise to the next. You’ve already seen that a value
+// passed to the resolve() handler inside an executor is passed to the
+//  fulfillment handler for that promise. You can continue passing data 
+// along a chain by specifying a return value from the fulfillment handler.
+
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+
+p1.then(function(value) {
+	console.log(value);     	// "42"
+	return value + 1;
+}).then(function(value) {
+	console.log(value);     	// "43"
+});
+ 
+// You could do the same thing with the rejection handler. When a 
+// rejection handler is called, it may return a value. If it does, 
+// that value is used to fulfill the next promise in the chain, 
+// like this:
+let p1 = new Promise(function(resolve, reject) {
+	reject(42);
+});
+ 
+p1.catch(function(value) {
+	console.log(value);     	// "42"
+	return value + 1;
+}).then(function(value) {
+	console.log(value);     	// "43"
+});
+
+
+//----------------------
+
+
+// Returning Promises in Promise Chains
+// Returning primitive values from fulfillment and rejection handlers allows 
+// passing of data between promises, but what if you return an object? If the 
+// object is a promise, then there’s an extra step that’s taken to determine 
+// how to proceed. Consider the following example:
+
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+let p2 = new Promise(function(resolve, reject) {
+	resolve(43);
+});
+
+p1.then(function(value) {
+	// first fulfillment handler
+	console.log(value);     // 42
+	return p2;
+}).then(function(value) {
+	// second fulfillment handler
+	console.log(value); 	// 43
+});
+
+// previous example equivalent to this:
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+let p2 = new Promise(function(resolve, reject) {
+	resolve(43);
+});
+let p3 = p1.then(function(value) {
+	// first fulfillment handler
+	console.log(value); 	// 42
+	return p2;
+});
+p3.then(function(value) {
+	// second fulfillment handler
+	console.log(value); 	// 43
+});
+ 
+// Here, it’s clear that the second fulfillment handler is attached to p3 
+// rather than p2. This is a subtle but important distinction, as the second 
+// fulfillment handler will not be called if p2 is rejected. For instance:
+
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+let p2 = new Promise(function(resolve, reject) {
+	reject(43);
+});
+
+p1.then(function(value) {
+	// first fulfillment handler
+	console.log(value); 	// 42
+	return p2;
+}).then(function(value) {
+	// second fulfillment handler
+	console.log(value);	 // never called
+}, function(value) {
+	// second rejection handler
+	console.log(value); 	// 43
+});
+
+// In this example, the second fulfillment handler is never called because p2 
+// is rejected. You could, however, attach a rejection handler instead:
+
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+let p2 = new Promise(function(resolve, reject) {
+	reject(43);
+});
+
+p1.then(function(value) {
+	// first fulfillment handler
+	console.log(value); 	// 42
+	return p2;
+}).catch(function(value) {
+	// rejection handler
+	console.log(value); 	// 43
+}); 
+
+
+//----------------------
+
+
+// Returning thenables simply allows you to define additional responses to the 
+// promise results. You defer the execution of fulfillment handlers by 
+// creating a new promise within a fulfillment handler. For example:
+
+let p1 = new Promise(function(resolve, reject) {
+	resolve(42);
+});
+p1.then(function(value) {
+	console.log(value); 	// 42
+	// create a new promise
+	let p2 = new Promise(function(resolve, reject) {
+    	resolve(43);
+	});
+	return p2
+}).then(function(value) {
+	console.log(value); 	// 43
+});
+
+
+//----------------------
+
+ 
+// Responding to Multiple Promises
+// The Promise.all() Method
+// The Promise.all() method accepts a single argument, which is an iterable 
+// (such as an array) of promises to monitor,
+
+let p1 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(10); }, 1000)
+});
+let p2 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(0.5); }, 500)
+});
+let p3 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(20); }, 4000)
+});
+let p4 = Promise.all([p1, p2, p3]);
+
+p4.then(function(value) {
+    // This fulfillment handler will call on all Promises 
+    // resolved (after 4 second)
+	console.log(Array.isArray(value));  // true
+	console.log(value[0]);          	// 10
+	console.log(value[1]);          	// 0.5
+	console.log(value[2]);          	// 20
+});
+ 
+// If any promise passed to Promise.all() is rejected, the returned promise is
+// immediately rejected without waiting for the other promises to complete:
+let p1 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(10); }, 1000)
+});
+let p2 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ reject(0.5); }, 500)
+});
+let p3 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(20); }, 4000)
+});
+let p4 = Promise.all([p1, p2, p3]);
+
+p4.then(function(value) {
+    // will not call
+	console.log(Array.isArray(value)); 
+	console.log(value[0]);          	
+	console.log(value[1]);          	
+	console.log(value[2]);          	
+}).catch(function(value) {
+    // The rejection handler for p4 is called immediately without 
+    // waiting for p1 or p3 to finish executing (after 0.5 Second)
+	console.log(Array.isArray(value))   // false
+	console.log(value);             	// 0.5
+});
+// The rejection handler always receives a single value rather than an array,
+// and the value is the rejection value from the promise that was rejected.
+
+
+//----------------------
+
+ 
+// The Promise.race() Method
+// When resolve first Promise
+// As like race who will come first will be winner, like that which Promise 
+// handler call first (resolve or reject) will trigger their haldler
+// (fulfilment or catch) and other Promise handler will ignore. The returned 
+// promise is settled as soon as the first promise is settled. Instead of 
+// waiting for all promises to be fulfilled
+let p1 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(10); }, 1000)
+});
+let p2 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(0.5); }, 500)
+});
+let p3 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(20); }, 4000)
+});
+let p4 = Promise.race([p1, p2, p3]);
+
+p4.then(function(value) {
+    // This p2 fulfillment handler will call only one time 
+    // when p2 resolved (after 0.5 second). Other will not call
+	console.log(value);          	// 0.5
+});
+ 
+ 
+// When reject first Promise
+// The returned promise is settled as soon as the first promise is settled. 
+// Instead of waiting for all promises to be fulfilled
+let p1 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(10); }, 1000)
+});
+let p2 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ reject(0.5); }, 500)
+});
+let p3 = new Promise(function(resolve, reject) {
+  setTimeout(function(){ resolve(20); }, 4000)
+});
+let p4 = Promise.race([p1, p2, p3]);
+
+p4.then(function(value) {
+    // will not call
+	console.log(value);
+}, function(value) {
+    // This p2 reject handler will call only one time when p2 reject 
+    // (after 0.5 second). Other will not call
+	console.log(value);          	// 0.5
+});
+
+
+//----------------------
+
+ 
+// Inheriting from Promises
+// Just like other built-in types, you can use a promise as the base for a 
+// derived class. The success() method mimics resolve() and failure() mimics 
+// the reject() method
+class MyPromise extends Promise {
+	// create custom then function by name success
+	success(resolve, reject) {
+    	return this.then(resolve, reject);
+	}
+	// create custom catch or reject function by name failure
+	failure(reject) {
+    	return this.catch(reject);
+	}
+}
+let promise = new MyPromise(function(resolve, reject) {
+	resolve(42);
+});
+
+promise.success(function(value) {
+	console.log(value);         	// 42
+}).failure(function(value) {
+	console.log(value);
+});
 ```
 
 
