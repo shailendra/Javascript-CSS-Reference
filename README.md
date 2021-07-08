@@ -3,7 +3,7 @@
 - [CSS Rule](#css-rule)
 
 
-- [ES5 & ES6](#ES5--ES6)
+- [ES5 & ES6](#es5--es6)
 - [Javascript Bug & Solution](#javascript-bug--solution)
 - [jQuery DOM HTML and Meta Tags](#jQuery-DOM-HTML-and-Meta-Tags)
 - [Javascript Utility Code](#javascript-utility-code)
@@ -17,6 +17,7 @@
 - [Command - Linux, Windows](#command---linux-windows)
 - [Useful Libraries](#useful-libraries)
 - [Coding Reference Sites](#coding-reference-sites)
+- [Online Learning Site](#online-learning-site)
 - [Useful Links](#Useful-Links)
 - [Coding Blogs](#Coding-Blogs)
 
@@ -1086,6 +1087,71 @@ const maximus = Math.max(...arr);
 
 ```
 
+<br><br><br>
+
+
+## Array
+#### [Array.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+The filter() method creates a new array with all elements that pass the test implemented by the provided function. Filter Array
+```javascript
+const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+const result = words.filter(word => word.length > 6);
+console.log(result);
+// expected output: Array ["exuberant", "destruction", "present"]
+//
+//
+// Arrow function
+Array.filter((element) => { ... } )
+Array.filter((element, index) => { ... } )
+Array.filter((element, index, array) => { ... } )
+/* 
+element : The current element being processed in the array.
+index   : The index of the current element being processed in the array.
+array   : The array filter was called upon.
+*/
+```
+<br>
+
+#### [Array.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+The sort() method sorts the elements of an array in place and returns the sorted array
+```javascript
+// Number Sorting
+let numbers = [4, 2, 5, 1, 3];
+numbers.sort((a, b) => a - b);
+console.log(numbers);
+// [1, 2, 3, 4, 5]
+//
+//
+// Number and String Sorting
+var items = [
+  { name: 'Edward', value: 21 },
+  { name: 'Sharpe', value: 37 },
+  { name: 'And', value: 45 },
+  { name: 'The', value: -12 },
+  { name: 'Magnetic', value: 13 },
+  { name: 'Zeros', value: 37 }
+];
+// sort by value
+items.sort(function (a, b) {
+  return a.value - b.value;
+});
+// sort by name
+items.sort(function(a, b) {
+  var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+  var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  // names must be equal
+  return 0;
+});
+```
+
+
+
 
 
 
@@ -1569,10 +1635,294 @@ promise.success(function(value) {
 ```
 
 
+
+<br><br><br>
+
+
+
+## Regular expressions
+```javascript
+let result = "Hello, World!".test(/Hello/);
+// or 
+let myString = "Hello, World!";
+let myRegex = /Hello/;
+let result = myRegex.test(myString);
+console.log(myRegex.test(myString)); // true
+```
+<br>
+
+#### Match a Literal String with Different Possibilities
+```javascript
+let petString = "James has a pet cat.";
+let petRegex = /dog|cat|bird|fish/;
+let result = petRegex.test(petString);
+console.log(result) // true
+```
+
+#### Ignore Case While Matching
+```javascript
+// The i flag use to ignore uppercase letters and lowercase. 
+// You can use it by appending it to the regex.
+let myString = "Hello, World!";
+let fccRegex = /hello, world!/i; // Change this line
+let result = fccRegex.test(myString);
+console.log(result); // true
+```
+<br>
+
+#### Extract Matches
+```javascript
+// Extract the actual matches you found with the .match() method.
+"Hello, World!".match(/Hello/);  
+/* --- output ---
+[ 'Hello', 
+  index: 0, 
+  input: 'Hello, World!', 
+  groups: undefined ] */
+//
+let ourStr = "Regular expressions";
+let ourRegex = /expressions/;
+ourStr.match(ourRegex);
+/* -- output --
+[ 'expressions',
+  index: 8,
+  input: 'Regular expressions',
+  groups: undefined ] 
+*/
+```
+<br>
+
+#### Find More Than the First Match
+```javascript
+// To search or extract a pattern more than once, 
+// you can use the g flag.
+let twinkleStar = "Twinkle, twinkle, little star";
+let result_1 = twinkleStar.match(/Twinkle/g);
+let result_2 = twinkleStar.match(/Twinkle/ig);
+console.log(result_1);   // [ 'Twinkle' ]
+console.log(result_2);   // [ 'Twinkle', 'twinkle' ]
+```
+<br>
+
+#### Match Anything with Wildcard Period
+```javascript
+// The wildcard character . (dot) will match any one character.
+// You can use the wildcard character just like any other 
+// character in the regex. For example, if you wanted to match 
+// hug, huh, hut, and hum, you can use the regex /hu./ to match 
+// all four words.
+/hu./.test("I'll hum a song")  // true
+/hu./.test("I'll hu a song")  // true
+/hu./.test("I'll humm a song")  // true
+/hu. /.test("I'll humm a song")  // false
+/ hu./.test("I'll hhu a song")   // false
+/.un/.test("Have fun with friends!")  // true
+/ .un/.test("Have ffun with friends!")  // false
+/ ..un/.test("Have ffun with friends!")  // true
+```
+<br>
+
+#### Match Single Character with Multiple Possibilities
+```javascript
+// You want to match bag, big, and bug but not bog. 
+// You can create the regex /b[aiu]g/ to do this. 
+// The [aiu] is the character class that will only match 
+// the characters a, i, or u.
+let bigStr = "big";
+let bagStr = "bag";
+let bugStr = "bug";
+let bogStr = "bog";
+let bgRegex = /b[aiu]g/;
+bigStr.match(bgRegex);  // ["big"]
+bagStr.match(bgRegex);  // ["bag"]
+bugStr.match(bgRegex);  // ["bug"]
+bogStr.match(bgRegex);  // null
+```
+<br>
+
+#### Match Single Character with Multiple Possibilities
+```javascript
+// You want to match bag, big, and bug but not bog. 
+// You can create the regex /b[aiu]g/ to do this. 
+// The [aiu] is the character class that will only match 
+// the characters a, i, or u.
+let bigStr = "big";
+let bagStr = "bag";
+let bugStr = "bug";
+let bogStr = "bog";
+let bgRegex = /b[aiu]g/;
+bigStr.match(bgRegex);  // ["big"]
+bagStr.match(bgRegex);  // ["bag"]
+bugStr.match(bgRegex);  // ["bug"]
+bogStr.match(bgRegex);  // null
+```
+<br>
+
+#### Match Letters of the Alphabet
+```javascript
+// You want to match bag, big, and bug but not bog. 
+// You can create the regex /b[aiu]g/ to do this. 
+// The [aiu] is the character class that will only match 
+// the characters a, i, or u.
+let bigStr = "big";
+let bagStr = "bag";
+let bugStr = "bug";
+let bogStr = "bog";
+let bgRegex = /b[aiu]g/;
+bigStr.match(bgRegex);  // ["big"]
+bagStr.match(bgRegex);  // ["bag"]
+bugStr.match(bgRegex);  // ["bug"]
+bogStr.match(bgRegex);  // null
+```
+<br>
+
+#### Match Numbers and Letters of the Alphabet
+```javascript
+// /[0-5]/ matches any number between 0 and 5, 
+// including the 0 and 5 and a to z alphabet.
+let jennyStr = "Jenny8675309";
+let myRegex = /[a-z0-5]/ig;
+jennyStr.match(myRegex);
+```
+<br>
+
+#### Match Single Characters Not Specified
+```javascript
+// Create a set of characters that you do not want to match. 
+// These types of character sets are called negated character sets.
+// in below example we are matching single characters not specified
+let quoteSample = "abcdefgHIjk.";
+let myRegex = /[^cbefhjk]/ig;
+let result = quoteSample.match(myRegex);
+console.log(result); // [ 'a', 'd', 'g', 'I', '.' ]
+//
+let quoteSample = "12345678.";
+let myRegex = /[^327]/ig;
+let result = quoteSample.match(myRegex);
+console.log(result); // [ '1', '4', '5', '6', '8', '.' ]
+//
+let quoteSample = "3 blind mice.";
+let myRegex = /[^0-9aeiou]/ig;
+let result = quoteSample.match(myRegex);this line
+console.log(result); // [ ' ', 'b', 'l', 'n', 'd', ' ', 'm', 'c', '.' ]
+```
+<br>
+
+#### Match Characters that Occur One or More Times
+```javascript
+// To match character which appear one time or 
+// has repeat one after another 
+let stringA = "aabc";
+let stringB = "aabcaaa";
+let stringC = "aabcaaa abc";
+let reg = /a+/ig
+console.log( stringA.match(reg) );  // [ 'aa' ]
+console.log( stringB.match(reg) );  // [ 'aa', 'aaa' ]
+console.log( stringC.match(reg) );  // [ 'aa', 'aaa', 'a' ]
+//
+// observe in below example it check repetition of last character from given pattern
+let stringA = "abab";
+let stringB = "ab abbbab abbbbbbc";
+let reg = /ab+/ig
+console.log( stringA.match(reg) );  // [ 'ab', 'ab' ]
+console.log( stringB.match(reg) );  // [ 'ab', 'abbb', 'ab', 'abbbbbb' ]
+```
+
+#### The Asterisk (*)  - Pending
+```javascript
+// Pending
+// https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/match-characters-that-occur-zero-or-more-times
+```
+
+
+
+<br><br><br>
+
+
+
+## Debugging
+```javascript
+// console.log() - To print output use console.log
+var name = "Shailendra";
+var surname = "more";
+console.log(name, surname)
+
+//-- clear() - To Clear Console use 
+console.clear();
+
+// typeof - Use typeof to Check the Type of a Variable
+console.log(typeof "");  // string
+console.log(typeof 0);   // number
+console.log(typeof []);  // object
+console.log(typeof {});  // object
+
+// constructor
+let duck = new Bird();
+let beagle = new Dog();
+console.log(duck.constructor === Bird); // true
+console.log(beagle.constructor === Dog); // true
+console.log(beagle.constructor === Bird); // false
+
+// isPrototypeOf
+function Bird(name) {
+  this.name = name;
+}
+let duck = new Bird("Donald");
+Bird.prototype.isPrototypeOf(duck); // true
+
+// instanceof - check an Object's Constructor with instanceof
+let Bird = function(name, color) {
+  this.name = name;
+}
+let crow = new Bird("Alexis", "black");
+crow instanceof Bird;   // true
+
+
+// hasOwnProperty - 
+function Bird(name) {
+  this.name = name;  //own property
+}
+Bird.prototype.numLegs = 2; // prototype property
+let duck = new Bird("Donald");
+duck.hasOwnProperty("name") // true
+duck.hasOwnProperty("numLegs") // false
+```
+<br>
+
+
+
 ----------
 <br><br><br><br><br><br>
 
 # JAVASCRIPT Bug & Solution
+
+## maxlength - issue on mobile
+When you set maxlength to input field, it work on browser properly, but on mobile while typing alphabet maxlength not work sometime. below is code to fix this using jQuery
+```html
+<input type="text" id="infoName" 
+autocomplete="off"  maxlength="30">
+
+<input type="text" id="infoCompany" 
+autocomplete="off"  maxlength="30">
+```
+```javascript
+function checkMaxLength(input) {
+  var maxlength = input.attr("maxlength");
+  if (maxlength != undefined && input.val().length > maxlength) {
+    input.val(input.val().substring(0, maxlength));
+  }
+}
+var infoName = $("#infoName");
+infoName.unbind("change input");
+infoName.bind("change input", (e) => {
+  checkMaxLength(infoName);
+});
+var infoCompany = $("#infoCompany");
+infoCompany.unbind("change input");
+infoCompany.bind("change input", (e) => {
+  checkMaxLength(infoCompany);
+});
+```
 
 ## Disable Double Tap Zoom and Pinch Zoom
 ```javascript
@@ -4654,7 +5004,15 @@ Below are the list of React JS Component List<br>
 - https://www.javascripting.com/
 - http://youmightnotneedjquery.com/
 - https://codelabs.developers.google.com/
-- https://www.freecodecamp.org/
+
+
+
+<br><br><br><br>
+
+# Online Learning Site
+- [kaggle](https://www.kaggle.com/learn/python)
+- [freecodecamp](https://www.freecodecamp.org/)
+- [Bootstrap Youtube Toturial](https://www.youtube.com/playlist?list=PL0b6OzIxLPbz1cgxiH5KCBsyQij1HsPtG)
 
 
 
