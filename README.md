@@ -1091,6 +1091,57 @@ const maximus = Math.max(...arr);
 
 
 ## Array
+#### [Array.concat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
+The concat() method is used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array
+```javascript
+let newArray = [1, 2, 3].concat([4, 5, 6]);
+// output - [1, 2, 3, 4, 5, 6].
+```
+<br>
+
+#### [Array.slice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
+The slice() method returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. **The original array will not be modified.**
+```javascript
+// slice()
+// slice(start)
+// slice(start, end)
+
+let fruits = ['Banana', 'Orange', 'Lemon', 'Apple', 'Mango']
+let citrus = fruits.slice(1, 3)
+// fruits -  ['Banana', 'Orange', 'Lemon', 'Apple', 'Mango']
+// citrus -  ['Orange','Lemon']
+
+// copy array using slice method
+let citrusCopied = fruits.slice();
+// citrusCopied -  ['Banana', 'Orange', 'Lemon', 'Apple', 'Mango']
+```
+<br>
+
+#### [Array.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+The splice() method changes the contents of an array by **removing or replacing** existing elements and/or adding new elements in place. To access part of an array without modifying it, see slice().
+```javascript
+// splice(start)
+// splice(start, deleteCount)
+// splice(start, deleteCount, item1)
+// splice(start, deleteCount, item1, item2, itemN)
+
+let myFish = ['angel', 'clown', 'mandarin', 'sturgeon']
+let removed = myFish.splice(2, 0, 'drum')
+// myFish -  ["angel", "clown", "drum", "mandarin", "sturgeon"]
+// removed -  [], no elements removed
+
+let myFish = ['angel', 'clown', 'drum', 'mandarin', 'sturgeon']
+let removed = myFish.splice(3, 1)
+// myFish - ["angel", "clown", "drum", "sturgeon"]
+// removed - ["mandarin"]
+
+let myFish = ['angel', 'clown', 'drum', 'sturgeon']
+let removed = myFish.splice(2, 1, 'trumpet')
+// myFish - ["angel", "clown", "trumpet", "sturgeon"]
+// removed - ["drum"]
+```
+<br>
+
 #### [Array.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
 The filter() method creates a new array with all elements that pass the test implemented by the provided function. Filter Array
 ```javascript
@@ -1110,6 +1161,109 @@ index   : The index of the current element being processed in the array.
 array   : The array filter was called upon.
 */
 ```
+<br>
+
+#### [Array.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+The map() method creates a new array populated with the results of calling a provided function on every element in the calling array
+```javascript
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+const names = users.map(user => user.name);
+console.log(names);
+// expected output: [ 'John', 'Amy', 'camperCat' ]
+
+const array1 = [1, 4, 9, 16];
+const map1 = array1.map(x => x * 2);
+console.log(map1);
+// expected output: Array [2, 8, 18, 32]
+
+// Arrow function
+map((element) => { ... } )
+map((element, index) => { ... } )
+map((element, index, array) => { ... } )
+```
+<br>
+
+#### [Array.reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
+The reduce() method executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
+```javascript
+// reduce((accumulator, currentValue) => { ... } )
+// reduce((accumulator, currentValue, index) => { ... } )
+// reduce((accumulator, currentValue, index, array) => { ... } )
+// reduce((accumulator, currentValue, index, array) => { ... }, initialValue)
+//-----
+// if initialValue value not supplied then iteration will start 
+// from second index and accumulator will be first element of array
+//-----
+
+const array1 = [1, 2, 3, 4];
+const sum = array1.reduce((accumulator, currentValue) => accumulator + currentValue);
+// sum - 10
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+const sumOfAges = users.reduce((sum, user) => sum + user.age, 0);
+console.log(sumOfAges);  
+// output - 64
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+const sumOfAges = users.reduce((sum, user) => sum + user.age, 0);
+console.log(sumOfAges);  
+// output - 64
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+const usersObj = users.reduce((obj, user) => {
+  obj[user.name] = user.age;
+  return obj;
+}, {});
+console.log(usersObj);
+// output - { John: 34, Amy: 20, camperCat: 10 }.
+```
+<br>
+
+#### [Array.every()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+The every() method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
+```javascript
+// every((element) => { ... } )
+// every((element, index) => { ... } )
+// every((element, index, array) => { ... } )
+
+var numbers = [1, 5, 8, 0, 10, 11];
+var boolean = numbers.every(function(element) {
+  return element < 10;
+});
+console.log(boolean) // false
+```
+<br>
+
+#### [Array.some()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+The some() method tests whether at least one element in the array passes the test implemented by the provided function. It returns true if, in the array, it finds an element for which the provided function returns true; otherwise it returns false. It doesn't modify the array.
+```javascript
+// some((element) => { ... } )
+// some((element, index) => { ... } )
+// some((element, index, array) => { ... } )
+
+var numbers = [10, 50, 8, 220, 110, 11];
+var boolean = numbers.some(function(currentValue) {
+  return currentValue < 10;
+});
+console.log(boolean) // true
+```
+
 <br>
 
 #### [Array.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
@@ -1195,6 +1349,10 @@ const [a, b, ...arr] = [1, 2, 3, 4, 5, 7];
 console.log(a, b);
 console.log(arr);
 // The console would display the values 1, 2 and [3, 4, 5, 7].
+
+// Copy Array using Destruction
+let array = [1, 2, 3, 4, 5, 7];
+let copyArray = [...array];
 
 
 // Destructuring Assignment to Pass an Object as a Function's Parameters
@@ -1887,7 +2045,30 @@ let duck = new Bird("Donald");
 duck.hasOwnProperty("name") // true
 duck.hasOwnProperty("numLegs") // false
 ```
-<br>
+
+
+
+<br><br><br>
+
+
+
+## Functional Programming
+Functional Programming is another popular approach to software development. In Functional Programming, code is organized into smaller, basic functions that can be combined to build complex programs
+
+- Functional programming is a style of programming where solutions are simple, isolated functions, without any side effects outside of the function scope: INPUT -> PROCESS -> OUTPUT
+- **Callbacks** are the functions that are slipped or passed into another function to decide the invocation of that function
+- Functional programming is a form of declarative programming. You tell the computer what you want done by calling a method or function
+- **Avoid Mutations and Side Effects Using Functional Programming** - One of the core principles of functional programming is to not change things. Changes lead to bugs. It's easier to prevent bugs knowing that your functions don't change anything, including the function arguments or any global variable.
+- **Pass Arguments to Avoid External Dependence in a Function** - Another principle of functional programming is to always declare your dependencies explicitly. This means if a function depends on a variable or object being present, then pass that variable or object directly into the function as an argument
+- Don't alter a variable or object - create new variables and objects and return them if need be from a function. Hint
+- Use the map Method to Extract Data from an Array
+
+```javascript
+// console.log() - To print output use console.log
+var name = "Shailendra";
+var surname = "more";
+console.log(name, surname)
+```
 
 
 
@@ -1923,6 +2104,11 @@ infoCompany.bind("change input", (e) => {
   checkMaxLength(infoCompany);
 });
 ```
+
+
+<br><br><br>
+
+
 
 ## Disable Double Tap Zoom and Pinch Zoom
 ```javascript
@@ -2411,11 +2597,18 @@ Access value on Dropdown Select
 ```javascript
 //---  Javascript ----
 var dropSelectedVal;
-$(".filterHolder").on('change', 'select', function(e) {
+$(".filterHolder select").on('change', 'select', function(e) {
     console.log(e.target);
     console.log($(e.target).val());
     dropSelectedVal = $(e.target).val();
 });
+function changeSelectBox(props) {
+    $(props.selector + " option").attr("selected", false);
+    $($(props.selector + " option")[props.index]).attr("selected", true);
+    $(props.selector).trigger("change");
+}
+//-- trigger select
+changeSelectBox({selector:".filterHolder select", index:1});
 ```
 
 
