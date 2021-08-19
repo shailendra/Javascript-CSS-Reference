@@ -2077,6 +2077,19 @@ console.log(name, surname)
 
 # JAVASCRIPT Bug & Solution
 
+## jQuery UI Touch Punch - jQuery slider not work on Mobile
+jQuery Slider not work mobile, Slide UI you can see but not able to drag on mobile. To make jQuery UI widgets work on mobile you need to integrate support for touch events. You just need to include **jquery.ui.touch-punch.min.js** after jQuery and jQuery UI.
+jQuery UI Touch Punch is a small hack that enables the use of touch events on sites using the jQuery UI user interface library
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
+></script>
+```
+
+
+<br><br><br>
+
+
+
 ## maxlength - issue on mobile
 When you set maxlength to input field, it work on browser properly, but on mobile while typing alphabet maxlength not work sometime. below is code to fix this using jQuery
 ```html
