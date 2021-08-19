@@ -2277,6 +2277,24 @@ zoomDiv.bind('selectstart dragstart', function(evt) {
 
 
 
+## Stop disable window.scroll or fix to specific position
+```javascript
+var previousScrollTop = 0, scrollLock = false;
+$(window).scroll(function (e) {
+	if (scrollLock) {
+		$(window).scrollTop(previousScrollTop);
+	}
+	previousScrollTop = $(window).scrollTop();
+})
+```
+
+
+
+
+<br><br><br>
+
+
+
 
 ## Stop Draging viewport, Stop Scrolling Page 
 ```javascript
@@ -2736,19 +2754,26 @@ $("#ico-download").attr("href", downloadImgUrl);
 
 ## Capture MouseUp event of window scrollbar using jQuery, click scroll bar
 ```javascript
-$(window).on('mousedown.ss',function(ev) { 
-    $.ssMouseDown=true;
+var ssMouseDown;
+var ssIsScrollByScrollBar = false;
+$(window).on('mousedown.ss', function (ev) {
+	ssMouseDown = true;
 });
-$(window).on('mouseup.ss',function(ev) { 
-    $.ssMouseDown=false;
+$(window).on('mouseup.ss', function (ev) {
+	if (ssIsScrollByScrollBar) {
+		// fire this after when user scrolling page by side bar of html and stop scroll
+		moveToNearestSection();
+	}
+	ssMouseDown = false;
 });
-$(window).on('scroll.ss',function(ev) { 
-    if ($.ssMouseDown) {
-        $(window).off('mouseenter.ss');
-        $(window).one('mouseenter.ss',function(ev) { 
-            $.ssMouseDown=false;
-        });
-    }                   
+$(window).on('scroll.ss', function (ev) {
+	if (ssMouseDown) {
+		ssIsScrollByScrollBar = true;
+		$(window).off('mouseenter.ss');
+		$(window).one('mouseenter.ss', function (ev) {
+			ssMouseDown = false;
+		});
+	}
 });
 ```
 
@@ -4781,6 +4806,41 @@ pm2 delete projectname
 ## [SpriteSheet Background Image Animation](https://github.com/shailendra/sprite-sheet-background-image-animation)
 You can play SpriteSheet image animation using background-image css property in div. You can cont
 
+
+
+
+
+<br><br><br>
+
+
+
+## [HAMMER.JS](https://hammerjs.github.io/)
+Hammer is a open-source library that can recognize gestures made by touch, mouse and pointerEvents
+
+[Documentation](https://hammerjs.github.io/getting-started/) | 
+[Example](https://hammerjs.github.io/examples/) | 
+[Website](https://hammerjs.github.io/)
+
+```javascript
+var myElement = document.getElementById("mainContainer");
+var mc = new Hammer(myElement);
+mc.get('swipe').set({
+	direction: Hammer.DIRECTION_ALL,
+	threshold: 1,
+	velocity: 0.1
+});
+mc.on("swipeup swipedown swipeleft swiperight tap press", function (ev) {
+	if (isMobile.any()) {
+		if (ev.type == "swipeup") {
+			moveToNextSection();
+		} if (ev.type == "swipedown") {
+			moveToPrevSection();
+		}
+	}
+});
+
+
+```
 
 
 
