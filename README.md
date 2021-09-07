@@ -8,6 +8,7 @@
 - [jQuery DOM HTML and Meta Tags](#jQuery-DOM-HTML-and-Meta-Tags)
 - [Javascript Utility Code](#javascript-utility-code)
 - [Javascript Useful Code](#javascript-useful-code)
+- [THREE.JS](#three.js)
 - [Location, Query](#location-query)
 - [Google Map](#google-map)
 - [Youtube](#youtube)
@@ -2628,7 +2629,8 @@ Access value on Dropdown Select
 ```javascript
 //---  Javascript ----
 var dropSelectedVal;
-$(".filterHolder select").on('change', 'select', function(e) {
+$(".filterHolder select").unbind('change select')
+$(".filterHolder select").bind('change select', function(e) {
     console.log(e.target);
     console.log($(e.target).val());
     dropSelectedVal = $(e.target).val();
@@ -3978,6 +3980,29 @@ storyTextBox.bind('keyup', function (e) {
   tip.stop();
   tip.animate({ top: (pos.top - 20) });
 })
+```
+
+
+----------
+
+<br><br>
+
+# THREE.JS, 
+
+Below are the setting for Three.js to Run smooth
+```javascript
+renderer = new THREE.WebGLRenderer({ 
+  antialias: true, 
+  precision:"lowp", 
+  owerPreference:"high-performance",
+});
+// * * use below function and call render in it to update Threej.js
+// https://threejs.org/docs/index.html?q=WebGLRenderer#api/en/renderers/WebGLRenderer.setAnimationLoop
+renderer.setAnimationLoop(function(){
+  controls.update();
+  render();
+});
+
 ```
 
 
