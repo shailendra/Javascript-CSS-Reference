@@ -5,10 +5,10 @@
 
 - [ES5 & ES6](#es5--es6)
 - [Javascript Bug & Solution](#javascript-bug--solution)
-- [jQuery DOM HTML and Meta Tags](#jQuery-DOM-HTML-and-Meta-Tags)
+- [jQuery DOM HTML and Meta Tags](#jquery-dom-html-and-meta-tags)
 - [Javascript Utility Code](#javascript-utility-code)
 - [Javascript Useful Code](#javascript-useful-code)
-- [THREE.JS](#three.js)
+- [THREE.JS](#threejs)
 - [Location, Query](#location-query)
 - [Google Map](#google-map)
 - [Youtube](#youtube)
@@ -19,8 +19,8 @@
 - [Useful Libraries](#useful-libraries)
 - [Coding Reference Sites](#coding-reference-sites)
 - [Online Learning Site](#online-learning-site)
-- [Useful Links](#Useful-Links)
-- [Coding Blogs](#Coding-Blogs)
+- [Useful Links](#useful-links)
+- [Coding Blogs](#coding-blogs)
 
 
 <br><br><br>
@@ -2073,6 +2073,216 @@ console.log(name, surname)
 
 
 
+<br><br><br>
+
+
+
+
+## OOP - Object Oriented Programming Sample Code
+```javascript
+window.objLib = window.objLib || {};
+(function () {
+    var Cactus = function () {
+        this.super_initialize();
+        this.initialize();
+    };
+    var p = Cactus.prototype
+
+    var p = Cactus.prototype = new gameLib.BaseElement();
+    p.constructor = Cactus;
+    p.super_initialize = p.initialize;
+
+    p.initialize = function () {
+        var This = this;
+    };
+    objLib.Cactus = Cactus;
+}());
+```
+
+```javascript
+//----------------------------
+// Singleton Object
+//----------------------------
+window.objLib = window.objLib || {};
+(function() {
+	var Utils = function() {	
+		this.initialize();
+	}
+	var p = Utils.prototype;
+	p.canvas;
+	p.initialize = function() {
+		var This = this;
+	}
+	objLib.Utils = new Utils();
+}());
+```
+
+
+
+<br><br><br>
+
+
+
+### OOP - Object Oriented Programming In Depth
+```javascript
+let duck = {
+  name: "Aflac",
+  numLegs: 2,
+  sayName: function() {
+    return "The name of this duck is " + this.name + ".";
+    }
+};
+duck.sayName();
+
+
+// Constructors are functions that create new objects
+function Bird(name, color) {
+  this.name = name;
+  this.color = color;
+  this.numLegs = 2;
+}
+let cardinal = new Bird("Bruce", "red");
+
+
+// Verify an Object's Constructor with instanceof
+let crow = new Bird("Alexis", "black");
+crow instanceof Bird;  // true
+duck instanceof Bird;  // false
+
+
+// Use Closure to Protect Properties Within an Object 
+// from Being Modified Externally
+function Bird() {
+  let hatchedEgg = 10;
+  this.getHatchedEggCount = function() { 
+    return hatchedEgg;
+  };
+}
+let ducky = new Bird();
+ducky.getHatchedEggCount();
+
+
+// ---  hasOwnProperty  ----
+// hasOwnProperty() as opposed to inheriting.
+// The hasOwnProperty() method returns a boolean indicating whether 
+// the object has the specified property as its own property 
+// (as opposed to inheriting it).
+const object1 = {};
+object1.property1 = 42;
+console.log(object1.hasOwnProperty('property1'));  //true
+console.log(object1.hasOwnProperty('toString'));  // false
+console.log(object1.hasOwnProperty('hasOwnProperty'));  // false
+// The `in` operator will return true for direct or inherited properties:
+'property1' in example;  // true
+'toString' in example;  // true
+'hasOwnProperty' in example;  // true
+let fruits = ['Apple', 'Banana','Watermelon', 'Orange'];
+fruits.hasOwnProperty(3);   // true ('Orange')
+fruits.hasOwnProperty(4);   // false - not defined
+
+
+// ---  prototype  ----
+// assume lots of instance initialized and you want to some property.
+// you can add using prototype
+function Bird(name) {
+  this.name = name;
+}
+Bird.prototype.numLegs = 2;
+let snoopy = new Bird("Snoopy");
+// adding eye prop after initialized
+Bird.prototype.eye = 2;
+console.log(snoopy.numLegs);
+console.log(snoopy.eye);
+
+// Add All properties at once:
+function Dog(name) {
+  this.name = name;
+}
+Dog.prototype = {
+  numLegs: 2, 
+  eat: function() {
+    console.log("nom nom nom");
+  },
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+Dog.prototype.speed = 40;
+var dog = new Dog("tommy");
+console.log(dog.name);  // tommy
+console.log(dog.numLegs);  // 2
+dog.eat();  // nom nom nom
+dog.describe();  // My name is tommy
+console.log(dog.speed);  // 40
+
+// setting the prototype it erases the constructor property and
+// constructor now gives false results:
+function Dog(name) {
+  this.name = name;
+}
+var dogA = new Dog("ss");
+console.log(dogA.constructor === Dog); // true
+Dog.prototype.speed = 40;
+var dogAA = new Dog("ss");
+console.log(dogAA.constructor === Dog); // true
+// after setting object prototype it erase constructor
+Dog.prototype = {
+  leg:4
+}
+var dogB = new Dog("ss");
+console.log(dogB.constructor === Dog);  // false
+// reset constructor in prototype
+Dog.prototype = {
+  constructor:Dog
+}
+var dogC = new Dog("ss");
+console.log(dogC.constructor === Dog);  // true
+
+
+// ---  Inheritance  ---
+function Animal(name) {
+  this.location = "mumbai";
+ };
+Animal.prototype = {
+  constructor: Animal, 
+  initialise:function(name){
+    this.name = name;
+    console.log("super initialised - ", name)
+  },
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+
+function Bird(name) {
+  this.animal_initialise(name);
+  this.wing = 2;
+};
+var p = Bird.prototype = new Animal();
+p.constructor = Bird;
+p.animal_initialise = p.initialise;
+
+function Dog(name) {
+  this.animal_initialise(name);
+  this.leg = 4;
+};
+var p = Dog.prototype = new Animal();
+p.constructor = Dog;
+p.animal_initialise = p.initialise;
+p.initialize = function () {
+    var This = this;
+};
+
+var bird = new Bird("Bird");  // super initialised -  Bird
+var dog = new Dog("Tommy");  // super initialised -  Tommy
+bird.describe();  // My name is Bird
+dog.describe();  // My name is Tommy
+console.log(bird.location, bird.wing);  // mumbai 2
+console.log(dog.location, dog.leg);  // mumbai 4
+
+```
+
+
 ----------
 <br><br><br><br><br><br>
 
@@ -2498,7 +2708,29 @@ plugin-types limits the kinds of plugins a page may invoke.
 
 
 
+<br><br><br>
 
+
+
+## MouseMove using Jquery
+```javascript
+$("body").bind("mousemove touchmove", function (e) {
+
+    /* 
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation(); 
+    */
+
+    var pageX = event.pageX;
+    var pageY = event.pageY;
+    if (pageX == undefined) {
+        pageX = event.touches[0].pageX;
+        pageY = event.touches[0].pageY;
+    }
+    console.log(pageX, pageY)
+});
+```
 
 
 <br><br><br>
@@ -2957,47 +3189,6 @@ number.toLocaleString('en-IN');
 
 
 
-<br><br><br>
-
-
-
-
-## OOP - Object Oriented Programming javascript class  sample code
-```javascript
-window.objLib = window.objLib || {};
-(function () {
-    var Cactus = function () {
-        this.initialize();
-    };
-    var p = Cactus.prototype
-    var p = Cactus.prototype = new gameLib.BaseElement();
-
-    p.initialize = function () {
-        var This = this;
-    };
-    objLib.Cactus = Cactus;
-}());
-```
-
-```javascript
-//----------------------------
-// Singleton Object
-//----------------------------
-window.objLib = window.objLib || {};
-(function() {
-	var Utils = function() {	
-		this.initialize();
-	}
-	var p = Utils.prototype;
-	p.canvas;
-	p.initialize = function() {
-		var This = this;
-	}
-	objLib.Utils = new Utils();
-}());
-```
-
-
 
 <br><br><br>
 
@@ -3128,12 +3319,8 @@ p.validateEmail = function (email){
     if (reg.test(email)){
         return false; 
     }else{
-            return true;
+        return true;
     }
-}
-if(this.validMobileNumber(mobile)){
-    showError({msg:"Invalid Mobile Number", targetInput:mobileInput});
-    return;
 }
 ```
 
@@ -3483,7 +3670,7 @@ dial.on('mousedown touchstart', function (event) {
     var downMouseDegree = get_degrees(pageX, pageY);
     var moveCount = 0;
     event.preventDefault();
-    function onMouseMove(event) {
+    function onMouseMove(e) {
         moveCount++;
         if(moveCount>2){				
             isMouseMove = true;
@@ -3987,7 +4174,7 @@ storyTextBox.bind('keyup', function (e) {
 
 <br><br>
 
-# THREE.JS, 
+# THREE.JS
 
 Below are the setting for Three.js to Run smooth
 ```javascript
@@ -3996,6 +4183,10 @@ renderer = new THREE.WebGLRenderer({
   precision:"lowp", 
   owerPreference:"high-performance",
 });
+
+// comment below setting or set 1
+//renderer.setPixelRatio(1);
+  
 // * * use below function and call render in it to update Threej.js
 // https://threejs.org/docs/index.html?q=WebGLRenderer#api/en/renderers/WebGLRenderer.setAnimationLoop
 renderer.setAnimationLoop(function(){
