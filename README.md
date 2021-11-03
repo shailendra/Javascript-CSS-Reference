@@ -2849,11 +2849,11 @@ Access value on Dropdown Select
 <!-- HTML  -->
 <div class="filterHolder"> 
     <select>
-        <option data-display="Select">Nothing</option>
-        <option value="1">Some option</option>
-        <option value="2">Another option</option>
-        <option value="3" disabled>A disabled option</option>
-        <option value="4">Potato</option>
+        <option data-display="Select" data-options='{"id":"all"}'>Nothing</option>
+        <option value="1" data-options='{"id":"india"}'>Some option</option>
+        <option value="2" data-options='{"id":"uk"}'>Another option</option>
+        <option value="3" disabled data-options='{"id":"france"}'>A disabled option</option>
+        <option value="4" data-options='{"id":"canada"}'>Potato</option>
     </select>
 </div>
 ```
@@ -2865,11 +2865,12 @@ $(".filterHolder select").unbind('change select')
 $(".filterHolder select").bind('change select', function(e) {
     console.log(e.target);
     console.log($(e.target).val());
+    console.log($(e.target).find(':selected').data());
     dropSelectedVal = $(e.target).val();
 });
 function changeSelectBox(props) {
-    $(props.selector + " option").attr("selected", false);
-    $($(props.selector + " option")[props.index]).attr("selected", true);
+    $(props.selector + " option").prop("selected", false);
+    $($(props.selector + " option")[props.index]).prop("selected", true);
     $(props.selector).trigger("change");
 }
 //-- trigger select
@@ -5019,8 +5020,22 @@ pm2 delete projectname
 # Useful Libraries
 
 
+
+
+
+## [MediaPipe](https://google.github.io/mediapipe/)
+MediaPipe offers cross-platform, customizable ML solutions for live and streaming media.
+#### ML solutions in MediaPipe
+Face Detection, Face Mesh, Iris, Hands, Pose, Holistic, Selfie Segmentation, Hair Segmentation, Object Detection, Box Tracking, Instant Motion Tracking, Objectron, KNIFT, AutoFlip, MediaSequence, YouTube 8M.
+
+
+
+<br><br><br>
+
+
+
 ## [SpriteSheet Background Image Animation](https://github.com/shailendra/sprite-sheet-background-image-animation)
-You can play SpriteSheet image animation using background-image css property in div. You can cont
+You can play SpriteSheet image animation using background-image css property of div.
 
 
 
