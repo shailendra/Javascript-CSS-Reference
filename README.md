@@ -3155,7 +3155,7 @@ TweenMax.to(".circle", {
 
 
 
-## Deep copy of Object,  Clone, Duplicate
+## Deep copy of Object, Clone, Duplicate
 Using `JSON.parse(JSON.stringify(object));` you can Deep Copy/Duplicate objects.<br>
 In below code,  newObj.b has a copy and not a reference! . 
 ```javascript
@@ -3169,6 +3169,25 @@ let newObj = JSON.parse(JSON.stringify(obj));
 obj.b.c = 20;
 console.log(obj); // { a: 1, b: { c: 20 } }
 console.log(newObj); // { a: 1, b: { c: 2 } } (New Object Intact!)
+```
+<br>
+
+Cloning an object using Object.assign
+```javascript
+// example 1
+const obj = { a: 1 };
+const cloned = Object.assign({}, obj);
+console.log(cloned); // { a: 1 }
+
+// example 2
+const o1 = { a: 1 };
+const o2 = { b: 2 };
+const o3 = { c: 3 };
+
+const obj = Object.assign(o1, o2, o3);
+console.log(obj); // { a: 1, b: 2, c: 3 }
+console.log(o1);  // { a: 1, b: 2, c: 3 }, 
+// target object itself is changed.
 ```
 
 
