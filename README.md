@@ -5506,6 +5506,11 @@ Below are the list of React JS Component List<br>
 - [react-js-pagination](https://github.com/vayser/react-js-pagination)
 - [react-slick](https://github.com/akiran/react-slick)
 - [react-transition-group](https://github.com/reactjs/react-transition-group/tree/v1-stable)
+- [AG Grid - The Best JavaScript Grid in the World](https://www.ag-grid.com/)
+- [Ionic Framework](https://ionicframework.com/docs)
+
+
+
 
 
 
@@ -5520,6 +5525,8 @@ Below are the list of React JS Component List<br>
 - https://www.javascripting.com/
 - http://youmightnotneedjquery.com/
 - https://codelabs.developers.google.com/
+- https://www.geeksforgeeks.org/
+- https://www.geeksforgeeks.org/how-to-check-aadhar-number-is-valid-or-not-using-regular-expression/?ref=lbp you can search regular expression for Aadhar, Pan, IFSC, SWIFT code
 
 
 
@@ -5529,6 +5536,7 @@ Below are the list of React JS Component List<br>
 - [kaggle](https://www.kaggle.com/learn/python)
 - [freecodecamp](https://www.freecodecamp.org/)
 - [Bootstrap Youtube Toturial](https://www.youtube.com/playlist?list=PL0b6OzIxLPbz1cgxiH5KCBsyQij1HsPtG)
+- [Angular Academy](https://www.angularacademy.ca/)
 
 
 
