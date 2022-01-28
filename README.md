@@ -5527,6 +5527,7 @@ Below are the list of React JS Component List<br>
 - https://codelabs.developers.google.com/
 - https://www.geeksforgeeks.org/
 - https://www.geeksforgeeks.org/how-to-check-aadhar-number-is-valid-or-not-using-regular-expression/?ref=lbp you can search regular expression for Aadhar, Pan, IFSC, SWIFT code
+- https://csslayout.io/ Popular layouts and patterns made with CSS
 
 
 
