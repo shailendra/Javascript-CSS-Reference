@@ -2530,6 +2530,47 @@ window.onbeforeunload = function () {
 ```
 
 
+<br><br><br>
+
+
+
+
+## [Slider - jQuery UI Range Slider](https://jqueryui.com/slider/)
+HTML
+```html
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+<div class="rangeSlider"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+```
+Javascript
+```javascript
+let sliderHolder = $('.rangeSlider');
+let minVal = 0;
+let maxVal = 1000;
+if (sliderHolder.slider("instance")) {
+   sliderHolder.slider('destroy');
+}
+
+sliderHolder.slider({
+   range: true,
+   min: minVal,
+   max: maxVal,
+   values: [minVal, maxVal],
+   slide: function (event, ui) {
+      console.log('min - ', ui.values[0], ', max - ', ui.values[1]);
+      console.log('slide - call on every slide');
+   },
+   change: (event, ui) => {
+      console.log('min - ', ui.values[0], ', max - ', ui.values[1]);
+      console.log('change - call on after slide over and mouse up');
+   }
+});
+// set value and trigger change
+sliderHolder.slider('values', [minVal, maxVal]).change();
+```
 
 
 <br><br><br>
