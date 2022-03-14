@@ -3764,6 +3764,45 @@ dial.on('mousedown touchstart', function (event) {
 
 
 
+<br><br><br>
+
+
+
+
+## Add an Event in the Google Calendar API
+```javascript
+function initializeCalender(props) {
+   function getGoogleDate(props) {
+      let date = new Date(props.date);
+      console.log(date.toLocaleDateString());
+      let dateStr = date.toLocaleDateString().split('/').reverse().join('');
+      dateStr += 'T' + date.toLocaleTimeString().replace(/:/g, '');
+      return dateStr;
+   }
+   // https://kloudless.com/blog/monday-mentorship-how-to-create-a-link-to-add-an-event-in-the-google-calendar-api/
+   $('.calendarBtn').unbind('bind');
+   $('.calendarBtn').bind('click', () => {
+      let dateObj = {
+         start: props.start ? props.start : "03/21/2018 08:00 AM",
+         end: props.end ? props.end : "03/22/2018 04:00 PM",
+         timezone: props.timezone ? props.timezone : "Asia/Kolkata",
+         title: props.title ? props.title : "Auction Name Lorem ipsum dolor sit amet, consetetur",
+         description: props.description ? props.description : "http://livedomain/auctions/upcoming/2022/Modern-Indian-art-1",
+         location: props.location ? props.location : "",
+         organizer: props.organizer ? props.organizer : "AstaGuru - India’s Premium Auction House",
+      }
+      let startTime = getGoogleDate({ date: dateObj.start });
+      let endTime = getGoogleDate({ date: dateObj.end });
+
+      let calendarStr = `https://calendar.google.com/calendar/u/0/r/eventedit?text=${dateObj.title}&ctz=${dateObj.timezone}&dates=${startTime}z/${endTime}z&details=${dateObj.description}&location=${dateObj.location}&trp=false`;
+      window.open(calendarStr, '_blank')
+   });
+}
+```
+
+
+
+
 
 <br><br><br>
 
@@ -5347,8 +5386,8 @@ Test GLB 3d Model in Model-Viewer<br>
 
 
 
-## [Handlebars](https://handlebarsjs.com/)
-Handlebars is a simple templating language.
+## [Handlebarsjs](https://handlebarsjs.com/)
+Handlebars JS is a simple templating language.
 
 It uses a template and an input object to generate HTML or other text formats. Handlebars templates look like regular text with embedded Handlebars expressions.
 
