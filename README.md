@@ -5088,7 +5088,17 @@ Change directory to Project Directory
 ```powershell
 npm run build
 ```
+Connect server terminal using Windows Terminal.
+Open Windows Terminal and run below command
 
+```powershell
+ssh webserver1@104.211.75.22 -p 5000
+```
+Or using .pem file
+```powershell
+ssh -i /Volumes/bcw/Nodejs.pem ubuntu@13.111.111.111
+cd /var/www/html
+```
 #### Start Project from PM2
 Change directory to Project Directory. "projectname" is  mension in package.json
 ```powershell
@@ -5104,8 +5114,30 @@ Change directory to Project Directory
 pm2 stop projectname
 pm2 restart projectname
 pm2 delete projectname
-
 ```
+
+Check process id of 3000 active port
+```powershell
+sudo lsof -i tcp:3000
+```
+#### you can see below type of output
+
+| COMMAND | PID | USER | FD | TYPE | DEVICE | SIZE/OFF | NODE NAME |
+| - | - | - |  -  | - | - | - | - |
+| node | 4242 | webserver1 | 18u | IPv6 | 30569783 | 0t0 | TCP *:3000 (LISTEN) | 
+
+If you see above 3000 active port output then run below command to kill that port (sudo kill PID)
+```powershell
+sudo kill 4242
+```
+#### [Log Views](https://pm2.keymetrics.io/docs/usage/log-management/)
+To display application’s log you can use the command 
+```powershell
+pm2 logs
+```
+
+
+
 
 
 
