@@ -2288,6 +2288,37 @@ console.log(dog.location, dog.leg);  // mumbai 4
 
 # JAVASCRIPT Bug & Solution
 
+
+
+## Load CSS and Parenting
+
+Load external CSS using jQuery and parent/scope/restrict to specific div. Here we load external css and add parenting of 'external_content' class 
+```html
+<html>
+  <body>
+    ..... other div
+    <div id="external_content">
+    </div>
+  </body>
+</html>
+```
+
+```javascript
+$.get('/external.css', function (css_string) {
+   var strArray = css_string.split('}');
+   for (var index = 0; index < strArray.length; index++) {
+      strArray[index] = '#external_content '+strArray[index];
+   }
+   var newCss = strArray.join('}');
+   $('<style type="text/css"></style>')
+      .html(newCss)
+      .appendTo("head");
+})
+```
+
+
+<br><br><br>
+
 ## jQuery UI Touch Punch - jQuery slider not work on Mobile
 jQuery Slider not work mobile, Slide UI you can see but not able to drag on mobile. To make jQuery UI widgets work on mobile you need to integrate support for touch events. You just need to include **jquery.ui.touch-punch.min.js** after jQuery and jQuery UI.
 jQuery UI Touch Punch is a small hack that enables the use of touch events on sites using the jQuery UI user interface library
