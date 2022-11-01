@@ -607,6 +607,19 @@ https://css-tricks.com/snippets/css/a-guide-to-flexbox/
     flex:1;
   }
 }
+```
+
+
+### Match / Expand height of child as per parent height
+
+```css
+.slick-track, .parent {
+  display: flex !important;
+}
+
+.slick-slide, .childDiv {
+  height: auto;
+}
 
 
 ```
