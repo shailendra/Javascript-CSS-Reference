@@ -1702,8 +1702,11 @@ https://alfilatov.com/posts/run-chrome-without-cors/
 ```javascript
 /*  On Window  */
 cd C:\Program Files (x86)\Google\Chrome\Application
+//-- or
+C:\Program Files\Google\Chrome\Application
 
 chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
+
 
 /*   On Mac  */
 open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
