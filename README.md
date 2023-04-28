@@ -912,7 +912,40 @@ infoCompany.bind("change input", (e) => {
 
 
 
-## Disable Double Tap Zoom and Pinch Zoom
+## Disabled MouseWheel, Mouse Wheel
+```javascript
+//-------------------------------------------------------------
+// Pure Javascript for disabled mousewheel
+function disableWheel(event) {
+    event.preventDefault();
+}
+document.addEventListener('wheel', disableWheel, { passive: false });
+// document.removeEventListener('wheel', disableWheel);
+
+//-------------------------------------------------------------
+// Reverse scrolling on mouse wheel by disabled mouse wheel
+$('.section-chat').on('mousewheel DOMMouseScroll', function(event) {
+    var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+    if (navigator.platform.toUpperCase().indexOf('MAC')>=0) {
+        console.log('User is on a Mac');
+        this.scrollTop += (delta/3);
+        event.preventDefault();
+    } else if (navigator.platform.toUpperCase().indexOf('WIN')>=0) {
+        console.log('User is on a Windows PC');
+        this.scrollTop += (delta/3);
+        event.preventDefault();
+    } else {
+        console.log('Unknown platform');
+    }
+});
+```
+
+
+<br><br><br>
+
+
+
+## Disabled Double Tap Zoom and Pinch Zoom
 ```javascript
 //--- Add Click Event, It will stop zoom on Double Click
 $('body').on('click', function(){});
@@ -1703,7 +1736,7 @@ https://alfilatov.com/posts/run-chrome-without-cors/
 /*  On Window  */
 cd C:\Program Files (x86)\Google\Chrome\Application
 //-- or
-C:\Program Files\Google\Chrome\Application
+cd C:\Program Files\Google\Chrome\Application
 
 chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
 
